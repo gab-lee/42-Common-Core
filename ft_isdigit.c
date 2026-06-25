@@ -5,6 +5,8 @@ ft_isdigit(char *str)
     
     while(++i, str[i])
     {
-        if(!(str[i])>='0'
+        if(!(str[i])>='0'&& str[i] <= '9'))
+        	return ()0
     }
+    return (1);
 }
