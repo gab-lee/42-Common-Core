@@ -1,6 +1,6 @@
-int	ft_strlen(chaq *str)
+int ft_strlen(char *str)
 {
-	int	len;
+	int len;
 
 	len = -1;
 	while (len++, str[len])
