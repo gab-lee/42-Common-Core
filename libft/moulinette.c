@@ -99,26 +99,42 @@ static t_test	g_tests[] = {
 	{NULL, NULL}
 };
 
-int	main(int argc, char **argv)
+static int	run_test(const char *name)
 {
 	int	i;
 
-	if (argc != 2)
-	{
-		fprintf(stderr, "Usage: %s <function_name>\n", argv[0]);
-		return (1);
-	}
 	i = 0;
 	while (g_tests[i].name)
 	{
-		if (strcmp(g_tests[i].name, argv[1]) == 0)
+		if (strcmp(g_tests[i].name, name) == 0)
 		{
-			printf("Running tests for %s...\n", argv[1]);
+			printf("Running tests for %s...\n", name);
 			g_tests[i].run();
 			return (0);
 		}
 		i++;
 	}
-	fprintf(stderr, "Unknown function: %s\n", argv[1]);
+	fprintf(stderr, "Unknown function: %s\n", name);
 	return (1);
+}
+
+int	main(int argc, char **argv)
+{
+	int	ret;
+	int	j;
+
+	if (argc < 2)
+	{
+		fprintf(stderr, "Usage: %s <function_name> [function_name...]\n", argv[0]);
+		return (1);
+	}
+	ret = 0;
+	j = 1;
+	while (j < argc)
+	{
+		if (run_test(argv[j]) != 0)
+			ret = 1;
+		j++;
+	}
+	return (ret);
 }
