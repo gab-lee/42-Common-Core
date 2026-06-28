@@ -2,14 +2,14 @@
 
 | Function | Description | Status |
 |---|---|---|
-| `ft_isascii` | Checks if a character is a valid ASCII character (0–127) | [ ] |
-| `ft_isprint` | Checks if a character is a printable character | [ ] |
-| `ft_isalpha` | Checks if a character is alphabetic (a–z, A–Z) | [ ] |
-| `ft_isdigit` | Checks if a character is a decimal digit (0–9) | [ ] |
-| `ft_isalnum` | Checks if a character is alphanumeric | [ ] |
-| `ft_toupper` | Converts a lowercase letter to uppercase | [ ] |
-| `ft_tolower` | Converts an uppercase letter to lowercase | [ ] |
-| `ft_strlen` | Returns the length of a null-terminated string | [ ] |
+| `ft_isascii` | Checks if a character is a valid ASCII character (0–127) | [x] |
+| `ft_isprint` | Checks if a character is a printable character | [x] |
+| `ft_isalpha` | Checks if a character is alphabetic (a–z, A–Z) | [x] |
+| `ft_isdigit` | Checks if a character is a decimal digit (0–9) | [x] |
+| `ft_isalnum` | Checks if a character is alphanumeric | [x] |
+| `ft_toupper` | Converts a lowercase letter to uppercase | [x] |
+| `ft_tolower` | Converts an uppercase letter to lowercase | [x] |
+| `ft_strlen` | Returns the length of a null-terminated string | [x] |
 | `ft_putchar_fd` | Writes a single character to a file descriptor | [ ] |
 | `ft_putstr_fd` | Writes a string to a file descriptor | [ ] |
 | `ft_putendl_fd` | Writes a string followed by a newline to a file descriptor | [ ] |
