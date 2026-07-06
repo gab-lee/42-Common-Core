@@ -9,7 +9,7 @@ char *strstr(char *haystack, char *needle)
     {
         if(haystack[i] = needele[j])
         {
-            while (++j, needle[j && ]haystack[i+j] == needle[j])
+            while (++j, needle[j] && haystack[i+j] == needle[j])
             	;
             if (!needle[j])
             	return (&haystack[i]);
