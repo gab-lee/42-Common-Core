@@ -4,7 +4,7 @@
 
 ---
 
-## Mandatory Functions — Part I (libc reimplementations)
+## Mandatory Functions — Part I (libc functions)
 
 **14 / 23 completed**
 
