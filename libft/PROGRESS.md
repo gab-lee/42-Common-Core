@@ -1,12 +1,12 @@
 # Libft Progress
 
-**Total: 12 / 43 functions completed**
+**Total: 13 / 43 functions completed**
 
 ---
 
 ## Mandatory Functions — Part I (libc reimplementations)
 
-**12 / 23 completed**
+**13 / 23 completed**
 
 | # | Function | Description | Status |
 |---|---|---|---|
@@ -27,7 +27,7 @@
 | 15 | `ft_strchr` | Returns a pointer to the first occurrence of a character in a string | [ ] |
 | 16 | `ft_strrchr` | Returns a pointer to the last occurrence of a character in a string | [ ] |
 | 17 | `ft_strncmp` | Compares up to n characters of two strings | [ ] |
-| 18 | `ft_memchr` | Scans memory for the first occurrence of a byte | [ ] |
+| 18 | `ft_memchr` | Scans memory for the first occurrence of a byte | [x] |
 | 19 | `ft_memcmp` | Compares n bytes of two memory blocks | [ ] |
 | 20 | `ft_strnstr` | Finds the first occurrence of a substring within n characters | [ ] |
 | 21 | `ft_atoi` | Converts a string to an integer | [ ] |
