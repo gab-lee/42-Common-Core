@@ -1,12 +1,12 @@
 # Libft Progress
 
-**Total: 8 / 43 functions completed**
+**Total: 12 / 43 functions completed**
 
 ---
 
 ## Mandatory Functions — Part I (libc reimplementations)
 
-**8 / 23 completed**
+**12 / 23 completed**
 
 | # | Function | Description | Status |
 |---|---|---|---|
@@ -16,10 +16,10 @@
 | 4 | `ft_isascii` | Checks if a character is a valid ASCII character (0–127) | [x] |
 | 5 | `ft_isprint` | Checks if a character is a printable character | [x] |
 | 6 | `ft_strlen` | Returns the length of a null-terminated string | [x] |
-| 7 | `ft_memset` | Fills a block of memory with a given byte value | [ ] |
-| 8 | `ft_bzero` | Sets a block of memory to zero | [ ] |
-| 9 | `ft_memcpy` | Copies n bytes from source to destination (no overlap) | [ ] |
-| 10 | `ft_memmove` | Copies n bytes handling overlapping memory safely | [ ] |
+| 7 | `ft_memset` | Fills a block of memory with a given byte value | [x] |
+| 8 | `ft_bzero` | Sets a block of memory to zero | [x] |
+| 9 | `ft_memcpy` | Copies n bytes from source to destination (no overlap) | [x] |
+| 10 | `ft_memmove` | Copies n bytes handling overlapping memory safely | [x] |
 | 11 | `ft_strlcpy` | Copies a string into a buffer with size limit, null-terminates | [ ] |
 | 12 | `ft_strlcat` | Appends a string to a buffer with size limit, null-terminates | [ ] |
 | 13 | `ft_toupper` | Converts a lowercase letter to uppercase | [x] |
