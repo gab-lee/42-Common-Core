@@ -1,5 +1,7 @@
 # Libft Progress
 
+**8 / 43 functions completed**
+
 | Function | Description | Status |
 |---|---|---|
 | `ft_isascii` | Checks if a character is a valid ASCII character (0–127) | [x] |
