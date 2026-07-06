@@ -5,4 +5,5 @@ void *memset(void *ptr, int c, int n)
     i = -1;
     while (++i, i < n)
         ptr[i] = (unsigned char)(c % 256);
+    return (ptr);
 }
