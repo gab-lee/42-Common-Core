@@ -1,12 +1,12 @@
 # Libft Progress
 
-**Total: 17 / 43 functions completed**
+**Total: 18 / 43 functions completed**
 
 ---
 
 ## Mandatory Functions — Part I (libc functions)
 
-**17 / 23 completed**
+**18 / 23 completed**
 
 | # | Function | Description | Status |
 |---|---|---|---|
@@ -30,7 +30,7 @@
 | 18 | `ft_memchr` | Scans memory for the first occurrence of a byte | [x] |
 | 19 | `ft_memcmp` | Compares n bytes of two memory blocks | [x] |
 | 20 | `ft_strnstr` | Finds the first occurrence of a substring within n characters | [x] |
-| 21 | `ft_atoi` | Converts a string to an integer | [ ] |
+| 21 | `ft_atoi` | Converts a string to an integer | [x] |
 | 22 | `ft_calloc` | Allocates memory for n elements, initialized to zero | [ ] |
 | 23 | `ft_strdup` | Returns a heap-allocated duplicate of a string | [ ] |
 
