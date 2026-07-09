@@ -1,14 +1,15 @@
-int ft_isalnum(char *str)
-{
-    int i;
+int ft_isalpha(int c);
+int ft_isdigit(int c);
 
-    i = -1;
-    while (++i, str[i])
-    {
-        if (!(str[i] >= 'a' && str[i] <= 'z') && !(str[i] >= 'A' && str[i] <= 'Z'))
-            return (0);
-        else if (!(str[i] >= '1' && str[i] <= '9'))
-            return (0);
-    }
-    return (1);
+int ft_isalnum(int c)
+{
+    return (ft_isalpha(c) || ft_isdigit(c));
+}
+int ft_isalpha(int c)
+{
+    return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
+}
+int ft_isdigit(int c)
+{
+    return ((c >= '0' && c <= '9'));
 }
