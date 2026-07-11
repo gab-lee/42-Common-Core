@@ -1,6 +1,6 @@
 #include <stdlib.h>
 
-char *ft_strchr(char *str, int c)
+char *ft_strchr(const char *str, int c)
 {
     int i;
 
@@ -8,9 +8,9 @@ char *ft_strchr(char *str, int c)
     while (++i, str[i])
     {
         if ((unsigned char)str[i] == (unsigned char)c)
-            return (&str[i]);
+            return ((char *)&str[i]);
     }
     if ((unsigned char)str[i] == (unsigned char)c)
-        return (&str[i]);
+        return ((char *)&str[i]);
     return (NULL);
 }
