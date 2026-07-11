@@ -1,3 +1,5 @@
+#include "libft.h"
+
 char *ft_strstr(char *haystack, char *needle)
 {
     int i;
@@ -7,7 +9,7 @@ char *ft_strstr(char *haystack, char *needle)
     j = 0;
     while (++i, haystack[i])
     {
-        if (haystack[i] = needele[j])
+        if (haystack[i] = needle[j])
         {
             while (++j, needle[j] && haystack[i + j] == needle[j])
                 ;
