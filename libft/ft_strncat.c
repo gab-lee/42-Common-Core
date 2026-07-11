@@ -1,9 +1,9 @@
-char *strncat(char *dest, char *src, int n)
+char *ft_strncat(char *dest, char *src, int n)
 {
     int i;
-    
+
     i = -1;
-    while(*dest)
+    while (*dest)
         *dest++;
     while (++i, src[i] && i < n)
         dest[i] = src[i];
