@@ -10,6 +10,13 @@ char *ft_itoa(int n)
     int size;
 
     sign = 1;
+    if (n == 0)
+    {
+        if (!(str = malloc(1 * sizeof(char))))
+            return (NULL);
+        str[0] = '0';
+        return (str);
+    }
     size = ft_intsize(n, &sign);
     if (!(str = malloc(size * sizeof(char))) || !n)
         return (NULL);
@@ -31,10 +38,9 @@ static int ft_intsize(int n, int *sign)
         n = n / 10;
     return (size);
 }
-#include <stdio.h>
+
 static void ft_fill_str(int n, char *str, int sign)
 {
-    printf("n: %d\n", n);
     if (!n)
     {
         if (sign == -1)
@@ -46,9 +52,10 @@ static void ft_fill_str(int n, char *str, int sign)
     ft_fill_str(n / 10, str - 1, sign);
 }
 /*
+#include <stdio.h>
 int main(void)
 {
-    int n = -42;
+    int n = 0;
     char *str = ft_itoa(n);
     printf("%s\n", str);
 }
