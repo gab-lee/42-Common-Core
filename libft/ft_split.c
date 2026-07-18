@@ -1,36 +1,84 @@
 #include "libft.h"
 
-static int ft_count_splits(char const *s, char c);
+static int ft_count_words(char const *s, char c);
+static int ft_word_len(char const *s, char c);
+static char *ft_new_word(char const *s, char c, int *index);
+static char **ft_free_array(char **array, int i);
 
 char **ft_split(char const *s, char c)
 {
     int i;
     int j;
-    int nsplits;
+    int words;
     char **array;
 
     i = -1;
     j = 0;
-    nsplits = ft_count_splits(*s, c);
-    if (!(array = malloc(nsplits * sizeof(char *))))
+    if (!s)
         return (NULL);
-    while (++i, i < nsplits, *(s++))
+    words = ft_count_words(s, c);
+    if (!(array = malloc((words + 1) * sizeof(char *))))
+        return (NULL);
+    while (++i, i < words)
     {
-        while (*s != c)
-            array[i][j++] = *s;
-        j = 0;
+        if (!(array[i] = ft_new_word(s, c, &j)))
+            return ft_free_array(array, i);
     }
+    array[i] = NULL;
     return (array);
 }
-
-static int ft_count_splits(char const *s, char c)
+static char **ft_free_array(char **array, int i)
 {
-    int n;
+    while (i--, i >= 0)
+        free(array[i]);
+    free(array);
+    return (NULL);
+}
+static int ft_count_words(char const *s, char c)
+{
+    int i;
+    int count;
+    int in_word;
 
-    n = 0;
-    while (*(s++))
+    i = -1;
+    count = 0;
+    in_word = 0;
+    while (++i, s[i])
     {
-        if (*s == c)
-            n++;
+        if (s[i] != c && !in_word)
+        {
+            in_word = 1;
+            count++;
+        }
+        else if (s[i] == c)
+            in_word = 0;
     }
+    return (count);
+}
+static char *ft_new_word(char const *s, char c, int *index)
+{
+    int i;
+    char *word;
+    int len;
+
+    i = -1;
+    while (s[*index] == c)
+        (*index)++;
+    len = ft_word_len(&s[*index], c);
+    if (!(word = malloc((len + 1) * sizeof(char))))
+        return (NULL);
+    while (++i, i < len)
+        word[i] = s[*index + i];
+    word[i] = '\0';
+    *index = *index + len;
+    return (word);
+}
+
+static int ft_word_len(char const *s, char c)
+{
+    int len;
+    len = -1;
+    while (len++, s[len] && s[len] != c)
+        ;
+    return (len);
 }
