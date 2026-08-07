@@ -1,9 +1,9 @@
-char *strcat(char *dest, char *src)
+char *ft_strcat(char *dest, char *src)
 {
     int i;
-    
+
     i = -1;
-    while(*dest)
+    while (*dest)
         *dest++;
     while (++i, src[i])
         dest[i] = src[i];

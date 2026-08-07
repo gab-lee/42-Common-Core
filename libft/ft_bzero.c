@@ -1,9 +1,10 @@
-void *bzero(void *ptr, int n)
+#include "libft.h"
+
+void ft_bzero(void *ptr, size_t n)
 {
-    int	i;
-    
+    size_t i;
+
     i = -1;
     while (++i, i < n)
-    	p[i] = '\0';
-    return (ptr);
+        *((unsigned char *)ptr + i) = (char)(0);
 }

@@ -1,12 +1,4 @@
-int ft_isalpha(char *str)
+int ft_isdigit(int c)
 {
-    int i;
-
-    i = -1;
-    while (++i, str[i])
-    {
-        if (!(str[i] >= '1' && str[i] <= '9'))
-            return (0);
-    }
-    return (1);
+	return ((c >= '0' && c <= '9'));
 }

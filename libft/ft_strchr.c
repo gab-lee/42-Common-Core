@@ -1,12 +1,16 @@
-char *strchr(char *str, int c)
+#include <stdlib.h>
+
+char *ft_strchr(const char *str, int c)
 {
     int i;
-    
+
     i = -1;
-    while(++i, str[i])
+    while (++i, str[i])
     {
-        if(str[i] = (unsigned char)c)
-        	return (&str[i]);
+        if ((unsigned char)str[i] == (unsigned char)c)
+            return ((char *)&str[i]);
     }
-    return (NULL)
+    if ((unsigned char)str[i] == (unsigned char)c)
+        return ((char *)&str[i]);
+    return (NULL);
 }
