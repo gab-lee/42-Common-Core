@@ -1,3 +1,0 @@
-- how can char be unsigned?
-- Why are we using const?
-- what is size_t?
