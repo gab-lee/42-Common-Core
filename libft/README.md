@@ -4,14 +4,9 @@
 
 ## Description
 
-libft is my own C library, built from scratch as the first project of the 42 core curriculum. it reimplements a bunch of standard libc functions (string, memory, character checks) plus a set of extra helper functions and a linked list toolkit that aren't in libc at all.
+libft is my own C library, built from scratch as the first project of the Common Core at 42. it reimplements a bunch of standard libc functions.
 
-the point isn't the library itself — it's understanding how these functions actually work under the hood instead of just calling them. i'll be reusing this library in basically every C project after this one.
-
-it's split into 3 parts:
-- **part 1** — reimplementations of libc functions (`strlen`, `memcpy`, `atoi`, etc.)
-- **part 2** — extra string/array utilities that libc doesn't provide (`split`, `substr`, `itoa`, etc.)
-- **part 3** — a singly linked list (`t_list`) and functions to manipulate it
+[github page](https://github.com/gab-lee/42-Common-Core)
 
 ## Instructions
 
@@ -19,6 +14,7 @@ it's split into 3 parts:
 
 ```bash
 make        # builds libft.a (mandatory part)
+make all    # same as make
 make bonus  # builds libft.a with the linked list functions included
 make clean  # removes object files
 make fclean # removes object files + libft.a
@@ -51,74 +47,71 @@ every function follows the same prototype/behaviour as its libc counterpart, jus
 
 ### part 1 — libc functions
 
-| function | description |
-|---|---|
-| `ft_isalpha` | checks if a char is alphabetic |
-| `ft_isdigit` | checks if a char is a digit |
-| `ft_isalnum` | checks if a char is alphanumeric |
-| `ft_isascii` | checks if a char is in the ASCII range |
-| `ft_isprint` | checks if a char is printable |
-| `ft_strlen` | returns the length of a string |
-| `ft_memset` | fills a memory area with a byte |
-| `ft_bzero` | zeroes out a memory area |
-| `ft_memcpy` | copies a memory area |
-| `ft_memmove` | copies a memory area, handles overlap |
-| `ft_strlcpy` | copies a string, size-bounded |
-| `ft_strlcat` | concatenates a string, size-bounded |
-| `ft_toupper` | converts a char to uppercase |
-| `ft_tolower` | converts a char to lowercase |
-| `ft_strchr` | finds first occurrence of a char in a string |
-| `ft_strrchr` | finds last occurrence of a char in a string |
-| `ft_strncmp` | compares two strings up to n chars |
-| `ft_memchr` | finds a byte in a memory area |
-| `ft_memcmp` | compares two memory areas |
-| `ft_strnstr` | finds a substring within n chars |
-| `ft_atoi` | converts a string to an int |
-| `ft_calloc` | allocates and zeroes memory |
-| `ft_strdup` | duplicates a string |
+| # | function | description |
+|---|---|---|
+| 1 | `ft_isalpha` | checks if a char is alphabetic |
+| 2 | `ft_isdigit` | checks if a char is a digit |
+| 3 | `ft_isalnum` | checks if a char is alphanumeric |
+| 4 | `ft_isascii` | checks if a char is in the ASCII range |
+| 5 | `ft_isprint` | checks if a char is printable |
+| 6 | `ft_strlen` | returns the length of a string |
+| 7 | `ft_memset` | fills a memory area with a byte |
+| 8 | `ft_bzero` | zeroes out a memory area |
+| 9 | `ft_memcpy` | copies a memory area |
+| 10 | `ft_memmove` | copies a memory area, handles overlap |
+| 11 | `ft_strlcpy` | copies a string, size-bounded |
+| 12 | `ft_strlcat` | concatenates a string, size-bounded |
+| 13 | `ft_toupper` | converts a char to uppercase |
+| 14 | `ft_tolower` | converts a char to lowercase |
+| 15 | `ft_strchr` | finds first occurrence of a char in a string |
+| 16 | `ft_strrchr` | finds last occurrence of a char in a string |
+| 17 | `ft_strncmp` | compares two strings up to n chars |
+| 18 | `ft_memchr` | finds a byte in a memory area |
+| 19 | `ft_memcmp` | compares two memory areas |
+| 20 | `ft_strnstr` | finds a substring within n chars |
+| 21 | `ft_atoi` | converts a string to an int |
+| 22 | `ft_calloc` | allocates and zeroes memory |
+| 23 | `ft_strdup` | duplicates a string |
 
 ### part 2 — additional functions
 
-| function | description |
-|---|---|
-| `ft_substr` | allocates and returns a substring |
-| `ft_strjoin` | allocates and returns the concatenation of two strings |
-| `ft_strtrim` | trims chars from the start/end of a string |
-| `ft_split` | splits a string into an array of strings by delimiter |
-| `ft_itoa` | converts an int to a string |
-| `ft_strmapi` | applies a function to each char of a string, returns a new string |
-| `ft_striteri` | applies a function to each char of a string in place |
-| `ft_putchar_fd` | writes a char to a file descriptor |
-| `ft_putstr_fd` | writes a string to a file descriptor |
-| `ft_putendl_fd` | writes a string + newline to a file descriptor |
-| `ft_putnbr_fd` | writes an int to a file descriptor |
+| # | function | description |
+|---|---|---|
+| 24 | `ft_substr` | allocates and returns a substring |
+| 25 | `ft_strjoin` | allocates and returns the concatenation of two strings |
+| 26 | `ft_strtrim` | trims chars from the start/end of a string |
+| 27 | `ft_split` | splits a string into an array of strings by delimiter |
+| 28 | `ft_itoa` | converts an int to a string |
+| 29 | `ft_strmapi` | applies a function to each char of a string, returns a new string |
+| 30 | `ft_striteri` | applies a function to each char of a string in place |
+| 31 | `ft_putchar_fd` | writes a char to a file descriptor |
+| 32 | `ft_putstr_fd` | writes a string to a file descriptor |
+| 33 | `ft_putendl_fd` | writes a string + newline to a file descriptor |
+| 34 | `ft_putnbr_fd` | writes an int to a file descriptor |
 
 ### part 3 — linked list
 
-| function | description |
-|---|---|
-| `ft_lstnew` | creates a new list node |
-| `ft_lstadd_front` | adds a node at the front of the list |
-| `ft_lstsize` | counts the nodes in a list |
-| `ft_lstlast` | returns the last node of a list |
-| `ft_lstadd_back` | adds a node at the end of the list |
-| `ft_lstdelone` | frees a single node and its content |
-| `ft_lstclear` | frees a whole list and its content |
-| `ft_lstiter` | applies a function to each node's content |
-| `ft_lstmap` | applies a function to each node's content, returns a new list |
+| # | function | description |
+|---|---|---|
+| 35 | `ft_lstnew` | creates a new list node |
+| 36 | `ft_lstadd_front` | adds a node at the front of the list |
+| 37 | `ft_lstsize` | counts the nodes in a list |
+| 38 | `ft_lstlast` | returns the last node of a list |
+| 39 | `ft_lstadd_back` | adds a node at the end of the list |
+| 40 | `ft_lstdelone` | frees a single node and its content |
+| 41 | `ft_lstclear` | frees a whole list and its content |
+| 42 | `ft_lstiter` | applies a function to each node's content |
+| 43 | `ft_lstmap` | applies a function to each node's content, returns a new list |
 
 ## Resources
 
 - [Linux man pages](https://man7.org/linux/man-pages/) — the actual behaviour spec for every part 1 function
-- [42 Norm](https://github.com/42School/norminette) — coding style rules enforced on the project
-- K&R, *The C Programming Language* — general C reference
-- [Beej's Guide to C](https://beej.us/guide/bgc/) — pointers, memory, malloc/free refresher
+- [mini-moulinette](https://github.com/gab-lee/mini-moulinette) — the testing tool I'm currently building to check this library
 
 ### AI usage
 
 used Claude (Claude Code) for:
 - checking my finished `libft.h` prototypes against the subject's required function list to catch anything missing or extra
-- flagging unused files (`ft_strncat.c`, `ft_strcat.c`, `ft_strcmp.c`, `ft_strcpy.c`, `ft_strncpy.c`, `ft_strstr.c`) that weren't required functions and weren't wired into the Makefile, and removing them from the repo and the Makefile's `SRCS`
 - drafting this README
 
 no function implementation was written or fixed by AI — all the `.c` logic is mine.

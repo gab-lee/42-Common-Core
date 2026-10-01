@@ -6,61 +6,34 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/28 17:29:57 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/09/28 17:29:58 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/01 14:51:27 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_instr(char c, const char *set);
-static int	ft_count_kept(char const *s1, char const *set);
-
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	char	*tstr;
-	int		tsize;
-	int		i;
-	int		j;
+	int	i;
+	int	j;
+	int	len;
 
-	tsize = ft_count_kept(s1, set);
-	tstr = malloc((ft_strlen(s1) - tsize + 1) * sizeof(char));
-	if (!tstr)
+	i = -1;
+	j = -1;
+	if (!s1)
 		return (NULL);
-	i = -1;
-	j = 0;
+	len = ft_strlen(s1);
 	while (++i, s1[i])
 	{
-		if (!ft_instr(s1[i], set))
-			tstr[j++] = s1[i];
+		if (!ft_strchr(set, s1[i]))
+			break ;
 	}
-	tstr[j] = '\0';
-	return (tstr);
-}
-
-static int	ft_count_kept(char const *s1, char const *set)
-{
-	int	i;
-	int	tsize;
-
-	i = -1;
-	tsize = 0;
-	while (++i, s1[i])
+	while (++j, s1[len - j - 1])
 	{
-		if (ft_instr(s1[i], set))
-			tsize++;
+		if (!ft_strchr(set, s1[len - j - 1]))
+			break ;
 	}
-	return (tsize);
-}
-
-static int	ft_instr(char c, const char *set)
-{
-	int	i;
-
-	i = -1;
-	while (++i, set[i])
-	{
-		if (set[i] == c)
-			return (1);
-	}
-	return (0);
+	if (i == -1 && j == -1)
+		return (ft_strdup(s1));
+	return (ft_substr(s1, i, (len - j - 1) - i +1));
 }

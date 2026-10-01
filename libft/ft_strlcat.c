@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/28 17:29:36 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/09/28 17:29:37 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/01 11:34:11 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ size_t	ft_strlcat(char *dest, const char *src, size_t n)
 		return (n + ft_strlen(src));
 	while (*dest)
 		dest++;
-	while (++i, src[i] && (dest_len + i < (n - 1)))
+	while (++i, src[i] && n > 0 && (dest_len + i < (n - 1)))
 		dest[i] = src[i];
 	dest[i] = '\0';
 	return (dest_len + ft_strlen(src));

@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/28 17:29:04 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/09/30 20:32:51 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/01 00:12:19 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,6 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 	i = -1;
 	while (++i, i < n)
 		*((unsigned char *)dest + i) = *((unsigned char *)tmp + i);
+	free(tmp);
 	return (dest);
 }
