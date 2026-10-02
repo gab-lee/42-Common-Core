@@ -106,6 +106,7 @@ every function follows the same prototype/behaviour as its libc counterpart, jus
 
 - [Linux man pages](https://man7.org/linux/man-pages/) — the actual behaviour spec for every part 1 function
 - [mini-moulinette](https://github.com/gab-lee/mini-moulinette) — the testing tool I'm currently building to check this library
+- [libftTester](https://github.com/Tripouille/libftTester) — an existing, established libft tester
 
 ### AI usage
 
