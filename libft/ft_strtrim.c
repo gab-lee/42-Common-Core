@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/28 17:29:57 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/02 10:15:53 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/02 11:40:56 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 		if (!ft_strchr(set, s1[i]))
 			break ;
 	}
-	while (++j, s1[len - j - 1])
+	while (++j, (len - j - 1) >= 0)
 	{
 		if (!ft_strchr(set, s1[len - j - 1]))
 			break ;
