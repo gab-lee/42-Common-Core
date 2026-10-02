@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/28 17:29:04 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/01 00:12:19 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/02 12:22:49 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 	void	*tmp;
 
 	i = -1;
-	tmp = malloc(n * sizeof(void *));
-	if (!tmp)
-		return (NULL);
+	tmp = ft_calloc(n, sizeof(void *));
 	while (++i, i < n)
 		*((unsigned char *)tmp + i) = *((unsigned char *)src + i);
 	i = -1;
