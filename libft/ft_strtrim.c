@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/28 17:29:57 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/02 11:40:56 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/02 12:19:27 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,5 @@ char	*ft_strtrim(char const *s1, char const *set)
 		if (!ft_strchr(set, s1[len - j - 1]))
 			break ;
 	}
-	if (i == -1 && j == -1)
-		return (ft_strdup(s1));
 	return (ft_substr(s1, i, (len - j - 1) - i +1));
 }
