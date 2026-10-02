@@ -16,19 +16,30 @@ char	*get_next_line(int fd);
 | 2. nothing left to read (EOF) | `fd` | `NULL` |
 | 3. error occurred | `fd` | `NULL` |
 
-only `read`, `malloc` and `free` are allowed, libft and global variables are not.
+| | functions |
+|---|---|
+| allowed | `read`, `malloc`, `free` |
+| forbidden | libft, `lseek`, global variables |
 
 ## Instructions
 
 ### compile
 
-`get_next_line` has no Makefile, compile it together with your own `main.c`:
-
 ```bash
-cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 get_next_line.c get_next_line_utils.c main.c
+make                    # builds get_next_line.a with the default BUFFER_SIZE
+make BUFFER_SIZE=42     # builds with a custom BUFFER_SIZE
+make clean              # removes object files
+make fclean             # removes object files + get_next_line.a
+make re                 # fclean + rebuild
 ```
 
-`BUFFER_SIZE` sets how many bytes each `read()` call asks for. it can be changed at compile time (try `1`, `9999`, `10000000`) and the project also compiles without the `-D` flag, using the default set in `get_next_line.h`.
+then link it with your own `main.c`:
+
+```bash
+cc -Wall -Wextra -Werror main.c get_next_line.a
+```
+
+`BUFFER_SIZE` sets how many bytes each `read()` call asks for. try `1`, `9999` and `10000000`. without it, the default set in `get_next_line.h` is used.
 
 ### use it
 
@@ -48,6 +59,14 @@ close(fd);
 
 every returned line is malloc'd, the caller has to free it.
 
+## Helper functions
+
+all helpers live in `get_next_line_utils.c`.
+
+| function | description |
+|---|---|
+| | |
+
 ## Algorithm
 
 <!-- TODO (required by the subject): explain and justify your algorithm in your own words. -->
@@ -61,15 +80,9 @@ every returned line is malloc'd, the caller has to free it.
 
 ## Resources
 
-- [read(2) man page](https://man7.org/linux/man-pages/man2/read.2.html), how `read()` returns bytes, `0` at EOF and `-1` on error
 - [static variables in C](https://en.cppreference.com/w/c/language/storage_duration), storage duration, the concept the subject points to
-- [file descriptors](https://man7.org/linux/man-pages/man2/open.2.html), what an fd is and how `open()` returns one
 
 ### AI usage
 
 used Claude (Claude Code) for:
-- reading the subject PDF and listing where my first draft did not match the current subject (prototype, libft ban, `BUFFER_SIZE` naming, files to submit)
-- discussing the structure of the project through questions, not code
-- drafting the skeleton of this README
-
-no function implementation was written or fixed by AI, all the `.c` logic is mine.
+- drafting this README
