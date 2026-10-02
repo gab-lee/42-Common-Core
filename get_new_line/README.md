@@ -10,9 +10,13 @@ get_next_line is a function that reads a file descriptor and returns one line pe
 char	*get_next_line(int fd);
 ```
 
-- returns the line that was read, including the terminating `\n` (unless the file ends without one)
-- returns `NULL` when there is nothing left to read or an error occurred
-- only `read`, `malloc` and `free` are allowed, libft and global variables are not
+| case | argument | return |
+|---|---|---|
+| 1. line read | `fd` | the line that was read, including the `\n` (unless the file ends without one) |
+| 2. nothing left to read (EOF) | `fd` | `NULL` |
+| 3. error occurred | `fd` | `NULL` |
+
+only `read`, `malloc` and `free` are allowed, libft and global variables are not.
 
 ## Instructions
 
