@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/28 17:29:13 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/02 12:07:26 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/02 12:14:34 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,5 @@ static void	ft_putnbr_long_fd(long n, int fd)
 	c = n % 10 + '0';
 	if (n >= 10)
 		ft_putnbr_long_fd(n / 10, fd);
-	ft_putchar_fd(&c, fd);
+	ft_putchar_fd(c, fd);
 }
