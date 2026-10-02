@@ -15,7 +15,6 @@ libft is my own C library, built from scratch as the first project of the Common
 ```bash
 make        # builds libft.a (mandatory part)
 make all    # same as make
-make bonus  # builds libft.a with the linked list functions included
 make clean  # removes object files
 make fclean # removes object files + libft.a
 make re     # fclean + rebuild
@@ -29,7 +28,7 @@ copy the `libft` folder into your project, then in your project's Makefile:
 
 ```makefile
 libft/libft.a:
-	make -C libft bonus
+	make -C libft
 
 $(NAME): libft/libft.a $(OBJS)
 	$(CC) $(OBJS) -Llibft -lft -o $(NAME)
@@ -107,11 +106,15 @@ every function follows the same prototype/behaviour as its libc counterpart, jus
 
 - [Linux man pages](https://man7.org/linux/man-pages/) — the actual behaviour spec for every part 1 function
 - [mini-moulinette](https://github.com/gab-lee/mini-moulinette) — the testing tool I'm currently building to check this library
+- [libftTester](https://github.com/Tripouille/libftTester) — an existing, established libft tester
 
 ### AI usage
 
 used Claude (Claude Code) for:
 - checking my finished `libft.h` prototypes against the subject's required function list to catch anything missing or extra
 - drafting this README
+- running norminette and `-Wall -Wextra -Werror` compile checks, and testing every function against libc
+- reviewing my code: it pointed out bugs (an out-of-bounds read in `ft_strtrim`, `malloc` use in `ft_memmove`) and places where I could reuse my own libft functions
+- talking through how `ft_memmove` handles overlapping memory
 
 no function implementation was written or fixed by AI — all the `.c` logic is mine.
