@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/28 17:24:00 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/09/28 22:40:48 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/02 11:56:21 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,5 @@
 
 void	ft_bzero(void *ptr, size_t n)
 {
-	size_t	i;
-
-	i = -1;
-	while (++i, i < n)
-		*((unsigned char *)ptr + i) = (char)(0);
+	ft_memset(ptr, 0, n);
 }
