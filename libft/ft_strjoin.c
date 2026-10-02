@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/28 17:29:34 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/09/30 20:36:43 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/02 12:09:48 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,3 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	str[i] = '\0';
 	return (str);
 }
-/*
-#include <stdio.h>
-int	main(void)
-{
-	char	s1[] = "Hello, ";
-	char	s2[] = "World.";
-	char	*s3 = ft_strjoin(s1, s2);
-	printf("%s", s3);
-}
-*/
