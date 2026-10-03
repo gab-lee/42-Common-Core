@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 13:23:26 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/02 13:23:36 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/03 10:58:24 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,48 +14,16 @@
 
 char	*get_next_line(const int fd)
 {
-    int i;
-    static char *stash;
+	static char	*stash;
+	char		*line;
+	int			res;
 
-    if (stash)
-        i = read_from_stash(fd, line, &stash);
-    else
-        i = read_next_line(fd, line, &stash);
-    return (i);
-}
-
-int read_next_line(const int fd, char **line, char **stash)
-{
-    int i;
-    char *buffer;
-
-    printf("reading next line");
-    buffer = malloc((BUFF_SIZE + 1) * sizeof(char));
-    buffer[BUFF_SIZE] = '\0';
-    i = read(fd, buffer, BUFF_SIZE);
-    if (i == 0 || i == -1)
-    {
-        free(buffer);
-        return (i);
-    }
-    else if (ft_strchr(buffer, '\n'))
-    {
-        ft_strlcpy((char *)(ft_strchr(buffer, '\n') + 1), *stash, ft_strlen((char *)(ft_strchr(buffer, '\n') + 1)));
-        free(buffer);
-        return (1);
-    }
-    else
-    {
-        *line = ft_strjoin(*line, buffer);
-        free(buffer);
-        return (read_next_line(fd, line, stash));
-    }
-}
-int read_from_stash(int fd, char **line, char **stash)
-{
-    if (ft_strchr(*stash, '\n'))
-        ft_strlcpy(*line, *stash, ft_strlen(*stash));
-    else
-        read_next_line(fd, line, stash);
-    return (1);
+	if (stash)
+		res = read_from_stash(fd, &line, &stash);
+	else
+		res = read_next_line(fd, &line, &stash);
+	if (res == 0 || res == -1)
+		return (NULL);
+	line = ft_strjoin(line, '\n');
+	return (line);
 }

@@ -69,14 +69,36 @@ all helpers live in `get_next_line_utils.c`.
 
 ## Algorithm
 
-<!-- TODO (required by the subject): explain and justify your algorithm in your own words. -->
-<!-- things an evaluator will expect this section to answer: -->
-<!-- - what the static variable stores between calls, and why it has to be static -->
-<!-- - what happens on each call, from read() to the returned line -->
-<!-- - what is left in the static variable after a line is returned -->
-<!-- - how EOF, a missing final \n, and read() errors are handled -->
-<!-- - why this approach reads as little as possible instead of the whole file -->
-<!-- - who frees what, and when -->
+overview: GNL returns next line, however, due to undefined buffer, what is read might be more than 1 line. Excess will be stored within stash. A static variable that will maintain memory in between calls. 
+
+Stash is a static, static is by default NULL and no need to initialise. 
+
+1. If Stash exists helper f(Read_from_stash) read from stash is triggered, elese ::fread next buff:: is triggered. 
+
+Read from stash
+3. iterate stash, writing line,
+4. If char is \n break and write stash
+5. if not read_next_buffer
+
+Read next buffer
+6. Read next buffer. If 0 -> EOF return NULL, if -1 error, return NULL
+7. Use strchr to check if if \n exist within buffer if it does
+
+if \n exist
+8. Change \n to null terminator (required also for strjoin to work), and only add before returning
+9. line = strjoin current line and line up till strchr (it is a pointer)
+10. Stash is simply strjoin starting from strchr + 1 (move it pass new character)
+11. Return 1 no issuess
+
+if \n does not exist 
+11. line = strjoin line + buffer (simpler), don't change stash. 
+12. return get tnext line
+
+Strjoin is used over strlcpy/strdup because it can be used to grow line as well as to implement stash and it does malloc so that's great.
+
+Read next line
+
+bonus
 
 ## Resources
 
