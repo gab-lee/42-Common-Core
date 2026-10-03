@@ -69,36 +69,52 @@ all helpers live in `get_next_line_utils.c`.
 
 ## Algorithm
 
-overview: GNL returns next line, however, due to undefined buffer, what is read might be more than 1 line. Excess will be stored within stash. A static variable that will maintain memory in between calls. 
+`read()` pulls `BUFFER_SIZE` bytes at a time, so one read can return more than one line. the excess is kept in `stash`, a `static char *` that survives between calls. a static starts as `NULL`, so it needs no initialisation.
 
-Stash is a static, static is by default NULL and no need to initialise. 
+```
+get_next_line(fd)
+|
++-- stash exists?
+|   |
+|   +-- yes --> read_from_stash
+|   |           |
+|   |           +-- walk stash, copying chars into line
+|   |           |
+|   |           +-- '\n' found?
+|   |               +-- yes --> keep what is after '\n' in stash --> return 1
+|   |               +-- no  --> read_next_buffer
+|   |
+|   +-- no  --> read_next_buffer
+|
++-- read_next_buffer
+|   |
+|   +-- read(fd, buffer, BUFFER_SIZE)
+|   |   +-- 0  (EOF)   --> return NULL
+|   |   +-- -1 (error) --> return NULL
+|   |
+|   +-- strchr(buffer, '\n')?
+|       |
+|       +-- yes --> replace '\n' with '\0'
+|       |           line  = strjoin(line, buffer)
+|       |           stash = strjoin("", newline_ptr + 1)
+|       |           return 1
+|       |
+|       +-- no  --> line = strjoin(line, buffer)
+|                   stash unchanged
+|                   read_next_buffer again
+|
++-- add '\n' back to line --> return line
+```
 
-1. If Stash exists helper f(Read_from_stash) read from stash is triggered, elese ::fread next buff:: is triggered. 
+| state | what lives where |
+|---|---|
+| line | everything up to (not including) the `\n` |
+| stash | everything after the `\n`, kept for the next call |
+| buffer | freed after every read |
 
-Read from stash
-3. iterate stash, writing line,
-4. If char is \n break and write stash
-5. if not read_next_buffer
+`strjoin` is used over `strlcpy`/`strdup` because it both grows `line` and builds `stash`, and it allocates the result.
 
-Read next buffer
-6. Read next buffer. If 0 -> EOF return NULL, if -1 error, return NULL
-7. Use strchr to check if if \n exist within buffer if it does
-
-if \n exist
-8. Change \n to null terminator (required also for strjoin to work), and only add before returning
-9. line = strjoin current line and line up till strchr (it is a pointer)
-10. Stash is simply strjoin starting from strchr + 1 (move it pass new character)
-11. Return 1 no issuess
-
-if \n does not exist 
-11. line = strjoin line + buffer (simpler), don't change stash. 
-12. return get tnext line
-
-Strjoin is used over strlcpy/strdup because it can be used to grow line as well as to implement stash and it does malloc so that's great.
-
-Read next line
-
-bonus
+### bonus
 
 ## Resources
 
