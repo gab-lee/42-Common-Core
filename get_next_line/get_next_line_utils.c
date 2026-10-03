@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 16:11:58 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/03 10:56:26 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/03 18:35:37 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,29 +16,28 @@ int	read_from_stash(int fd, char **line, char **stash)
 {
 	int	i;
 	int	j;
-	int	res;
 	int	new_line_reached;
 
 	i = -1;
 	j = 0;
 	new_line_reached = 0;
-	while (++i, stash[i])
+	while (++i, *stash[i])
 	{
-		if (stash[i] == '\n' && !new_line_reached)
+		if (*stash[i] == '\n' && !new_line_reached)
 			new_line_reached = 1;
 		if (new_line_reached)
 		{
-			stash[j] = stash[i];
+			*stash[j] = *stash[i];
 			j++;
 		}
 		else
 			line[i] = stash[i];
 	}
 	if (new_line_reached)
-		stash[j] = '\0';
+		*stash[j] = '\0';
 	else
-		res = read_next_line(fd, line, stash);
-	return (res);
+		return (read_next_line(fd, line, stash));
+	return (1);
 }
 
 int	read_next_line(const int fd, char **line, char **stash)
@@ -57,8 +56,8 @@ int	read_next_line(const int fd, char **line, char **stash)
 	if (ft_strchr(buffer, '\n'))
 	{
 		*ft_strchr(buffer, '\n') = '\0';
-		*line = ft_strjoin(line,buffer); 
-		*stash = ft_strjoin("", ft_strchr(buffer, '\n')+1);
+		*line = ft_strjoin(*line, buffer);
+		*stash = ft_strjoin("", ft_strchr(buffer, '\n') + 1);
 		free(buffer);
 		return (1);
 	}
@@ -87,7 +86,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (str);
 }
 
-char	*ft_strrchr(const char *str, int c)
+char	*ft_strchr(const char *str, int c)
 {
 	int		i;
 	char	*ptr;
@@ -102,4 +101,14 @@ char	*ft_strrchr(const char *str, int c)
 	if ((unsigned char)str[i] == (unsigned char)c)
 		return ((char *)&str[i]);
 	return (ptr);
+}
+
+size_t	ft_strlen(const char *str)
+{
+	int	len;
+
+	len = -1;
+	while (len++, str[len])
+		;
+	return (len);
 }
