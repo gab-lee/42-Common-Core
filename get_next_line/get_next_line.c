@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 13:23:26 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/03 18:16:52 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/03 21:21:35 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ char	*get_next_line(const int fd)
 	char		*line;
 	int			res;
 
+	line = "";
 	if (stash)
 		res = read_from_stash(fd, &line, &stash);
 	else

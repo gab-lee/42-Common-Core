@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 16:11:58 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/03 21:13:12 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/03 21:20:38 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	read_from_stash(int fd, char **line, char **stash)
 	else
 	{
 		*line = ft_strjoin("", temp);
+		free(temp);
 		return (read_next_line(fd, line, stash));
 	}
 }
