@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 16:11:58 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/03 18:35:37 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/03 21:13:12 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,23 @@
 
 int	read_from_stash(int fd, char **line, char **stash)
 {
-	int	i;
-	int	j;
-	int	new_line_reached;
+	char	*temp;
 
-	i = -1;
-	j = 0;
-	new_line_reached = 0;
-	while (++i, *stash[i])
+	temp = ft_strjoin("", *stash);
+	free(*stash);
+	if (ft_strchr(temp, '\n'))
 	{
-		if (*stash[i] == '\n' && !new_line_reached)
-			new_line_reached = 1;
-		if (new_line_reached)
-		{
-			*stash[j] = *stash[i];
-			j++;
-		}
-		else
-			line[i] = stash[i];
+		*stash = ft_strjoin("", ft_strchr(temp, '\n') + 1);
+		*ft_strchr(temp, '\n') = '\0';
+		*line = ft_strjoin("", temp);
+		free(temp);
+		return (1);
 	}
-	if (new_line_reached)
-		*stash[j] = '\0';
 	else
+	{
+		*line = ft_strjoin("", temp);
 		return (read_next_line(fd, line, stash));
-	return (1);
+	}
 }
 
 int	read_next_line(const int fd, char **line, char **stash)
@@ -55,9 +48,9 @@ int	read_next_line(const int fd, char **line, char **stash)
 	}
 	if (ft_strchr(buffer, '\n'))
 	{
+		*stash = ft_strjoin("", ft_strchr(buffer, '\n') + 1);
 		*ft_strchr(buffer, '\n') = '\0';
 		*line = ft_strjoin(*line, buffer);
-		*stash = ft_strjoin("", ft_strchr(buffer, '\n') + 1);
 		free(buffer);
 		return (1);
 	}
