@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 16:11:58 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/06 22:57:47 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/06 23:09:34 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,14 @@ int	read_next_line(const int fd, char **line, char **stash)
 	{
 		*stash = ft_strjoin("", ft_strchr(buffer, '\n') + 1);
 		*ft_strchr(buffer, '\n') = '\0';
-		temp = ft_strjoin("", *line);
-		free(*line);
-		*line = ft_strjoin(temp, buffer);
+		if (*line)
+		{
+			temp = ft_strjoin("", *line);
+			free(*line);
+			*line = ft_strjoin(temp, buffer);
+		}
+		else
+			*line = ft_strjoin("", buffer);
 		free(buffer);
 		return (1);
 	}
