@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 16:11:58 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/03 21:20:38 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/06 22:57:47 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	read_from_stash(int fd, char **line, char **stash)
 	{
 		*line = ft_strjoin("", temp);
 		free(temp);
+		free(*stash);
 		return (read_next_line(fd, line, stash));
 	}
 }
@@ -38,6 +39,7 @@ int	read_next_line(const int fd, char **line, char **stash)
 {
 	int		res;
 	char	*buffer;
+	char	*temp;
 
 	buffer = malloc((BUFF_SIZE + 1) * sizeof(char));
 	buffer[BUFF_SIZE] = '\0';
@@ -51,13 +53,17 @@ int	read_next_line(const int fd, char **line, char **stash)
 	{
 		*stash = ft_strjoin("", ft_strchr(buffer, '\n') + 1);
 		*ft_strchr(buffer, '\n') = '\0';
-		*line = ft_strjoin(*line, buffer);
+		temp = ft_strjoin("", *line);
+		free(*line);
+		*line = ft_strjoin(temp, buffer);
 		free(buffer);
 		return (1);
 	}
 	else
 	{
-		*line = ft_strjoin(*line, buffer);
+		temp = ft_strjoin("", *line);
+		free(*line);
+		*line = ft_strjoin(temp, buffer);
 		free(buffer);
 		return (read_next_line(fd, line, stash));
 	}

@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 13:23:31 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/03 18:31:14 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/03 22:03:12 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strchr(const char *str, int c);
 size_t	ft_strlen(const char *str);
 
-# define FALSE 0
-# define TRUE 1
-# define BUFF_SIZE 1
+# define BUFF_SIZE 42
 
 #endif
