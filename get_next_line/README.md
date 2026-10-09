@@ -112,7 +112,9 @@ get_next_line(fd)
 | stash | everything after the `\n`, kept for the next call |
 | buffer | freed after every read |
 
-`strjoin` is used over `strlcpy`/`strdup` because it both grows `line` and builds `stash`, and it allocates the result.
+`strjoin` is used over `strlcpy`/`strdup` because it both grows `line` and builds `stash`, and it allocates the result. However, because strjoin includes malloc, I need to free s1 & s2 after it. 
+- Solved for read from stash by creating a temp variable.
+- Not yet done for read next line. 
 
 ### bonus
 
