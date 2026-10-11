@@ -110,6 +110,9 @@ get_next_line(fd)
 
 note: for the bonus (multiple file descriptors), I want to try using a linked list, with one node per `fd` holding that fd's `stash`.
 
+- static node address
+- for given fd, store the stash 
+
 ## Resources
 
 - [static variables in C](https://en.cppreference.com/w/c/language/storage_duration), storage duration, the concept the subject points to

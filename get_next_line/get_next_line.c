@@ -32,11 +32,11 @@ char	*get_next_line(const int fd)
 	res = read_next_line(fd, &stash);
 	if (res > 0)
 	{
-		free_all(&temp, &line, NULL);
+		free_all(&temp, NULL, NULL);
 		return (get_next_line(fd));
 	}
 	if (res == 0 && stash && *stash)
 		return (ft_strjoin_safe_and_free(stash, "", &stash, &temp));
-	free_all(&temp, &line, &stash);
+	free_all(&temp, NULL, &stash);
 	return (NULL);
 }
