@@ -19,8 +19,8 @@ int	read_next_line(const int fd, char **stash)
 	char	*temp;
 
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	buffer[BUFFER_SIZE] = '\0';
 	res = read(fd, buffer, BUFFER_SIZE);
+	buffer[res] = '\0';
 	if (res == 0 || res == -1)
 	{
 		free(buffer);
