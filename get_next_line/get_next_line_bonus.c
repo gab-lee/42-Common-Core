@@ -30,3 +30,27 @@ char	*get_next_line(const int fd)
 	if (find_next_valid_node())
 		return (lines till cur node)
 }
+
+/*
+** find_next_valid_node (helper)
+**
+** res = read(fd, buffer, BUFFER_SIZE)
+** if res == -1
+**     do not add the node
+**     return NULL
+**     TODO: who frees the chunks already stored for this fd?
+** if res == 0
+**     if content is empty
+**         remove the node
+**     TODO: content not empty (last line has no '\n') -> ?
+** else
+**     create a new node with the buffer
+**     if the new node has no newline
+**         create another one (read again)
+**     return get_next_line(fd)
+**
+** TODO: one return type only. It currently returns the read result,
+**       0, NULL and get_next_line (a char *).
+** TODO: the main loop also reads ("read next add new node").
+**       Which one owns reading?
+*/
