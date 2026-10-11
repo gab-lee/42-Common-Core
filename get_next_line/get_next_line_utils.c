@@ -20,12 +20,12 @@ int	read_next_line(const int fd, char **stash)
 
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	res = read(fd, buffer, BUFFER_SIZE);
-	buffer[res] = '\0';
 	if (res == 0 || res == -1)
 	{
 		free(buffer);
 		return (res);
 	}
+	buffer[res] = '\0';
 	temp = ft_strjoin_safe(*stash, NULL);
 	free(*stash);
 	*stash = ft_strjoin_safe(temp, buffer);

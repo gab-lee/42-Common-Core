@@ -27,20 +27,38 @@ char	*get_next_line(const int fd)
 	{
 		*newline = '\0';
 		line = ft_strjoin_safe(temp, "\n");
-		free(stash);
+		if (stash)
+			free(stash);
 		stash = ft_strjoin_safe(newline + 1, NULL);
-		free(temp);
+		if (temp)
+			free(temp);
 		return (line);
 	}
 	res = read_next_line(fd, &stash);
 	if (res > 0)
+	{
+		if (temp)
+			free(temp);
+		if (line)
+			free(line);
 		return (get_next_line(fd));
+	}
 	if (res == 0 && stash && *stash)
 	{
 		line = ft_strjoin_safe(stash, "");
 		free(stash);
 		stash = NULL;
+		free (temp);
 		return (line);
+	}
+	if (temp)
+		free(temp);
+	if (line)
+		free(line);
+	if (stash)
+	{
+		free(stash);
+		stash = NULL;
 	}
 	return (NULL);
 }
