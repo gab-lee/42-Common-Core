@@ -69,54 +69,46 @@ all helpers live in `get_next_line_utils.c`.
 
 ## Algorithm
 
-`read()` pulls `BUFFER_SIZE` bytes at a time, so one read can return more than one line. the excess is kept in `stash`, a `static char *` that survives between calls. a static starts as `NULL`, so it needs no initialisation.
+`read()` pulls `BUFFER_SIZE` bytes at a time, so one read can return more than one line. there is no separate `line` buffer that grows across reads. everything read is stored in `stash`, a `static char *` that survives between calls, so all allocated memory sits in one place for memory checks. a static starts as `NULL`, so it needs no initialisation.
 
 ```
 get_next_line(fd)
 |
-+-- stash exists?
-|   |
-|   +-- yes --> read_from_stash
-|   |           |
-|   |           +-- walk stash, copying chars into line
-|   |           |
-|   |           +-- '\n' found?
-|   |               +-- yes --> keep what is after '\n' in stash --> return 1
-|   |               +-- no  --> read_next_buffer
-|   |
++-- stash contains '\n'?
+|   +-- yes --> extract_line
 |   +-- no  --> read_next_buffer
 |
 +-- read_next_buffer
 |   |
 |   +-- read(fd, buffer, BUFFER_SIZE)
-|   |   +-- 0  (EOF)   --> return NULL
-|   |   +-- -1 (error) --> return NULL
+|   |   +-- -1 (error) --> free stash, stash = NULL --> return NULL
+|   |   +-- 0  (EOF)   --> stash empty?
+|   |                      +-- yes --> free stash, stash = NULL --> return NULL
+|   |                      +-- no  --> extract_line
 |   |
-|   +-- strchr(buffer, '\n')?
-|       |
-|       +-- yes --> replace '\n' with '\0'
-|       |           line  = strjoin(line, buffer)
-|       |           stash = strjoin("", newline_ptr + 1)
-|       |           return 1
-|       |
-|       +-- no  --> line = strjoin(line, buffer)
-|                   stash unchanged
-|                   read_next_buffer again
+|   +-- stash = strjoin(stash, buffer), free old stash
+|   +-- '\n' in stash?
+|       +-- yes --> extract_line
+|       +-- no  --> read_next_buffer again
 |
-+-- add '\n' back to line --> return line
++-- extract_line
+    |
+    +-- copy stash up to and including '\n' into a new string --> returned line
+    +-- keep what is after '\n' as the new stash, free old stash
+    +-- return line
 ```
 
 | state | what lives where |
 |---|---|
-| line | everything up to (not including) the `\n` |
-| stash | everything after the `\n`, kept for the next call |
+| stash | every byte read and not yet returned |
+| returned line | allocated only at the moment of return, freed by the caller |
 | buffer | freed after every read |
 
-`strjoin` is used over `strlcpy`/`strdup` because it both grows `line` and builds `stash`, and it allocates the result. However, because strjoin includes malloc, I need to free s1 & s2 after it. 
-- Solved for read from stash by creating a temp variable.
-- Not yet done for read next line. 
+`strjoin` appends each buffer to `stash` and allocates the result, so the old `stash` must be freed after every join.
 
 ### bonus
+
+note: for the bonus (multiple file descriptors), I want to try using a linked list, with one node per `fd` holding that fd's `stash`.
 
 ## Resources
 
