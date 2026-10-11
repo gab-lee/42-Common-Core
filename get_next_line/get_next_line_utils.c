@@ -14,17 +14,17 @@
 
 void	free_all(char **s1, char **s2, char **s3)
 {
-	if (*s1)
+	if (s1 && *s1)
 	{
 		free(*s1);
 		*s1 = NULL;
 	}
-	if (*s2)
+	if (s2 && s2)
 	{
 		free(*s2);
 		*s2 = NULL;
 	}
-	if (*s3)
+	if (s3 && *s3)
 	{
 		free(*s3);
 		*s3 = NULL;
