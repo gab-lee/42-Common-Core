@@ -6,72 +6,35 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 16:11:58 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/06 23:09:34 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/11 10:27:24 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	read_from_stash(int fd, char **line, char **stash)
-{
-	char	*temp;
-
-	temp = ft_strjoin("", *stash);
-	free(*stash);
-	if (ft_strchr(temp, '\n'))
-	{
-		*stash = ft_strjoin("", ft_strchr(temp, '\n') + 1);
-		*ft_strchr(temp, '\n') = '\0';
-		*line = ft_strjoin("", temp);
-		free(temp);
-		return (1);
-	}
-	else
-	{
-		*line = ft_strjoin("", temp);
-		free(temp);
-		free(*stash);
-		return (read_next_line(fd, line, stash));
-	}
-}
-
-int	read_next_line(const int fd, char **line, char **stash)
+int	read_next_line(const int fd, char **stash)
 {
 	int		res;
 	char	*buffer;
 	char	*temp;
 
-	buffer = malloc((BUFF_SIZE + 1) * sizeof(char));
-	buffer[BUFF_SIZE] = '\0';
-	res = read(fd, buffer, BUFF_SIZE);
+	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	buffer[BUFFER_SIZE] = '\0';
+	res = read(fd, buffer, BUFFER_SIZE);
 	if (res == 0 || res == -1)
 	{
 		free(buffer);
 		return (res);
 	}
-	if (ft_strchr(buffer, '\n'))
-	{
-		*stash = ft_strjoin("", ft_strchr(buffer, '\n') + 1);
-		*ft_strchr(buffer, '\n') = '\0';
-		if (*line)
-		{
-			temp = ft_strjoin("", *line);
-			free(*line);
-			*line = ft_strjoin(temp, buffer);
-		}
-		else
-			*line = ft_strjoin("", buffer);
-		free(buffer);
+	temp = ft_strjoin(stash, NULL);
+	free(stash);
+	*stash = ft_strjoin(temp, buffer);
+	free(temp);
+	free(buffer);
+	if (ft_strchr(*stash, '\n'))
 		return (1);
-	}
 	else
-	{
-		temp = ft_strjoin("", *line);
-		free(*line);
-		*line = ft_strjoin(temp, buffer);
-		free(buffer);
-		return (read_next_line(fd, line, stash));
-	}
+		return (read_next_line(fd, stash));
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)
