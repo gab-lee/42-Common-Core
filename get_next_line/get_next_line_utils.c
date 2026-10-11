@@ -19,7 +19,7 @@ void	free_all(char **s1, char **s2, char **s3)
 		free(*s1);
 		*s1 = NULL;
 	}
-	if (s2 && s2)
+	if (s2 && *s2)
 	{
 		free(*s2);
 		*s2 = NULL;
