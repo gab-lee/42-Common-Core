@@ -21,9 +21,9 @@
 # endif
 
 char	*get_next_line(const int fd);
-int		read_from_stash(int fd, char **line, char **stash);
-int	read_next_line(const int fd, char **stash);
-char	*ft_strjoin_safe(char const *s1, char const *s2);
+void	free_all(char **s1, char **s2, char **s3);
+int		read_next_line(const int fd, char **stash);
+char	*ft_strjoin_safe_and_free(char *s1, char *s2, char **fs1, char **fs2);
 char	*ft_strchr_safe(const char *str, int c);
 size_t	ft_strlen_safe(const char *str);
 

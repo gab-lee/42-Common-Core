@@ -21,44 +21,23 @@ char	*get_next_line(const int fd)
 	int			res;
 
 	line = NULL;
-	temp = ft_strjoin_safe(stash, NULL);
+	temp = ft_strjoin_safe_and_free(stash, NULL, NULL, NULL);
 	newline = ft_strchr_safe(temp, '\n');
 	if (newline)
 	{
 		*newline = '\0';
-		line = ft_strjoin_safe(temp, "\n");
-		if (stash)
-			free(stash);
-		stash = ft_strjoin_safe(newline + 1, NULL);
-		if (temp)
-			free(temp);
+		line = ft_strjoin_safe_and_free(temp, "\n", &stash, NULL);
+		stash = ft_strjoin_safe_and_free(newline + 1, NULL, &temp, NULL);
 		return (line);
 	}
 	res = read_next_line(fd, &stash);
 	if (res > 0)
 	{
-		if (temp)
-			free(temp);
-		if (line)
-			free(line);
+		free_all(&temp, &line, NULL);
 		return (get_next_line(fd));
 	}
 	if (res == 0 && stash && *stash)
-	{
-		line = ft_strjoin_safe(stash, "");
-		free(stash);
-		stash = NULL;
-		free (temp);
-		return (line);
-	}
-	if (temp)
-		free(temp);
-	if (line)
-		free(line);
-	if (stash)
-	{
-		free(stash);
-		stash = NULL;
-	}
+		return (ft_strjoin_safe_and_free(stash, "", &stash, &temp));
+	free_all(&temp, &line, &stash);
 	return (NULL);
 }
