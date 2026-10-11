@@ -21,14 +21,14 @@ char	*get_next_line(const int fd)
 	int			res;
 
 	line = NULL;
-	temp = ft_strjoin(stash, NULL);
-	newline = ft_gnl_strchr(temp, '\n');
+	temp = ft_strjoin_safe(stash, NULL);
+	newline = ft_strchr_safe(temp, '\n');
 	if (newline)
 	{
 		*newline = '\0';
-		line = ft_strjoin(temp, "\n");
+		line = ft_strjoin_safe(temp, "\n");
 		free(stash);
-		stash = ft_strjoin(newline + 1, NULL);
+		stash = ft_strjoin_safe(newline + 1, NULL);
 		free(temp);
 		return (line);
 	}

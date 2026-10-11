@@ -23,8 +23,8 @@
 char	*get_next_line(const int fd);
 int		read_from_stash(int fd, char **line, char **stash);
 int	read_next_line(const int fd, char **stash);
-char	*ft_strjoin(char const *s1, char const *s2);
-char	*ft_strchr(const char *str, int c);
-size_t	ft_strlen(const char *str);
+char	*ft_strjoin_safe(char const *s1, char const *s2);
+char	*ft_strchr_safe(const char *str, int c);
+size_t	ft_strlen_safe(const char *str);
 
 #endif

@@ -26,24 +26,28 @@ int	read_next_line(const int fd, char **stash)
 		free(buffer);
 		return (res);
 	}
-	temp = ft_strjoin(stash, NULL);
+	temp = ft_strjoin_safe(*stash, NULL);
 	free(stash);
-	*stash = ft_strjoin(temp, buffer);
+	*stash = ft_strjoin_safe(temp, buffer);
 	free(temp);
 	free(buffer);
-	if (ft_strchr(*stash, '\n'))
+	if (ft_strchr_safe(*stash, '\n'))
 		return (1);
 	else
 		return (read_next_line(fd, stash));
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin_safe(char const *s1, char const *s2)
 {
 	char	*str;
 	int		i;
 
 	i = 0;
-	str = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	if (!s1)
+		s1 = "";
+	if (!s2)
+		s2 = "";
+	str = malloc((ft_strlen_safe(s1) + ft_strlen_safe(s2) + 1) * sizeof(char));
 	if (!str)
 		return (NULL);
 	while (*s1)
@@ -54,13 +58,15 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (str);
 }
 
-char	*ft_strchr(const char *str, int c)
+char	*ft_strchr_safe(const char *str, int c)
 {
 	int		i;
 	char	*ptr;
 
 	i = -1;
 	ptr = NULL;
+	if (!str)
+		return (NULL);
 	while (++i, str[i])
 	{
 		if ((unsigned char)str[i] == (unsigned char)c)
@@ -71,10 +77,12 @@ char	*ft_strchr(const char *str, int c)
 	return (ptr);
 }
 
-size_t	ft_strlen(const char *str)
+size_t	ft_strlen_safe(const char *str)
 {
 	int	len;
 
+	if (!str)
+		return (0);
 	len = -1;
 	while (len++, str[len])
 		;
