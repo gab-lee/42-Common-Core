@@ -27,10 +27,12 @@ int	read_next_line(const int fd, char **stash)
 		return (res);
 	}
 	temp = ft_strjoin_safe(*stash, NULL);
-	free(stash);
+	free(*stash);
 	*stash = ft_strjoin_safe(temp, buffer);
-	free(temp);
-	free(buffer);
+	if (temp)
+		free(temp);
+	if (buffer)
+		free(buffer);
 	if (ft_strchr_safe(*stash, '\n'))
 		return (1);
 	else
@@ -60,21 +62,19 @@ char	*ft_strjoin_safe(char const *s1, char const *s2)
 
 char	*ft_strchr_safe(const char *str, int c)
 {
-	int		i;
-	char	*ptr;
+	int	i;
 
-	i = -1;
-	ptr = NULL;
 	if (!str)
 		return (NULL);
+	i = -1;
 	while (++i, str[i])
 	{
 		if ((unsigned char)str[i] == (unsigned char)c)
-			ptr = (char *)&str[i];
+			return ((char *)&str[i]);
 	}
 	if ((unsigned char)str[i] == (unsigned char)c)
 		return ((char *)&str[i]);
-	return (ptr);
+	return (NULL);
 }
 
 size_t	ft_strlen_safe(const char *str)

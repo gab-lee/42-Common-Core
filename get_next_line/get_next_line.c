@@ -35,5 +35,11 @@ char	*get_next_line(const int fd)
 	res = read_next_line(fd, &stash);
 	if (res > 0)
 		return (get_next_line(fd));
+	if (res == 0 && stash)
+	{
+		line = ft_strjoin_safe(stash, "");
+		free(stash);
+		return (line);
+	}
 	return (NULL);
 }
