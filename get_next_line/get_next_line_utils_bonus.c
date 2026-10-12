@@ -29,7 +29,7 @@ t_node	*find_file(const int fd, t_node **fd_nodes)
 	return (new_node);
 }
 
-int	grow_node_till_valid_or_end(t_node **temp)
+int	read_until_newline(t_node **temp)
 {
 	int		newline;
 	int		res;
@@ -113,5 +113,17 @@ char *return_line(t_node **node)
 		j = 0;
 		cur = cur->next;
 	}
+	return (line);
+}
+
+char	*make_empty_line(t_node *file_node)
+{
+	(void)file_node;
+	return (NULL);
+}
+
+char	*fill_line(t_node *file_node, char *line)
+{
+	(void)file_node;
 	return (line);
 }
