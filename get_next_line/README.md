@@ -116,7 +116,7 @@ each node contains:
 |---|---|
 | `fd` | the file descriptor the node belongs to |
 | `line` | the buffer from one `read()` call, null terminated |
-| `next_fd` | the next file node, only set on the first node of each fd |
+| `next_fd` | the next file node, every node inherits it from the previous node |
 | `next` | the next node with the same `fd` |
 
 `stash` does not hold a line. it holds the starting node for all nodes.
@@ -126,16 +126,18 @@ stash
   |
   v
 [fd 3] --next--> [fd 3] --next--> [fd 3] --> NULL
+  |                 |                 |
+next_fd          next_fd           next_fd
+  |                 |                 |
+  v                 v                 v
+[fd 4] <------------+-----------------+
   |
-next_fd
-  |
-  v
-[fd 4] --next--> [fd 4] --> NULL
-  |
-next_fd
-  |
-  v
- NULL
+  +--next--> [fd 4] --> NULL
+  |             |
+next_fd      next_fd
+  |             |
+  v             v
+ NULL <---------+
 ```
 
 ```
@@ -149,19 +151,23 @@ get_next_line(fd)
 +-- get_valid_node(file node)
 |   |
 |   +-- last node contains '\n'? --> return 1
-|   +-- create node, read(fd, buffer, BUFFER_SIZE), append '\0'
+|   +-- create node, next_fd = previous node->next_fd
+|   +-- read(fd, buffer, BUFFER_SIZE - 1), append '\0'
 |   |   +-- -1 (error) --> return -1
 |   |   +-- 0  (EOF)   --> return 0
 |   +-- '\n' in new node?
 |       +-- yes --> return 1
 |       +-- no  --> create node and read again
 |
+|   each read asks for BUFFER_SIZE - 1 bytes, so a node's line
+|   (bytes + '\0') fits in BUFFER_SIZE
+|
 +-- make_empty_line(file node)
 |   |
 |   +-- len = len of line in first node
-|   |       + (middle nodes * BUFFER_SIZE) - num nodes (null terminators)
+|   |       + (middle nodes * (BUFFER_SIZE - 1))
 |   |       + len of line in last node up to and including '\n'
-|   |       + 1
+|   |       + 1 for '\0'
 |   +-- return malloc(len)
 |
 +-- fill_line(file node, line)
@@ -169,7 +175,7 @@ get_next_line(fd)
     +-- iterate through nodes, copy each node's line into line
     +-- last node: copy up to and including '\n'
     +-- make new node from the last node's line after '\n'
-    +-- new node->next_fd = cur->next_fd
+    +-- new node->next_fd = previous node->next_fd
     +-- clear previous nodes
     +-- return line
 ```
