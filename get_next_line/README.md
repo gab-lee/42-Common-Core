@@ -175,7 +175,7 @@ get_next_line(fd)
 |   |       + 1 for '\0'
 |   +-- return malloc(len)
 |
-+-- fill_line(file node, line)
++-- fill_line_safe(file node, line)
     |
     +-- iterate through nodes, copy each node's line into line
     +-- last node: copy up to and including '\n'

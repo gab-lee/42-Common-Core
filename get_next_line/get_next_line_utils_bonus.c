@@ -59,12 +59,21 @@ int	read_until_newline(t_node **temp)
 
 char	*make_empty_line(t_node *file_node)
 {
+	char	*line;
+	int		len;
+
 	(void)file_node;
-	return (NULL);
+	len = 0;
+	line = malloc(len * sizeof(char));
+	if (!line)
+		return (NULL);
+	return (line);
 }
 
-char	*fill_line(t_node *file_node, char *line)
+char	*fill_line_safe(t_node *file_node, char *line)
 {
+	if (!line)
+		return (NULL);
 	(void)file_node;
 	return (line);
 }
