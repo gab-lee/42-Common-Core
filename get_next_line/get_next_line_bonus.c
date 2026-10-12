@@ -18,5 +18,5 @@ char	*get_next_line(const int fd)
 	t_node temp;
 
 	temp = find_file(fd);
-	grow_node_till_valid_or_end (temp)
+	read_until_newline (temp)
 }

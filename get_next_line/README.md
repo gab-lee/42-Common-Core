@@ -108,10 +108,82 @@ get_next_line(fd)
 
 ### bonus
 
-note: for the bonus (multiple file descriptors), I want to try using a linked list, with one node per `fd` holding that fd's `stash`.
+the bonus (multiple file descriptors) uses a linked list method.
 
-- static node address
-- for given fd, store the stash 
+each node contains:
+
+| field | holds |
+|---|---|
+| `fd` | the file descriptor the node belongs to |
+| `line` | the buffer from one `read()` call, null terminated |
+| `next_fd` | the next file node, every node inherits it from the previous node |
+| `next` | the next node with the same `fd` |
+
+`stash` does not hold a line. it holds the starting node for all nodes.
+
+```
+stash
+  |
+  v
+[fd 3] --next_fd--> [fd 4] --next_fd--> NULL
+  |                   |
+ next                next
+  |                   |
+  v                   v
+[fd 3] -> fd 4      [fd 4] -> NULL
+  |                   |
+ next                next
+  |                   |
+  v                   v
+[fd 3] -> fd 4       NULL
+  |
+ next
+  |
+  v
+ NULL
+```
+
+down is `next` (same fd). right is `next_fd` (next file). `-> fd 4` is a node's inherited `next_fd`.
+
+```
+get_next_line(fd)
+|
++-- find_file(stash, fd)
+|   +-- stash empty?            --> create file node, stash = file node
+|   +-- file node for fd found? --> return file node
+|   +-- not found               --> create file node, link with next_fd, return it
+|
++-- read_until_newline(file node)
+|   |
+|   +-- last node contains '\n'? --> return 1
+|   +-- create node, next_fd = previous node->next_fd
+|   +-- read(fd, buffer, BUFFER_SIZE - 1), append '\0'
+|   |   +-- -1 (error) --> return -1
+|   |   +-- 0  (EOF)   --> return 0
+|   +-- '\n' in new node?
+|       +-- yes --> return 1
+|       +-- no  --> create node and read again
+|
+|   each read asks for BUFFER_SIZE - 1 bytes, so a node's line
+|   (bytes + '\0') fits in BUFFER_SIZE
+|
++-- make_empty_line(file node)
+|   |
+|   +-- len = len of line in first node
+|   |       + (middle nodes * (BUFFER_SIZE - 1))
+|   |       + len of line in last node up to and including '\n'
+|   |       + 1 for '\0'
+|   +-- return malloc(len)
+|
++-- fill_line_safe(file node, line)
+    |
+    +-- iterate through nodes, copy each node's line into line
+    +-- last node: copy up to and including '\n'
+    +-- file node->line = last node's line after '\n'
+    |   (NULL if nothing is left after '\n')
+    +-- clear all nodes after the file node
+    +-- return line
+```
 
 ## Resources
 

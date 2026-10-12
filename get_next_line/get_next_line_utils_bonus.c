@@ -12,7 +12,7 @@
 
 #include "get_next_line_bonus.h"
 
-t_node	*find_file_node(const int fd, t_node **fd_nodes)
+t_node	*find_file(const int fd, t_node **fd_nodes)
 {
 	t_node	*cur;
 	t_node	*new_node;
@@ -29,7 +29,7 @@ t_node	*find_file_node(const int fd, t_node **fd_nodes)
 	return (new_node);
 }
 
-int	grow_node_till_valid_or_end(t_node **temp)
+int	read_until_newline(t_node **temp)
 {
 	int		newline;
 	int		res;
@@ -57,6 +57,27 @@ int	grow_node_till_valid_or_end(t_node **temp)
 	return (res);
 }
 
+char	*make_empty_line(t_node *file_node)
+{
+	char	*line;
+	int		len;
+
+	(void)file_node;
+	len = 0;
+	line = malloc(len * sizeof(char));
+	if (!line)
+		return (NULL);
+	return (line);
+}
+
+char	*fill_line_safe(t_node *file_node, char *line)
+{
+	if (!line)
+		return (NULL);
+	(void)file_node;
+	return (line);
+}
+
 t_node *create_node(const int fd, char *line)
 {
 	t_node *node;
@@ -71,10 +92,6 @@ t_node *create_node(const int fd, char *line)
 	return (node);
 }
 
-void	ft_lstclear(t_list **lst, void (*del)(void *))
-{
-	
-}
 char	*ft_strchr_safe(const char *str, int c)
 {
 	int	i;
@@ -114,4 +131,9 @@ char *return_line(t_node **node)
 		cur = cur->next;
 	}
 	return (line);
+}
+
+void	ft_lstclear(t_list **lst, void (*del)(void *))
+{
+	
 }
