@@ -29,7 +29,7 @@ typedef	struct	s_node
 }	t_node;
 
 char	*get_next_line(const int fd);
-t_node	*find_file_node(const int fd, t_node **fd_nodes);
+t_node	*find_file(const int fd, t_node **fd_nodes);
 int	grow_node_till_valid_or_end(t_node **temp);
 t_node *create_node (const int fd, char *line);
 char	*ft_strchr_safe(const char *str, int c);

@@ -12,7 +12,7 @@
 
 #include "get_next_line_bonus.h"
 
-t_node	*find_file_node(const int fd, t_node **fd_nodes)
+t_node	*find_file(const int fd, t_node **fd_nodes)
 {
 	t_node	*cur;
 	t_node	*new_node;
