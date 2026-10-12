@@ -108,10 +108,73 @@ get_next_line(fd)
 
 ### bonus
 
-note: for the bonus (multiple file descriptors), I want to try using a linked list, with one node per `fd` holding that fd's `stash`.
+the bonus (multiple file descriptors) uses a linked list method.
 
-- static node address
-- for given fd, store the stash 
+each node contains:
+
+| field | holds |
+|---|---|
+| `fd` | the file descriptor the node belongs to |
+| `line` | the buffer from one `read()` call, null terminated |
+| `next_fd` | the next file node, only set on the first node of each fd |
+| `next` | the next node with the same `fd` |
+
+`stash` does not hold a line. it holds the starting node for all nodes.
+
+```
+stash
+  |
+  v
+[fd 3] --next--> [fd 3] --next--> [fd 3] --> NULL
+  |
+next_fd
+  |
+  v
+[fd 4] --next--> [fd 4] --> NULL
+  |
+next_fd
+  |
+  v
+ NULL
+```
+
+```
+get_next_line(fd)
+|
++-- find_file(stash, fd)
+|   +-- stash empty?            --> create file node, stash = file node
+|   +-- file node for fd found? --> return file node
+|   +-- not found               --> create file node, link with next_fd, return it
+|
++-- get_valid_node(file node)
+|   |
+|   +-- last node contains '\n'? --> return 1
+|   +-- create node, read(fd, buffer, BUFFER_SIZE), append '\0'
+|   |   +-- -1 (error) --> return -1
+|   |   +-- 0  (EOF)   --> return 0
+|   +-- '\n' in new node?
+|       +-- yes --> return 1
+|       +-- no  --> create node and read again
+|
++-- make_empty_line(file node)
+|   |
+|   +-- len = len of line in first node
+|   |       + (middle nodes * BUFFER_SIZE) - num nodes (null terminators)
+|   |       + len of line in last node up to and including '\n'
+|   |       + 1
+|   +-- return malloc(len)
+|
++-- fill_line(file node, line)
+    |
+    +-- iterate through nodes, copy each node's line into line
+    +-- last node: copy up to and including '\n'
+    +-- make new node from the last node's line after '\n'
+    +-- new node->next_fd = cur->next_fd
+    +-- clear previous nodes
+    +-- return line
+```
+
+note: `get_valid_node` needs a better name.
 
 ## Resources
 
