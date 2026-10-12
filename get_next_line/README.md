@@ -125,20 +125,25 @@ each node contains:
 stash
   |
   v
-[fd 3] --next--> [fd 3] --next--> [fd 3] --> NULL
-  |                 |                 |
-next_fd          next_fd           next_fd
-  |                 |                 |
-  v                 v                 v
-[fd 4] <------------+-----------------+
+[fd 3] --next_fd--> [fd 4] --next_fd--> NULL
+  |                   |
+ next                next
+  |                   |
+  v                   v
+[fd 3] -> fd 4      [fd 4] -> NULL
+  |                   |
+ next                next
+  |                   |
+  v                   v
+[fd 3] -> fd 4       NULL
   |
-  +--next--> [fd 4] --> NULL
-  |             |
-next_fd      next_fd
-  |             |
-  v             v
- NULL <---------+
+ next
+  |
+  v
+ NULL
 ```
+
+down is `next` (same fd). right is `next_fd` (next file). `-> fd 4` is a node's inherited `next_fd`.
 
 ```
 get_next_line(fd)
@@ -148,7 +153,7 @@ get_next_line(fd)
 |   +-- file node for fd found? --> return file node
 |   +-- not found               --> create file node, link with next_fd, return it
 |
-+-- get_valid_node(file node)
++-- read_until_newline(file node)
 |   |
 |   +-- last node contains '\n'? --> return 1
 |   +-- create node, next_fd = previous node->next_fd
@@ -174,13 +179,11 @@ get_next_line(fd)
     |
     +-- iterate through nodes, copy each node's line into line
     +-- last node: copy up to and including '\n'
-    +-- make new node from the last node's line after '\n'
-    +-- new node->next_fd = previous node->next_fd
-    +-- clear previous nodes
+    +-- file node->line = last node's line after '\n'
+    |   (NULL if nothing is left after '\n')
+    +-- clear all nodes after the file node
     +-- return line
 ```
-
-note: `get_valid_node` needs a better name.
 
 ## Resources
 
