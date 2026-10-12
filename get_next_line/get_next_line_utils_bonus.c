@@ -57,6 +57,18 @@ int	read_until_newline(t_node **temp)
 	return (res);
 }
 
+char	*make_empty_line(t_node *file_node)
+{
+	(void)file_node;
+	return (NULL);
+}
+
+char	*fill_line(t_node *file_node, char *line)
+{
+	(void)file_node;
+	return (line);
+}
+
 t_node *create_node(const int fd, char *line)
 {
 	t_node *node;
@@ -71,10 +83,6 @@ t_node *create_node(const int fd, char *line)
 	return (node);
 }
 
-void	ft_lstclear(t_list **lst, void (*del)(void *))
-{
-	
-}
 char	*ft_strchr_safe(const char *str, int c)
 {
 	int	i;
@@ -116,14 +124,7 @@ char *return_line(t_node **node)
 	return (line);
 }
 
-char	*make_empty_line(t_node *file_node)
+void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
-	(void)file_node;
-	return (NULL);
-}
-
-char	*fill_line(t_node *file_node, char *line)
-{
-	(void)file_node;
-	return (line);
+	
 }

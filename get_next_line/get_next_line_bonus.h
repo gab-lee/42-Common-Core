@@ -31,10 +31,10 @@ typedef	struct	s_node
 char	*get_next_line(const int fd);
 t_node	*find_file(const int fd, t_node **fd_nodes);
 int	read_until_newline(t_node **temp);
-t_node *create_node (const int fd, char *line);
-char	*ft_strchr_safe(const char *str, int c);
 char	*make_empty_line(t_node *file_node);
 char	*fill_line(t_node *file_node, char *line);
+t_node *create_node (const int fd, char *line);
+char	*ft_strchr_safe(const char *str, int c);
 
 
 #endif
