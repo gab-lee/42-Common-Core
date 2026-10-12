@@ -22,13 +22,17 @@
 
 typedef	struct	s_node
 {
-	int	fd;
-	char	*stash;
-	struct	s_node *next_file;
-	struct	s_node *next_line;
-} t_node;
+	int				fd;
+	char			*line;
+	struct s_node	*next_fd;
+	struct s_node	*next;
+}	t_node;
 
 char	*get_next_line(const int fd);
+t_node	*find_file_node(const int fd, t_node **fd_nodes);
+int	grow_node_till_valid_or_end(t_node **temp);
+t_node *create_node (const int fd, char *line);
+char	*ft_strchr_safe(const char *str, int c);
 
 
 #endif
