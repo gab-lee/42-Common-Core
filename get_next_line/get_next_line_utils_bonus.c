@@ -1,61 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 16:11:58 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/11 10:27:24 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/13 22:06:45 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-t_node	*find_file(const int fd, t_node **fd_nodes)
-{
-	t_node	*cur;
-	t_node	*new_node;
-
-	cur = *fd_nodes;
-	while (cur->next)
-	{
-		if (cur->fd == fd)
-			return (cur);
-		cur = cur->next;
-	}
-	new_node = create_node (fd, NULL);
-	cur->next = new_node;
-	return (new_node);
-}
-
-int	read_until_newline(t_node **temp)
-{
-	int		newline;
-	int		res;
-	char	*buffer;
-	t_node	*cur;
-	t_node	*new_node;
-
-	newline = 0;
-	cur = *temp;
-	while (cur->next)
-		cur = cur->next;
-	if (ft_strchr_safe(cur->line, '\n'))
-		return (1);
-	while (!newline)
-	{
-		res = read(fd, buffer, BUFFER_SIZE);
-		if (res == -1 || res == 0)
-			return (res);
-		new_node = create_node(fd, buffer);
-		cur->next = new_node;
-		if (ft_strchr_safe(new_node->line, '\n'))
-			newline = 1;
-		cur = cur->next;
-	}
-	return (res);
-}
 
 char	*make_empty_line(t_node *file_node)
 {
@@ -70,13 +26,7 @@ char	*make_empty_line(t_node *file_node)
 	return (line);
 }
 
-char	*fill_line_safe(t_node *file_node, char *line)
-{
-	if (!line)
-		return (NULL);
-	(void)file_node;
-	return (line);
-}
+
 
 t_node *create_node(const int fd, char *line)
 {
@@ -133,7 +83,4 @@ char *return_line(t_node **node)
 	return (line);
 }
 
-void	ft_lstclear(t_list **lst, void (*del)(void *))
-{
-	
-}
+

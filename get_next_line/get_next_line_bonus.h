@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 13:23:31 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/11 10:20:34 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/13 22:10:21 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ typedef	struct	s_node
 }	t_node;
 
 char	*get_next_line(const int fd);
-t_node	*find_file(const int fd, t_node **fd_nodes);
+t_node	*find_file_safe(const int fd, t_node **fd_nodes);
 int	read_until_newline(t_node **temp);
 char	*make_empty_line(t_node *file_node);
-char	*fill_line_safe(t_node *file_node, char *line);
+char	*make_line(t_node *file_node, char *line);
 t_node *create_node (const int fd, char *line);
 char	*ft_strchr_safe(const char *str, int c);
 
