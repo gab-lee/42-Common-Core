@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 16:11:58 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/13 23:14:58 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/13 23:16:05 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ char	*make_empty_line(t_node **file_node)
 
 t_node *create_node(const int fd, char *line)
 {
-	t_node *node;
+	t_node	*node;
 
-	node = (1 * sizeof(t_node));
+	node = malloc(1 * sizeof(t_node));
 	if (!node)
 		return (NULL);
 	node->fd = fd;
