@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 16:11:58 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/13 22:37:23 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/13 22:38:00 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_node *create_node(const int fd, char *line)
 	t_node *node;
 
 	node = (1 * sizeof(t_node));
-	if (!new_node)
+	if (!node)
 		return (NULL);
 	node->fd = fd;
 	node->line = line;
