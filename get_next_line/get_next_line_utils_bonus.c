@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 16:11:58 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/13 22:32:44 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/13 22:37:23 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,31 +63,6 @@ char	*ft_strchr_safe(const char *str, int c)
 		return ((char *)&str[i]);
 	return (NULL);
 }
-
-char *return_line(t_node **node)
-{
-	t_node	*cur;
-	char	*line;
-	int		len;
-
-	cur = *node;
-	len = 0;
-	while (cur->next)
-		len += strlen(cur->line);
-	line = malloc(len * sizeof(char));
-	if (!len || !line)
-		return (NULL);
-	cur = *node;
-	while (++i, cur->next)
-	{
-		while (++j, cur->line[j])
-			line[len] = cur->line[j];
-		j = 0;
-		cur = cur->next;
-	}
-	return (line);
-}
-
 
 int	strlen_safe(char *str)
 {
