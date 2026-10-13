@@ -6,20 +6,27 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 16:11:58 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/13 22:06:45 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/13 22:29:50 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
 
-char	*make_empty_line(t_node *file_node)
+char	*make_empty_line(t_node **file_node)
 {
 	char	*line;
 	int		len;
+	t_node	*cur;
 
-	(void)file_node;
+	cur = *file_node;
 	len = 0;
+	while (cur)
+	{
+		len += strlen_safe(cur->line);
+		cur = cur ->next;
+	}
+	
 	line = malloc(len * sizeof(char));
 	if (!line)
 		return (NULL);
@@ -84,3 +91,14 @@ char *return_line(t_node **node)
 }
 
 
+int	strlen_safe(char *str)
+{
+	int	len;
+
+	if (!str)
+		return (0);
+	len = -1;
+	while (++len, str[i])
+		len++;
+	return (len);
+}

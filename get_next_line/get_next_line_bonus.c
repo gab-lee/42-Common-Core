@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 13:23:26 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/13 22:25:41 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/13 22:27:04 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ char	*get_next_line(const int fd)
 	res = read_until_newline (&temp);
 	if (res < 0)
 		return (NULL);
+	//what if res == 0?
 	line = make_line(&temp);
 	ft_lstclear(&temp, del);
 	return (line);
@@ -89,7 +90,7 @@ char	*make_line(t_node **file_node)
 {
 	char *line;
 
-	*line = make_empty_line(*file_node);
+	*line = make_empty_line(file_node);
 	if (!line)
 		return (NULL);
 	(void)file_node;
