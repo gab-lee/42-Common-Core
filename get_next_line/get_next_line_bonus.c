@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 13:23:26 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/13 22:39:10 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/13 23:09:34 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*get_next_line(const int fd)
 		return (NULL);
 	//what if res == 0?
 	line = make_line(&temp);
-	ft_lstclear(&temp, del);
+	clear_used_nodes(&temp, res);
 	return (line);
 }
 
@@ -90,6 +90,7 @@ char	*make_line(t_node **file_node)
 {
 	char	*line;
 	t_node	*cur;
+	t_node	*new_node;
 	int		i;
 	int		j;
 
@@ -101,14 +102,36 @@ char	*make_line(t_node **file_node)
 	while (cur && cur->line)
 	{
 		i = -1;
-		while (++i, cur->line[i])
+		while (++i, cur->line[i] && line[i])
+		{
 			line[j++] = cur->line[i];
+			if (cur->line[i] == '\n')
+			{
+				new_node = create_node(cur->fd, &(cur->line[i + 1]));
+				cur->next = new_node;
+				break ;
+			}
+		}
 		cur = cur->next;
 	}
 	return (line);
 }
 
-void	ft_lstclear(t_list **lst, void (*del)(void *))
+void	clear_used_nodes(t_node **fd_node, int res)
 {
-	
+	t_node	*temp;
+	t_node	*cur;
+
+	if (!*fd_node || !(*fd_node)->next)
+		return ;
+	cur = *fd_node;
+	while (cur->next)
+	{
+		temp = cur->next;
+		free(cur->line);
+		free(cur);
+		cur = temp;
+	}
+	free((*fd_node)->line);
+	(*fd_node)->line = cur;
 }
