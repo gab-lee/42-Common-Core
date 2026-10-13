@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 13:23:26 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/13 22:16:13 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/13 22:25:41 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,14 @@ char	*get_next_line(const int fd)
 	static t_node	*fd_nodes;
 	t_node			*temp;
 	char			*line;
+	int				res;
 
 	if (fd < 0)
 		return (NULL);
 	temp = find_file_safe(fd, fd_nodes);
-	read_until_newline (&temp);
+	res = read_until_newline (&temp);
+	if (res < 0)
+		return (NULL);
 	line = make_line(&temp);
 	ft_lstclear(&temp, del);
 	return (line);
@@ -54,7 +57,8 @@ t_node	*find_file_safe(const int fd, t_node **fd_nodes)
 		return (new_node);
 	}
 }
-int	read_until_newline(t_node **temp)
+
+int	read_until_newline(t_node **fd_node)
 {
 	int		newline;
 	int		res;
@@ -63,23 +67,22 @@ int	read_until_newline(t_node **temp)
 	t_node	*new_node;
 
 	newline = 0;
-	cur = *temp;
+	cur = *fd_node;
 	while (cur->next)
 		cur = cur->next;
-	if (ft_strchr_safe(cur->line, '\n'))
-		return (1);
-	while (!newline)
+	while (!ft_strchr_safe(cur->line, '\n'))
 	{
-		res = read(fd, buffer, BUFFER_SIZE);
+		buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
+		res = read(cur->fd, buffer, BUFFER_SIZE);
 		if (res == -1 || res == 0)
 			return (res);
-		new_node = create_node(fd, buffer);
+		buffer[res] = '\0';
+		new_node = create_node(cur->fd, buffer);
+		free(buffer);
 		cur->next = new_node;
-		if (ft_strchr_safe(new_node->line, '\n'))
-			newline = 1;
 		cur = cur->next;
 	}
-	return (res);
+	return (1);
 }
 
 char	*make_line(t_node **file_node)
