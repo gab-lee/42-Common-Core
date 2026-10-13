@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 13:23:26 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/13 22:30:58 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/13 22:36:31 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,23 @@ int	read_until_newline(t_node **fd_node)
 
 char	*make_line(t_node **file_node)
 {
-	char *line;
+	char	*line;
+	t_node	*cur;
+	int		i;
+	int		j;
 
+	cur = *file_node;
 	line = make_empty_line(file_node);
 	if (!line)
 		return (NULL);
-	(void)file_node;
+	j = 0;
+	while (cur && cur->line)
+	{
+		i = -1;
+		while (++i, cur->line[i])
+			line[j++] = cur->line[i];
+		cur = cur->next;
+	}
 	return (line);
 }
 
