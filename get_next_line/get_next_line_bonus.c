@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 13:23:26 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/13 23:09:34 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/13 23:12:31 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,11 @@ t_node	*find_file_safe(const int fd, t_node **fd_nodes)
 
 int	read_until_newline(t_node **fd_node)
 {
-	int		newline;
 	int		res;
 	char	*buffer;
 	t_node	*cur;
 	t_node	*new_node;
 
-	newline = 0;
 	cur = *fd_node;
 	while (cur->next)
 		cur = cur->next;
@@ -132,6 +130,12 @@ void	clear_used_nodes(t_node **fd_node, int res)
 		free(cur);
 		cur = temp;
 	}
+	if (res == 0)
+	{
+		free(cur->line);
+		free(cur);
+		return ;
+	}
 	free((*fd_node)->line);
-	(*fd_node)->line = cur;
+	(*fd_node)->line = cur->line;
 }
