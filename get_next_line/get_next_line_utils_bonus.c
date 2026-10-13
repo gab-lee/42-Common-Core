@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 16:11:58 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/13 22:38:00 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/13 23:14:58 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	strlen_safe(char *str)
 	if (!str)
 		return (0);
 	len = -1;
-	while (++len, str[i])
+	while (++len, str[len])
 		len++;
 	return (len);
 }
