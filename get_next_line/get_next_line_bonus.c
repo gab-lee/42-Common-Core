@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 13:23:26 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/13 23:12:31 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/13 23:17:39 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,18 @@ t_node	*find_file_safe(const int fd, t_node **fd_nodes)
 		return (new_node);
 	}
 	cur = *fd_nodes;
-	while (cur->next)
+	while (cur->next_fd)
 	{
 		if (cur->fd == fd)
 			return (cur);
-		cur = cur->next;
+		cur = cur->next_fd;
 	}
 	if (cur->fd == fd)
 		return (cur);
 	else
 	{
 		new_node = create_node (fd, NULL);
-		cur->next = new_node;
+		cur->next_fd = new_node;
 		return (new_node);
 	}
 }
