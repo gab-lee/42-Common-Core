@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 16:11:58 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/17 09:40:06 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/17 09:46:12 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_node	*create_node(const int fd, char *line)
 	if (!node)
 		return (NULL);
 	node->fd = fd;
-	node->line = line;
+	node->line = ft_strjoin_safe("", line);
 	node->next_fd = NULL;
 	node->next = NULL;
 	return (node);
@@ -76,7 +76,7 @@ int	strlen_safe(char *str)
 	return (len);
 }
 
-char	*ft_strjoin_safe_and_free(char *s1, char *s2, char **fs1, char **fs2)
+char	*ft_strjoin_safe(char *s1, char *s2)
 {
 	char	*str;
 	int		i;
@@ -94,6 +94,5 @@ char	*ft_strjoin_safe_and_free(char *s1, char *s2, char **fs1, char **fs2)
 	while (*s2)
 		str[i++] = *(s2++);
 	str[i] = '\0';
-	free_all(fs1, fs2, NULL);
 	return (str);
 }
