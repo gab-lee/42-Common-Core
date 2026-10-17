@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 16:11:58 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/17 09:35:33 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/17 09:40:06 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,26 @@ int	strlen_safe(char *str)
 	while (++len, str[len])
 		;
 	return (len);
+}
+
+char	*ft_strjoin_safe_and_free(char *s1, char *s2, char **fs1, char **fs2)
+{
+	char	*str;
+	int		i;
+
+	i = 0;
+	if (!s1)
+		s1 = "";
+	if (!s2)
+		s2 = "";
+	str = malloc((ft_strlen_safe(s1) + ft_strlen_safe(s2) + 1) * sizeof(char));
+	if (!str)
+		return (NULL);
+	while (*s1)
+		str[i++] = *(s1++);
+	while (*s2)
+		str[i++] = *(s2++);
+	str[i] = '\0';
+	free_all(fs1, fs2, NULL);
+	return (str);
 }
