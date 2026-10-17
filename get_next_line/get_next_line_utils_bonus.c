@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 16:11:58 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/13 23:19:52 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/17 09:35:33 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*make_empty_line(t_node **file_node)
 	line = malloc((len +1 ) * sizeof(char));
 	if (!line)
 		return (NULL);
-	line[len + 1] = '\0';
+	line[len] = '\0';
 	return (line);
 }
 
