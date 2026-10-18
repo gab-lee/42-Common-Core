@@ -14,8 +14,8 @@
 
 char	*get_next_line(const int fd)
 {
-	static t_node	*fd_nodes;
-	t_node			*temp;
+	static t_node	*files;
+	t_node			*file;
 	t_node			*prev;
 	char			*line;
 	int				res;
@@ -25,61 +25,61 @@ char	*get_next_line(const int fd)
 		return (NULL);
 	if (BUFFER_SIZE <= 0)
 		return (NULL);
-	temp = find_file_safe(fd, &fd_nodes, &prev);
-	res = read_until_newline_safe (&temp);
-	line = make_line(&temp, res);
-	if (clear_used_nodes(&temp, res, &prev))
+	file = get_file_safe(fd, &files, &prev);
+	res = read_and_create_safe (&file);
+	line = build_line(&file, res);
+	if (keep_leftover(&file, res, &prev))
 		return (line);
 	else
 	{
-		clear_used_nodes(&temp, -1, &prev);
+		keep_leftover(&file, -1, &prev);
 		return (NULL);
 	}
 }
 
-t_node	*find_file_safe(const int fd, t_node **fd_nodes, t_node **prev)
+t_node	*get_file_safe(const int fd, t_node **files, t_node **prev)
 {
 	t_node	*cur;
-	t_node	*new_node;
+	t_node	*node;
 
-	if (!fd_nodes || !*fd_nodes)
+	if (!files || !*files)
 	{
-		new_node = create_node_safe (fd, NULL);
-		*fd_nodes = new_node;
-		return (new_node);
+		node = new_node (fd, NULL);
+		*files = node;
+		return (node);
 	}
-	cur = *fd_nodes;
-	while (cur->next_fd)
+	cur = *files;
+	while (cur->next_file)
 	{
 		if (cur->fd == fd)
 			return (cur);
 		*prev = cur;
-		cur = cur->next_fd;
+		cur = cur->next_file;
 	}
 	if (cur->fd == fd)
 		return (cur);
 	else
 	{
-		new_node = create_node_safe (fd, NULL);
-		cur->next_fd = new_node;
+		node = new_node (fd, NULL);
+		cur->next_file = node;
 		*prev = cur;
-		return (new_node);
+		return (node);
 	}
 }
 
-int	read_until_newline_safe(t_node **fd_node)
+int	read_and_create_safe(t_node **file)
 {
 	int		res;
 	char	*buffer;
 	t_node	*cur;
-	t_node	*new_node;
+	t_node	*node;
 
-	cur = *fd_node;
+	cur = *file;
 	if (!cur)
 		return (-1);
-	while (cur->next)
-		cur = cur->next;
-	while (!ft_strchr_safe(cur->line, '\n'))
+	while (cur->next_buffer)
+		cur = cur->next_buffer;
+	while (!ft_strchr_safe(cur->str, '\n'))
 	{
 		buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
 		if (!buffer)
@@ -91,28 +91,28 @@ int	read_until_newline_safe(t_node **fd_node)
 			return (res);
 		}
 		buffer[res] = '\0';
-		new_node = create_node_safe(cur->fd, buffer);
+		node = new_node(cur->fd, buffer);
 		free(buffer);
-		if (!new_node)
+		if (!node)
 			return (-1);
-		cur->next = new_node;
-		cur = cur->next;
+		cur->next_buffer = node;
+		cur = cur->next_buffer;
 	}
 	return (1);
 }
 
-char	*make_line(t_node **file_node, int res)
+char	*build_line(t_node **file, int res)
 {
 	char	*line;
 	t_node	*cur;
-	t_node	*new_node;
+	t_node	*node;
 	int		i;
 	int		j;
 	int		len;
 
-	cur = *file_node;
+	cur = *file;
 	j = 0;
-	line = make_empty_line(file_node, &len, res);
+	line = alloc_line(file, &len, res);
 	if (!line || !len)
 	{
 		free(line);
@@ -121,48 +121,48 @@ char	*make_line(t_node **file_node, int res)
 	while (j < len)
 	{
 		i = -1;
-		while (++i, j < len && cur->line[i])
-			line[j++] = cur->line[i];
+		while (++i, j < len && cur->str[i])
+			line[j++] = cur->str[i];
 		if (j < len)
-			cur = cur->next;
+			cur = cur->next_buffer;
 	}
-	new_node = create_node_safe(cur->fd, &(cur->line[i]));
-	if (!new_node)
+	node = new_node(cur->fd, &(cur->str[i]));
+	if (!node)
 	{
 		free(line);
 		return (NULL);
 	}
-	cur->next = new_node;
+	cur->next_buffer = node;
 	return (line);
 }
 
-int	clear_used_nodes(t_node **fd_node, int res, t_node **prev)
+int	keep_leftover(t_node **file, int res, t_node **prev)
 {
 	t_node	*temp;
 	t_node	*cur;
 
-	if (!fd_node || !*fd_node)
+	if (!file || !*file)
 		return (1);
-	cur = (*fd_node)->next;
-	while (cur && cur->next)
+	cur = (*file)->next_buffer;
+	while (cur && cur->next_buffer)
 	{
-		temp = cur->next;
-		free(cur->line);
+		temp = cur->next_buffer;
+		free(cur->str);
 		free(cur);
 		cur = temp;
 	}
-	free((*fd_node)->line);
-	if (res == 1 || (res == 0 && cur && cur->line))
+	free((*file)->str);
+	if (res == 1 || (res == 0 && cur && cur->str))
 	{
-		(*fd_node)->line = ft_strjoin_safe("", cur->line);
-		free(cur->line);
-		if (!(*fd_node)->line)
+		(*file)->str = ft_strjoin_safe("", cur->str);
+		free(cur->str);
+		if (!(*file)->str)
 			return (0);	
 	}
-	if (res == -1 || (res == 0 && (!cur || !(cur->line))))
-		(*prev)->next_fd = (*fd_node)->next_fd;
+	if (res == -1 || (res == 0 && (!cur || !(cur->str))))
+		(*prev)->next_file = (*file)->next_file;
 	free(cur);
-	free(*fd_node);
+	free(*file);
 	return (1);
 }
 

@@ -13,24 +13,24 @@
 #include "get_next_line_bonus.h"
 
 
-char	*make_empty_line(t_node **file_node, int *len, int res)
+char	*alloc_line(t_node **file, int *len, int res)
 {
 	char	*line;
 	t_node	*cur;
 
-	cur = *file_node;
+	cur = *file;
 	*len = 0;
 	if (res < 0)
 		return (NULL);
-	while (cur->next)
+	while (cur->next_buffer)
 	{
-		*len += ft_strlen_safe(cur->line);
-		cur = cur ->next;
+		*len += ft_strlen_safe(cur->str);
+		cur = cur ->next_buffer;
 	}
 	if (res == 0)
-		*len += ft_strlen_safe(cur->line);
+		*len += ft_strlen_safe(cur->str);
 	else
-		*len += (unsigned int)(ft_strchr_safe(cur->line, '\n') - cur->line) + 1;
+		*len += (unsigned int)(ft_strchr_safe(cur->str, '\n') - cur->str) + 1;
 	line = malloc((*len +1) * sizeof(char));
 	if (!line)
 		return (NULL);
@@ -38,7 +38,7 @@ char	*make_empty_line(t_node **file_node, int *len, int res)
 	return (line);
 }
 
-t_node	*create_node_safe(const int fd, char *line)
+t_node	*new_node(const int fd, char *str)
 {
 	t_node	*node;
 
@@ -46,14 +46,14 @@ t_node	*create_node_safe(const int fd, char *line)
 	if (!node)
 		return (NULL);
 	node->fd = fd;
-	node->line = ft_strjoin_safe("", line);
-	if (!node->line)
+	node->str = ft_strjoin_safe("", str);
+	if (!node->str)
 	{
 		free(node);
 		return (NULL);
 	}
-	node->next_fd = NULL;
-	node->next = NULL;
+	node->next_file = NULL;
+	node->next_buffer = NULL;
 	return (node);
 }
 
