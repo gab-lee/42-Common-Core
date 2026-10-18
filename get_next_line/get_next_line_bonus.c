@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 13:23:26 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/18 22:37:11 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/18 22:39:51 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,8 +159,10 @@ int	clear_used_nodes(t_node **fd_node, int res, t_node **prev)
 		if (!(*fd_node)->line)
 			return (0);	
 	}
-	(*fd_node)->next = NULL;
+	if (res == -1 || (res == 0 && (!cur || !(cur->line))))
+		(*prev)->next_fd = (*fd_node)->next_fd;
 	free(cur);
+	free(*fd_node);
 	return (1);
 }
 
