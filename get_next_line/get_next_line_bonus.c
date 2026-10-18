@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 13:23:26 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/18 11:32:05 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/18 11:33:07 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	read_until_newline(t_node **fd_node)
 			return (res);
 		}
 		buffer[res] = '\0';
-		new_node = create_node(cur->fd, buffer);
+		new_node = create_node(cur->fd, ft_strjoin_safe("", buffer));
 		free(buffer);
 		cur->next = new_node;
 		cur = cur->next;
