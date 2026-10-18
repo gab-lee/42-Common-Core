@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 13:23:31 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/18 23:28:07 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/18 23:58:24 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ char	*build_line(t_node **file, int res);
 void	keep_leftover(t_node **file_lst, t_node **file, int res, t_node **prev);
 char	*alloc_line(t_node **file, int *len, int res);
 t_node	*new_node(const int fd, char *str);
+void	remove_file(t_node **file_lst, t_node **file, int res, t_node **prev);
 char	*ft_strchr_safe(const char *str, int c);
 int		ft_strlen_safe(char *str);
 
