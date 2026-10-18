@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 13:23:26 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/19 00:06:05 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/19 00:09:37 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int	read_and_create_safe(t_node **file)
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buffer)
 		return (-1);
+	res = 1;
 	while (!ft_strchr_safe(cur->str, '\n'))
 	{
 		res = read(cur->fd, buffer, BUFFER_SIZE);

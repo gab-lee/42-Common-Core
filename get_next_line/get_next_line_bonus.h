@@ -6,12 +6,12 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 13:23:31 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/19 00:00:44 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/19 00:10:27 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 
 # include <stdlib.h>
 # include <unistd.h>
@@ -20,7 +20,7 @@
 #  define BUFFER_SIZE 42
 # endif
 
-typedef	struct	s_node
+typedef struct s_node
 {
 	int				fd;
 	char			*str;
