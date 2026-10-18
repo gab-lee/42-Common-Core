@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 13:23:26 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/18 11:33:07 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/18 11:36:40 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_node	*find_file_safe(const int fd, t_node **fd_nodes)
 
 	if (!fd_nodes || !*fd_nodes)
 	{
-		new_node = create_node (fd, NULL);
+		new_node = create_node_safe (fd, NULL);
 		*fd_nodes = new_node;
 		return (new_node);
 	}
@@ -54,7 +54,7 @@ t_node	*find_file_safe(const int fd, t_node **fd_nodes)
 		return (cur);
 	else
 	{
-		new_node = create_node (fd, NULL);
+		new_node = create_node_safe (fd, NULL);
 		cur->next_fd = new_node;
 		return (new_node);
 	}
@@ -82,7 +82,7 @@ int	read_until_newline(t_node **fd_node)
 			return (res);
 		}
 		buffer[res] = '\0';
-		new_node = create_node(cur->fd, ft_strjoin_safe("", buffer));
+		new_node = create_node_safe(cur->fd, buffer);
 		free(buffer);
 		cur->next = new_node;
 		cur = cur->next;
@@ -112,7 +112,7 @@ char	*make_line(t_node **file_node, int res)
 		if (j < len)
 			cur = cur->next;
 	}
-	new_node = create_node(cur->fd, &(cur->line[i]));
+	new_node = create_node_safe(cur->fd, &(cur->line[i]));
 	cur->next = new_node;
 	return (line);
 }
