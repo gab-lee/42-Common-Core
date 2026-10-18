@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 13:23:26 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/18 11:16:58 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/18 11:21:08 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ char	*get_next_line(const int fd)
 	res = read_until_newline (&temp);
 	if (res < 0)
 		return (NULL);
-	//what if res == 0?
-	line = make_line(&temp);
+	line = make_line(&temp, res);
 	clear_used_nodes(&temp, res);
 	return (line);
 }
@@ -89,7 +88,7 @@ int	read_until_newline(t_node **fd_node)
 	return (1);
 }
 
-char	*make_line(t_node **file_node)
+char	*make_line(t_node **file_node, int res)
 {
 	char	*line;
 	t_node	*cur;
@@ -100,7 +99,7 @@ char	*make_line(t_node **file_node)
 
 	cur = *file_node;
 	j = 0;
-	line = make_empty_line(file_node, &len);
+	line = make_empty_line(file_node, &len, res);
 	if (!line)
 		return (NULL);
 	while (j < len)

@@ -6,14 +6,14 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 16:11:58 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/18 11:10:10 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/18 11:19:54 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
 
-char	*make_empty_line(t_node **file_node, int *len)
+char	*make_empty_line(t_node **file_node, int *len, int res)
 {
 	char	*line;
 	t_node	*cur;
@@ -25,7 +25,10 @@ char	*make_empty_line(t_node **file_node, int *len)
 		*len += ft_strlen_safe(cur->line);
 		cur = cur ->next;
 	}
-	len += (unsigned int)(ft_strchr_safe(cur->line, '\n') - cur->line) + 1;
+	if (res == 0)
+		len += ft_strlen_safe(cur->line);
+	else
+		len += (unsigned int)(ft_strchr_safe(cur->line, '\n') - cur->line) + 1;
 	line = malloc((*len +1) * sizeof(char));
 	if (!line)
 		return (NULL);
