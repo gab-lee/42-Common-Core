@@ -119,10 +119,10 @@ each node contains:
 | `next_file` | the next file node, every node inherits it from the previous node |
 | `next_buffer` | the next node with the same `fd` |
 
-`files` does not hold a line. it holds the starting node for all nodes.
+`file_lst` does not hold a line. it holds the starting node for all nodes.
 
 ```
-files
+file_lst
   |
   v
 [fd 3] --next_file--> [fd 4] --next_file--> NULL
@@ -148,8 +148,8 @@ down is `next_buffer` (same fd). right is `next_file` (next file). `-> fd 4` is 
 ```
 get_next_line(fd)
 |
-+-- get_file_safe(files, fd)
-|   +-- files empty?            --> create file node, files = file node
++-- get_file_safe(file_lst, fd)
+|   +-- file_lst empty?         --> create file node, file_lst = file node
 |   +-- file node for fd found? --> return file node
 |   +-- not found               --> create file node, link with next_file, return it
 |
@@ -187,37 +187,39 @@ get_next_line(fd)
 
 #### cleanup cases
 
-every call ends in one of two outcomes: **keep** the file node with the leftover, or **finish** the fd. two facts decide which: `res`, and whether a leftover node (`cur`) exists after the buffer nodes are freed.
+`keep_leftover` runs at the end of every call. it ends in one of two outcomes: **keep** the file node holding a non-empty leftover, or **finish** the fd (free the file node and remove it from `file_lst`). `get_next_line` sets `res` to -1 before calling it when `build_line` returned `NULL`.
 
 | `res` | chain at cleanup | example | returns | file node after |
 |---|---|---|---|---|
-| 1 | `F -> buffers... -> L` | `ab\ncd`, call 1 | the line | keep: `F(L's string)`, `next_buffer` NULL |
-| 1 | `F -> L` (no buffer nodes, F already held a `\n`) | `ab\ncd\n` with a large buffer, call 2 | the line | keep |
-| 0 | `F -> buffers... -> L("")` | `abc`, call 1 | `"abc"` | keep: `F("")` |
+| 1 | `F -> buffers... -> L("cd")` | `ab\ncd`, call 1 | the line | keep: `F("cd")` |
+| 1 | `F("cd\nef") -> L("ef")` (no buffer nodes, F already held a `\n`) | `ab\ncd\nef` with a large buffer, call 2 | `"cd\n"` | keep: `F("ef")` |
+| 1 | `F -> buffers... -> L("")` | `ab\n`, line ends exactly at the end of the read | the line | finish, recreated on the next call |
+| 0 | `F -> buffers... -> L("")` | `abc`, call 1 | `"abc"` | finish |
 | 0 | `F` alone | call after the last line, or empty file | `NULL` | finish |
-| -1 | `F` alone, or `F -> buffers...` | `read` or `malloc` error | `NULL` | finish |
-| any | copy of the leftover fails during keep | out of memory | `NULL` (line freed) | finish |
+| -1 | `F` alone, or `F -> buffers...` | `read` or `malloc` error, or `build_line` failed | `NULL` | finish |
 
-`F` is the file node, buffer nodes are the nodes made by each `read()`, `L` is the leftover node made by `build_line`.
+`F` is the file node, buffer nodes are the nodes made by each `read()`, `L` (`last`) is the leftover node made by `build_line`.
 
 ```
-                 keep_leftover
-                        |
-        free every node between F and the last one
-                        |
-              res >= 0 and cur exists?
-                 /                  \
-               yes                   no
-                |                     |
-              KEEP                  FINISH
-   F->str = leftover         free F's whole chain,
-   F->next_buffer = NULL     free F,
-   free L's node             unlink F from the next_file list
-                |
-       did the copy fail? -- yes --> FINISH
+keep_leftover(file_lst, file, res, prev)
+|
++-- free every buffer node between F and last (str, then node)
++-- free F->str, F->str = NULL, F->next_buffer = NULL
+|
++-- res == 1 and last exists and last->str is not empty?
+|   +-- yes --> F->str = last->str          (the string moves, no copy)
+|   +-- no  --> free last->str
++-- free last (the node only)
+|
++-- F->str set?
+    +-- yes --> KEEP, return
+    +-- no  --> FINISH
+                +-- prev is NULL (F is the head)? --> file_lst = F->next_file
+                +-- otherwise                     --> prev->next_file = F->next_file
+                +-- free F, file = NULL
 ```
 
-finish needs the link that points at `F` (`files` itself, or the previous file node's `next_file`) to unlink it.
+finish needs the link that points at `F`: `file_lst` itself when `F` is the head, or the previous file node's `next_file` otherwise. `get_file_safe` records the previous file node in `prev` while it walks the list.
 
 ## Resources
 
