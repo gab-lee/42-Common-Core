@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 13:23:26 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/18 12:26:11 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/18 12:30:25 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,11 @@ char	*get_next_line(const int fd)
 	line = make_line(&temp, res);
 	if (clear_used_nodes(&temp, res))
 		return (line);
-	else 
-		//clear used nodes failed;
+	else
+	{
+		clear_used_nodes(&temp, -1);
+		return (NULL);
+	}
 }
 
 t_node	*find_file_safe(const int fd, t_node **fd_nodes)
