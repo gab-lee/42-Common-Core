@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 13:23:26 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/18 11:21:08 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/18 11:25:05 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ char	*get_next_line(const int fd)
 	int				res;
 
 	if (fd < 0)
+		return (NULL);
+	if (BUFFER_SIZE <= 0)
 		return (NULL);
 	temp = find_file_safe(fd, &fd_nodes);
 	res = read_until_newline (&temp);
