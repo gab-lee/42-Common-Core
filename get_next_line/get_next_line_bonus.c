@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 13:23:26 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/18 11:57:54 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/18 12:00:53 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*get_next_line(const int fd)
 	if (BUFFER_SIZE <= 0)
 		return (NULL);
 	temp = find_file_safe(fd, &fd_nodes);
-	res = read_until_newline (&temp);
+	res = read_until_newline_safe (&temp);
 	line = make_line(&temp, res);
 	clear_used_nodes(&temp, res);
 	return (line);
@@ -58,7 +58,7 @@ t_node	*find_file_safe(const int fd, t_node **fd_nodes)
 	}
 }
 
-int	read_until_newline(t_node **fd_node)
+int	read_until_newline_safe(t_node **fd_node)
 {
 	int		res;
 	char	*buffer;
@@ -74,7 +74,7 @@ int	read_until_newline(t_node **fd_node)
 	{
 		buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
 		if (!buffer)
-			res = -1;
+			return (-1);
 		res = read(cur->fd, buffer, BUFFER_SIZE);
 		if (res == -1 || res == 0)
 		{
@@ -118,6 +118,11 @@ char	*make_line(t_node **file_node, int res)
 			cur = cur->next;
 	}
 	new_node = create_node_safe(cur->fd, &(cur->line[i]));
+	if (!new_node)
+	{
+		free(line);
+		return (NULL);
+	}
 	cur->next = new_node;
 	return (line);
 }
