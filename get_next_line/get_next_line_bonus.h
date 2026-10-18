@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 13:23:31 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/18 12:25:37 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/18 22:37:20 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ typedef	struct	s_node
 }	t_node;
 
 char	*get_next_line(const int fd);
-t_node	*find_file_safe(const int fd, t_node **fd_nodes);
+t_node	*find_file_safe(const int fd, t_node **fd_nodes, t_node **prev);
 int		read_until_newline_safe(t_node **fd_node);
 char	*make_line(t_node **file_node, int res);
-int	clear_used_nodes(t_node **fd_node,int res);
+int	clear_used_nodes(t_node **fd_node,int res, t_node **prev);
 char	*make_empty_line(t_node **file_node, int *len, int res);
 t_node	*create_node_safe(const int fd, char *line);
 char	*ft_strchr_safe(const char *str, int c);

@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 13:23:26 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/18 22:21:06 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/18 22:37:11 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,28 @@ char	*get_next_line(const int fd)
 {
 	static t_node	*fd_nodes;
 	t_node			*temp;
+	t_node			*prev;
 	char			*line;
 	int				res;
 
+	prev = NULL;
 	if (fd < 0)
 		return (NULL);
 	if (BUFFER_SIZE <= 0)
 		return (NULL);
-	temp = find_file_safe(fd, &fd_nodes);
+	temp = find_file_safe(fd, &fd_nodes, &prev);
 	res = read_until_newline_safe (&temp);
 	line = make_line(&temp, res);
-	if (clear_used_nodes(&temp, res))
+	if (clear_used_nodes(&temp, res, &prev))
 		return (line);
 	else
 	{
-		clear_used_nodes(&temp, -1);
+		clear_used_nodes(&temp, -1, &prev);
 		return (NULL);
 	}
 }
 
-t_node	*find_file_safe(const int fd, t_node **fd_nodes)
+t_node	*find_file_safe(const int fd, t_node **fd_nodes, t_node **prev)
 {
 	t_node	*cur;
 	t_node	*new_node;
@@ -51,6 +53,7 @@ t_node	*find_file_safe(const int fd, t_node **fd_nodes)
 	{
 		if (cur->fd == fd)
 			return (cur);
+		*prev = cur;
 		cur = cur->next_fd;
 	}
 	if (cur->fd == fd)
@@ -59,6 +62,7 @@ t_node	*find_file_safe(const int fd, t_node **fd_nodes)
 	{
 		new_node = create_node_safe (fd, NULL);
 		cur->next_fd = new_node;
+		*prev = cur;
 		return (new_node);
 	}
 }
@@ -132,7 +136,7 @@ char	*make_line(t_node **file_node, int res)
 	return (line);
 }
 
-int	clear_used_nodes(t_node **fd_node, int res)
+int	clear_used_nodes(t_node **fd_node, int res, t_node **prev)
 {
 	t_node	*temp;
 	t_node	*cur;
@@ -148,7 +152,7 @@ int	clear_used_nodes(t_node **fd_node, int res)
 		cur = temp;
 	}
 	free((*fd_node)->line);
-	if (res == 1)
+	if (res == 1 || (res == 0 && cur && cur->line))
 	{
 		(*fd_node)->line = ft_strjoin_safe("", cur->line);
 		free(cur->line);
