@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 16:11:58 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/17 09:59:46 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/18 10:55:40 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ char	*make_empty_line(t_node **file_node)
 	len = 0;
 	while (cur->next)
 	{
-		len += strlen_safe(cur->line);
+		len += ft_strlen_safe(cur->line);
 		cur = cur ->next;
 	}
-	len += (ft_strchr_safe(cur->line, '\n') - cur->line);
+	len += (unsigned int)(ft_strchr_safe(cur->line, '\n') - cur->line) + 1;
 	line = malloc((len +1) * sizeof(char));
 	if (!line)
 		return (NULL);
@@ -65,7 +65,7 @@ char	*ft_strchr_safe(const char *str, int c)
 	return (NULL);
 }
 
-int	strlen_safe(char *str)
+int	ft_strlen_safe(char *str)
 {
 	int	len;
 

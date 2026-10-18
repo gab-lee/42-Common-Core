@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 13:23:31 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/17 09:45:50 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/18 10:46:24 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	clear_used_nodes(t_node **fd_node,int res);
 char	*make_empty_line(t_node **file_node);
 t_node	*create_node(const int fd, char *line);
 char	*ft_strchr_safe(const char *str, int c);
-int		strlen_safe(char *str);
+int		ft_strlen_safe(char *str);
 char	*ft_strjoin_safe(char *s1, char *s2);
 
 
