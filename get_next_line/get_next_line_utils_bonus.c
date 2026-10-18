@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 16:11:58 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/18 23:31:39 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/18 23:33:14 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_node	*new_node(const int fd, char *str)
 	if (!node)
 		return (NULL);
 	node->fd = fd;
-	len = ft_strchr_safe(str);
+	len = ft_strlen_safe(str);
 	node->str = malloc((len +1) * sizeof(char));
 	if (!node->str)
 	{
