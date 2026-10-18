@@ -6,12 +6,11 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 16:11:58 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/18 11:54:40 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/18 23:31:39 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
-
 
 char	*alloc_line(t_node **file, int *len, int res)
 {
@@ -41,17 +40,24 @@ char	*alloc_line(t_node **file, int *len, int res)
 t_node	*new_node(const int fd, char *str)
 {
 	t_node	*node;
+	int		len;
+	int		i;
 
+	i = -1;
 	node = malloc(1 * sizeof(t_node));
 	if (!node)
 		return (NULL);
 	node->fd = fd;
-	node->str = ft_strjoin_safe("", str);
+	len = ft_strchr_safe(str);
+	node->str = malloc((len +1) * sizeof(char));
 	if (!node->str)
 	{
 		free(node);
 		return (NULL);
 	}
+	while (++i, str[i])
+		node->str[i] = str[i];
+	node->str[i] = '\0';
 	node->next_file = NULL;
 	node->next_buffer = NULL;
 	return (node);
@@ -84,25 +90,4 @@ int	ft_strlen_safe(char *str)
 	while (++len, str[len])
 		;
 	return (len);
-}
-
-char	*ft_strjoin_safe(char *s1, char *s2)
-{
-	char	*str;
-	int		i;
-
-	i = 0;
-	if (!s1)
-		s1 = "";
-	if (!s2)
-		s2 = "";
-	str = malloc((ft_strlen_safe(s1) + ft_strlen_safe(s2) + 1) * sizeof(char));
-	if (!str)
-		return (NULL);
-	while (*s1)
-		str[i++] = *(s1++);
-	while (*s2)
-		str[i++] = *(s2++);
-	str[i] = '\0';
-	return (str);
 }
