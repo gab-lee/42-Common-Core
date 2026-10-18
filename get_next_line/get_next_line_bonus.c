@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 13:23:26 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/18 23:57:47 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/19 00:00:00 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,4 +140,5 @@ void	keep_leftover(t_node **file_lst, t_node **file, int res, t_node **prev)
 	else if (last)
 		free(last->str);
 	free(last);
+	remove_file(file_lst, file, prev)
 }

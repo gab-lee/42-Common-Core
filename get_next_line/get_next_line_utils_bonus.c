@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 16:11:58 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/18 23:58:35 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/19 00:00:07 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ t_node	*new_node(const int fd, char *str)
 	return (node);
 }
 
-void	remove_file(t_node **file_lst, t_node **file, int res, t_node **prev)
+void	remove_file(t_node **file_lst, t_node **file, t_node **prev)
 {
 	if ((*file)->str)
 		return ;
