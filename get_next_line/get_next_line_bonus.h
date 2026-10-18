@@ -29,10 +29,10 @@ typedef	struct	s_node
 }	t_node;
 
 char	*get_next_line(const int fd);
-t_node	*get_file_safe(const int fd, t_node **files, t_node **prev);
+t_node	*get_file_safe(const int fd, t_node **file_lst, t_node **prev);
 int		read_and_create_safe(t_node **file);
 char	*build_line(t_node **file, int res);
-int	keep_leftover(t_node **file,int res, t_node **prev);
+void	keep_leftover(t_node **file_lst, t_node **file, int res, t_node **prev);
 char	*alloc_line(t_node **file, int *len, int res);
 t_node	*new_node(const int fd, char *str);
 char	*ft_strchr_safe(const char *str, int c);

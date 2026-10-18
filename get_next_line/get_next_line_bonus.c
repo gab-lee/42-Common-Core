@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 13:23:26 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/18 23:04:16 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/18 23:21:31 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*get_next_line(const int fd)
 {
-	static t_node	*files;
+	static t_node	*file_lst;
 	t_node			*file;
 	t_node			*prev;
 	char			*line;
@@ -25,30 +25,27 @@ char	*get_next_line(const int fd)
 		return (NULL);
 	if (BUFFER_SIZE <= 0)
 		return (NULL);
-	file = get_file_safe(fd, &files, &prev);
+	file = get_file_safe(fd, &file_lst, &prev);
 	res = read_and_create_safe (&file);
 	line = build_line(&file, res);
-	if (keep_leftover(&file, res, &prev))
-		return (line);
-	else
-	{
-		keep_leftover(&file, -1, &prev);
-		return (NULL);
-	}
+	if (!line)
+		res = -1;
+	keep_leftover(&file_lst, &file, res, &prev);
+	return (line);
 }
 
-t_node	*get_file_safe(const int fd, t_node **files, t_node **prev)
+t_node	*get_file_safe(const int fd, t_node **file_lst, t_node **prev)
 {
 	t_node	*cur;
 	t_node	*node;
 
-	if (!files || !*files)
+	if (!file_lst || !*file_lst)
 	{
 		node = new_node (fd, NULL);
-		*files = node;
+		*file_lst = node;
 		return (node);
 	}
-	cur = *files;
+	cur = *file_lst;
 	while (cur->next_file)
 	{
 		if (cur->fd == fd)
@@ -129,33 +126,36 @@ char	*build_line(t_node **file, int res)
 	return (NULL);
 }
 
-int	keep_leftover(t_node **file, int res, t_node **prev)
+void	keep_leftover(t_node **file_lst, t_node **file, int res, t_node **prev)
 {
+	t_node	*last;
 	t_node	*temp;
-	t_node	*cur;
 
 	if (!file || !*file)
-		return (1);
-	cur = (*file)->next_buffer;
-	while (cur && cur->next_buffer)
+		return ;
+	last = (*file)->next_buffer;
+	while (last && last->next_buffer)
 	{
-		temp = cur->next_buffer;
-		free(cur->str);
-		free(cur);
-		cur = temp;
+		temp = last->next_buffer;
+		free(last->str);
+		free(last);
+		last = temp;
 	}
 	free((*file)->str);
-	if (res == 1 || (res == 0 && cur && cur->str))
-	{
-		(*file)->str = ft_strjoin_safe("", cur->str);
-		free(cur->str);
-		if (!(*file)->str)
-			return (0);	
-	}
-	if (res == -1 || (res == 0 && (!cur || !(cur->str))))
+	(*file)->str = NULL;
+	(*file)->next_buffer = NULL;
+	if (res == 1 && last && last->str[0])
+		(*file)->str = last->str;
+	else if (last)
+		free(last->str);
+	free(last);
+	if ((*file)->str)
+		return ;
+	if (!*prev)
+		*file_lst = (*file)->next_file;
+	else
 		(*prev)->next_file = (*file)->next_file;
-	free(cur);
 	free(*file);
-	return (1);
+	*file = NULL;
 }
 
