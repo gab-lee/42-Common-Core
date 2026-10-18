@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 16:11:58 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/18 23:35:49 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/18 23:39:57 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,13 @@ t_node	*new_node(const int fd, char *str)
 		return (NULL);
 	node->fd = fd;
 	len = ft_strlen_safe(str);
-	if (len == 0)
-		return (NULL);
 	node->str = malloc((len +1) * sizeof(char));
 	if (!node->str)
 	{
 		free(node);
 		return (NULL);
 	}
-	while (++i, str[i])
+	while (++i, str && str[i])
 		node->str[i] = str[i];
 	node->str[i] = '\0';
 	node->next_file = NULL;

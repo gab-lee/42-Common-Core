@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 13:23:26 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/18 23:21:31 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/18 23:41:16 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,10 @@ t_node	*get_file_safe(const int fd, t_node **file_lst, t_node **prev)
 	}
 	if (cur->fd == fd)
 		return (cur);
-	else
-	{
-		node = new_node (fd, NULL);
-		cur->next_file = node;
-		*prev = cur;
-		return (node);
-	}
+	node = new_node (fd, NULL);
+	cur->next_file = node;
+	*prev = cur;
+	return (node);
 }
 
 int	read_and_create_safe(t_node **file)
@@ -158,4 +155,3 @@ void	keep_leftover(t_node **file_lst, t_node **file, int res, t_node **prev)
 	free(*file);
 	*file = NULL;
 }
-
