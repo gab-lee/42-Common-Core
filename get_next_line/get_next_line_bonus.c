@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 13:23:26 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/18 11:29:14 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/18 11:32:05 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ char	*make_line(t_node **file_node, int res)
 	cur = *file_node;
 	j = 0;
 	line = make_empty_line(file_node, &len, res);
-	if (!line)
+	if (!line || !len)
 		return (NULL);
 	while (j < len)
 	{
