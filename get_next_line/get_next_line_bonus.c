@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 13:23:26 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/18 22:39:51 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/18 23:04:16 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,35 +105,28 @@ char	*build_line(t_node **file, int res)
 {
 	char	*line;
 	t_node	*cur;
-	t_node	*node;
 	int		i;
 	int		j;
 	int		len;
 
 	cur = *file;
+	i = 0;
 	j = 0;
 	line = alloc_line(file, &len, res);
-	if (!line || !len)
+	while (line && j < len)
 	{
-		free(line);
-		return (NULL);
-	}
-	while (j < len)
-	{
-		i = -1;
-		while (++i, j < len && cur->str[i])
-			line[j++] = cur->str[i];
+		i = 0;
+		while (j < len && cur->str[i])
+			line[j++] = cur->str[i++];
 		if (j < len)
 			cur = cur->next_buffer;
 	}
-	node = new_node(cur->fd, &(cur->str[i]));
-	if (!node)
-	{
-		free(line);
-		return (NULL);
-	}
-	cur->next_buffer = node;
-	return (line);
+	if (line && len)
+		cur->next_buffer = new_node(cur->fd, &(cur->str[i]));
+	if (line && len && cur->next_buffer)
+		return (line);
+	free(line);
+	return (NULL);
 }
 
 int	keep_leftover(t_node **file, int res, t_node **prev)
