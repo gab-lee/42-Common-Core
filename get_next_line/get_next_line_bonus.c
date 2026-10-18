@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 13:23:26 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/18 11:25:05 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/18 11:27:09 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ char	*make_line(t_node **file_node, int res)
 	while (j < len)
 	{
 		i = -1;
-		while (++i, j < len)
+		while (++i, j < len && cur->line[i])
 			line[j++] = cur->line[i];
 		cur = cur->next;
 	}
