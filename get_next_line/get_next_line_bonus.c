@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 13:23:26 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/18 11:49:46 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/18 11:57:54 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ int	read_until_newline(t_node **fd_node)
 	t_node	*new_node;
 
 	cur = *fd_node;
+	if (!cur)
+		return (-1);
 	while (cur->next)
 		cur = cur->next;
 	while (!ft_strchr_safe(cur->line, '\n'))
