@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 13:23:26 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/13 23:17:39 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/17 09:54:56 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,10 @@ int	read_until_newline(t_node **fd_node)
 		buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
 		res = read(cur->fd, buffer, BUFFER_SIZE);
 		if (res == -1 || res == 0)
+		{
+			free(buffer);
 			return (res);
+		}
 		buffer[res] = '\0';
 		new_node = create_node(cur->fd, buffer);
 		free(buffer);

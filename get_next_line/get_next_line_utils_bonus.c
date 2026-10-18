@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 16:11:58 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/17 09:58:25 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/17 09:59:46 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*make_empty_line(t_node **file_node)
 		cur = cur ->next;
 	}
 	len += (ft_strchr_safe(cur->line, '\n') - cur->line);
-	line = malloc((len +1 ) * sizeof(char));
+	line = malloc((len +1) * sizeof(char));
 	if (!line)
 		return (NULL);
 	line[len] = '\0';
