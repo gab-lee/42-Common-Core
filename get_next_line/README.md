@@ -185,6 +185,40 @@ get_next_line(fd)
     +-- return line
 ```
 
+#### cleanup cases
+
+every call ends in one of two outcomes: **keep** the file node with the leftover, or **finish** the fd. two facts decide which: `res`, and whether a leftover node (`cur`) exists after the chunk nodes are freed.
+
+| `res` | chain at cleanup | example | returns | file node after |
+|---|---|---|---|---|
+| 1 | `F -> chunks... -> L` | `ab\ncd`, call 1 | the line | keep: `F(L's string)`, `next` NULL |
+| 1 | `F -> L` (no chunks, F already held a `\n`) | `ab\ncd\n` with a large buffer, call 2 | the line | keep |
+| 0 | `F -> chunks... -> L("")` | `abc`, call 1 | `"abc"` | keep: `F("")` |
+| 0 | `F` alone | call after the last line, or empty file | `NULL` | finish |
+| -1 | `F` alone, or `F -> chunks...` | `read` or `malloc` error | `NULL` | finish |
+| any | copy of the leftover fails during keep | out of memory | `NULL` (line freed) | finish |
+
+`F` is the file node, chunks are the nodes made by each `read()`, `L` is the leftover node made by `make_line`.
+
+```
+                 clear_used_nodes
+                        |
+        free every node between F and the last one
+                        |
+              res >= 0 and cur exists?
+                 /                  \
+               yes                   no
+                |                     |
+              KEEP                  FINISH
+   F->line = leftover        free F's whole chain,
+   F->next = NULL            free F,
+   free L's node             unlink F from the next_fd list
+                |
+       did the copy fail? -- yes --> FINISH
+```
+
+finish needs the link that points at `F` (`stash` itself, or the previous file node's `next_fd`) to unlink it.
+
 ## Resources
 
 - [static variables in C](https://en.cppreference.com/w/c/language/storage_duration), storage duration, the concept the subject points to
