@@ -4,25 +4,25 @@
 
 ## Description
 
+### Features
+
+#### Mandatory conversions
+
+#### Bonus
+
+### Algorithm and data structure
+
+#### Chosen approach
+
+#### Justification
+
+### Technical choices
+
 ## Instructions
 
 ### Compilation
 
 ### Usage
-
-## Features
-
-### Mandatory conversions
-
-### Bonus
-
-## Algorithm and data structure
-
-### Chosen approach
-
-### Justification
-
-## Technical choices
 
 ## Resources
 
