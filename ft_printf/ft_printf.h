@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 22:22:29 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/20 23:17:42 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/20 23:20:31 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,6 @@
 
 int	ft_printf(const char *, ...);
 void put_and_count(unsigned char c, int *bytes_written);
+void handle_conversion(void);
 
 #endif
