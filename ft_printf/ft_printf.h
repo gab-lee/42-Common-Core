@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 22:22:29 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/21 09:31:16 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/21 09:32:04 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ typedef void (*t_modifier)(char *str);
 int		ft_printf(const char *, ...);
 void 	put_and_count(unsigned char c, int *bytes_written);
 void	handle_conversion(const char *str, int *i, int *bytes_written);
-cspdiuxX
 void	*handle_c(char *str);
 void	*handle_s(char *str);
 void	*handle_p(char *str);
