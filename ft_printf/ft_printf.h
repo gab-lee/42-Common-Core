@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 22:22:29 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/21 10:51:36 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/21 15:28:04 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@
 typedef void (*t_handler)(char *str, va_list *args, int *bytes_written);
 typedef void (*t_modifier)(char *str);
 
-int		ft_printf(const char *, ...);
-void 	put_and_count(unsigned char c, int *bytes_written);
+int		ft_printf(const char *str, ...);
+void	put_char_count(char c, int *bytes_written);
+void	put_str_count(char *s, int *bytes_written);
 void	handle_conversion(const char *str, int *i, int *bytes_written, va_list *args);
 void	handle_c(char *str, va_list *args, int *bytes_written);
 void	handle_s(char *str, va_list *args, int *bytes_written);

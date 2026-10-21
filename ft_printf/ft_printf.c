@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 22:22:32 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/21 10:51:15 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/21 15:55:34 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_printf(const char *str, ...)
 		if (str[i] == '%')
 			handle_conversion(str, &i, &bytes_written, &args);
 		else
-			put_and_count(str[i], &bytes_written);
+			put_char_count(str[i], &bytes_written);
 	}
 	va_end(args);
 	return (bytes_written);

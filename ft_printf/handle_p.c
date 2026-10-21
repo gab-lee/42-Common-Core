@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 23:05:54 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/21 09:42:26 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/21 15:43:41 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,7 @@
 
 void	handle_p(char *str, va_list *args, int *bytes_written)
 {
-	write(1, "?", 1);
+	char	*formatted_str;
+
+	put_str_count(formatted_str, bytes_written);
 }
