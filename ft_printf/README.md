@@ -20,8 +20,6 @@ int	ft_printf(const char *str, ...);
 | allowed | `malloc`, `free`, `write`, `va_start`, `va_arg`, `va_copy`, `va_end` |
 | forbidden | `printf` and the rest of the libc `printf` family |
 
-[github page](https://github.com/gab-lee/42-Common-Core)
-
 ### Features
 
 #### Mandatory conversions
