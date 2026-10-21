@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-void	handle_upper_x(char *str, va_list *args, int *bytes_written)
+void	handle_upper_x(char *str, va_list *args, int *bytes_written, void (*flags)(char *))
 {
 	unsigned int	x;
 	char			*formatted_str;

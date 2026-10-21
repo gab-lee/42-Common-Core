@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 23:06:05 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/21 15:47:54 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/21 23:02:57 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	handle_conversion(const char *str, int *i, int *bytes_written, va_list *arg
 	char		*flags;
 	char		*formatted_str;
 	t_handler	h;
+	t_modifier	m;
 
 	flags = NULL;
 	formatted_str = NULL;
@@ -28,7 +29,8 @@ void	handle_conversion(const char *str, int *i, int *bytes_written, va_list *arg
 		if (ft_strchr(CONVERSIONS, (str[*i])))
 		{
 			h = call_handle(str[*i]);
-			h((char *)str, args, bytes_written);
+			m = call_modifiers(flags);
+			h((char *)str, args, bytes_written, flags);
 			break ;
 		}
 		flags = ft_strcat_char(flags, str[*i]);
@@ -54,3 +56,4 @@ static t_handler	call_handle(char c)
 		return (handle_upper_x);
 	return (NULL);
 }
+

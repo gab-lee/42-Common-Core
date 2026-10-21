@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-void	handle_percent(char *str, va_list *args, int *bytes_written)
+void	handle_percent(char *str, va_list *args, int *bytes_written, void (*flags)(char *))
 {
 	(void) args;
 	put_char_count('%', bytes_written);

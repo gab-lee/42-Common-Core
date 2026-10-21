@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-void	handle_x(char *str, va_list *args, int *bytes_written)
+void	handle_x(char *str, va_list *args, int *bytes_written, void (*flags)(char *))
 {
 	char	*formatted_str;
 	unsigned int x;

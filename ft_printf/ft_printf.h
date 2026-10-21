@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 22:22:29 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/21 22:32:23 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/21 23:07:15 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,29 @@
 # define CONVERSIONS "cspdiuxX%"
 # define HEXADECIMAL "0123456789abcdef"
 
-typedef void (*t_handler)(char *str, va_list *args, int *bytes_written);
+typedef void (*t_handler)(char *str, va_list *args, int *bytes_written, void (*flags)(char *));
 typedef void (*t_modifier)(char *str);
 
 int		ft_printf(const char *str, ...);
 void	put_char_count(char c, int *bytes_written);
 void	put_str_count(char *s, int *bytes_written);
 void	handle_conversion(const char *str, int *i, int *bytes_written, va_list *args);
-void	handle_c(char *str, va_list *args, int *bytes_written);
-void	handle_s(char *str, va_list *args, int *bytes_written);
-void	handle_p(char *str, va_list *args, int *bytes_written);
-void	handle_d_or_i(char *str, va_list *args, int *bytes_written);
-void	handle_u(char *str, va_list *args, int *bytes_written);
-void	handle_x(char *str, va_list *args, int *bytes_written);
-void	handle_upper_x(char *str, va_list *args, int *bytes_written);
+void	handle_c(char *str, va_list *args, int *bytes_written, void (*flags)(char *));
+void	handle_s(char *str, va_list *args, int *bytes_written, void (*flags)(char *));
+void	handle_p(char *str, va_list *args, int *bytes_written, void (*flags)(char *));
+void	handle_d_or_i(char *str, va_list *args, int *bytes_written, void (*flags)(char *));
+void	handle_u(char *str, va_list *args, int *bytes_written, void (*flags)(char *));
+void	handle_x(char *str, va_list *args, int *bytes_written, void (*flags)(char *));
+void	handle_upper_x(char *str, va_list *args, int *bytes_written, void (*flags)(char *));
 //utility files
+t_modifier *nothing(char *str);
+t_modifier handle_width(char *str);
+t_modifier handle_dot(char *str);
+t_modifier handle_hashtag(char *str);
+t_modifier handle_zero(char *str);
+t_modifier handle_minus(char *str);
+t_modifier handle_plus(char *str);
+t_modifier handle_space(char *str);
 char	*ft_strchr(const char *str, int c);
 char	*ft_strcat_char(char *str, char c);
 size_t	ft_strlen_safe(const char *str);

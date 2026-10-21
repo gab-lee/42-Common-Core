@@ -16,7 +16,7 @@ static char	*ft_itoa(int n);
 static int	ft_intsize(int n, int *sign);
 static void	ft_fill_str(int n, char *str, int sign);
 
-void	handle_d_or_i(char *str, va_list *args, int *bytes_written)
+void	handle_d_or_i(char *str, va_list *args, int *bytes_written, void (*flags)(char *))
 {
 	int		d;
 	char	*s;

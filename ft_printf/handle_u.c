@@ -16,7 +16,7 @@ static char	*uitoa(unsigned int n);
 static int	ft_uintsize(unsigned int n);
 static void	ft_fill_str(unsigned int n, char *str);
 
-void	handle_u(char *str, va_list *args, int *bytes_written)
+void	handle_u(char *str, va_list *args, int *bytes_written, void (*flags)(char *))
 {
 	unsigned int	u;
 	char			*s;
