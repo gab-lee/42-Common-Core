@@ -6,26 +6,50 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 23:06:05 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/21 00:00:47 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/21 09:50:01 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include <stdio.h>
 
+static t_handler	call_handle(char c);
+
 void	handle_conversion(const char *str, int *i, int *bytes_written)
 {
 	char	*flags;
+	t_handler h;
 
 	flags = NULL;
+	h = NULL;
 	while (str[(*i)++])
 	{
 		if (ft_strchr(CONVERSIONS, (str[*i])))
 		{
-			write (1, "!", 1);
+			h = call_handle(str[*i]);
+			h((char *)str);
 			break ;
 		}
 		flags = ft_strcat_char(flags, str[*i]);
 	}
 	printf("=flags: %s=", flags);
+}
+
+static t_handler	call_handle(char c)
+{
+	if (c == 'c')
+		return (handle_c);
+	if (c == 's')
+		return (handle_s);
+	if (c == 'p')
+		return (handle_p);
+	if (c == 'd' || c == 'i')
+		return (handle_d_or_i);
+	if (c == 'u')
+		return (handle_u);
+	if (c == 'x')
+		return (handle_x);
+	if (c == 'X')
+		return (handle_upper_x);
+	return (NULL);
 }

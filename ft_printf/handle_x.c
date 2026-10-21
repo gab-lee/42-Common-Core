@@ -6,7 +6,13 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 23:05:41 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/20 23:05:42 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/21 09:42:47 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_printf.h"
+
+void	handle_x(char *str)
+{
+	write(1, "?", 1);
+}
