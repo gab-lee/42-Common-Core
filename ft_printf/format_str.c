@@ -13,10 +13,10 @@
 #include "ft_printf.h"
 
 static int	to_upper(int c);
-static int	hexa_len(unsigned int x);
-static void	fill_hexa(char *str, unsigned int x, int idx, int (*f)(int));
+static int	hexa_len(unsigned long x);
+static void	fill_hexa(char *str, unsigned long x, int idx, int (*f)(int));
 
-char	*get_hexadecimal(unsigned int x, int upper)
+char	*get_hexadecimal(unsigned long x, int upper)
 {
 	char	*formatted_str;
 	int		len;
@@ -33,7 +33,7 @@ char	*get_hexadecimal(unsigned int x, int upper)
 	return (formatted_str);
 }
 
-static int	hexa_len(unsigned int x)
+static int	hexa_len(unsigned long x)
 {
 	int	len;
 
@@ -46,7 +46,7 @@ static int	hexa_len(unsigned int x)
 	return (len);
 }
 
-static void	fill_hexa(char *str, unsigned int x, int idx, int (*f)(int))
+static void	fill_hexa(char *str, unsigned long x, int idx, int (*f)(int))
 {
 	if (f)
 		str[idx] = f(HEXADECIMAL[x % 16]);

@@ -40,6 +40,6 @@ char	*ft_strcat_char(char *str, char c);
 size_t	ft_strlen_safe(const char *str);
 static char	*ft_itoa(int n);
 //formatstr
-char	*get_hexadecimal(unsigned int x, int upper);
+char	*get_hexadecimal(unsigned long x, int upper);
 
 #endif
