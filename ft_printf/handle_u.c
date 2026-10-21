@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-void	handle_u(char *str)
+void	handle_u(char *str, va_list *args, int *bytes_written)
 {
 	write(1, "?", 1);
 }

@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-void	handle_d_or_i(char *str)
+void	handle_d_or_i(char *str, va_list *args, int *bytes_written)
 {
 	write(1, "?", 1);
 }

@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 22:22:29 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/21 09:32:04 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/21 10:51:36 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,19 @@
 
 # define CONVERSIONS "cspdiuxX%"
 
-typedef void (*t_handler)(char *str);
+typedef void (*t_handler)(char *str, va_list *args, int *bytes_written);
 typedef void (*t_modifier)(char *str);
 
 int		ft_printf(const char *, ...);
 void 	put_and_count(unsigned char c, int *bytes_written);
-void	handle_conversion(const char *str, int *i, int *bytes_written);
-void	handle_c(char *str);
-void	handle_s(char *str);
-void	handle_p(char *str);
-void	handle_d_or_i(char *str);
-void	handle_u(char *str);
-void	handle_x(char *str);
-void	handle_upper_x(char *str);
+void	handle_conversion(const char *str, int *i, int *bytes_written, va_list *args);
+void	handle_c(char *str, va_list *args, int *bytes_written);
+void	handle_s(char *str, va_list *args, int *bytes_written);
+void	handle_p(char *str, va_list *args, int *bytes_written);
+void	handle_d_or_i(char *str, va_list *args, int *bytes_written);
+void	handle_u(char *str, va_list *args, int *bytes_written);
+void	handle_x(char *str, va_list *args, int *bytes_written);
+void	handle_upper_x(char *str, va_list *args, int *bytes_written);
 //utility files
 char	*ft_strchr(const char *str, int c);
 char	*ft_strcat_char(char *str, char c);
