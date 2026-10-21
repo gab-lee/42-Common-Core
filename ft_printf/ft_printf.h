@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 22:22:29 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/20 23:55:49 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/21 09:31:16 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,20 @@
 
 # define CONVERSIONS "cspdiuxX%"
 
+typedef void (*t_handler)(char *str);
+typedef void (*t_modifier)(char *str);
+
 int		ft_printf(const char *, ...);
 void 	put_and_count(unsigned char c, int *bytes_written);
 void	handle_conversion(const char *str, int *i, int *bytes_written);
+cspdiuxX
+void	*handle_c(char *str);
+void	*handle_s(char *str);
+void	*handle_p(char *str);
+void	*handle_d_or_i(char *str);
+void	*handle_u(char *str);
+void	*handle_x(char *str);
+void	*handle_upper_x(char *str);
 //utility files
 char	*ft_strchr(const char *str, int c);
 char	*ft_strcat_char(char *str, char c);
