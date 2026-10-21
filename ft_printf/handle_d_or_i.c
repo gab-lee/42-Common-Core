@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 23:06:03 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/21 15:55:17 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/21 22:34:35 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	handle_d_or_i(char *str, va_list *args, int *bytes_written)
 	int		i;
 	char	*formatted_str;
 
-	i = -1;
 	d = va_arg(*args, int);
 	s = ft_itoa(d);
 	put_str_count(s, bytes_written);

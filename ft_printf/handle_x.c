@@ -18,6 +18,6 @@ void	handle_x(char *str, va_list *args, int *bytes_written)
 	unsigned int x;
 	
 	x = va_arg(*args, unsigned int);
-	formatted_str = get_hexadecimal(x);
+	formatted_str = get_hexadecimal(x, 0);
 	put_str_count(formatted_str, bytes_written);
 }

@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 22:22:29 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/21 16:32:04 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/21 22:32:23 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ void	handle_upper_x(char *str, va_list *args, int *bytes_written);
 char	*ft_strchr(const char *str, int c);
 char	*ft_strcat_char(char *str, char c);
 size_t	ft_strlen_safe(const char *str);
+static char	*ft_itoa(int n);
 //formatstr
-char *get_hexadecimal(unsigned int x);
-int	ft_toupper(int c);
+char	*get_hexadecimal(unsigned int x, int upper);
 
 #endif
