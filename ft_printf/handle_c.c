@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 23:06:06 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/21 11:03:46 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/21 15:44:26 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	handle_c(char *str, va_list *args, int *bytes_written)
 {
-	int	c;
+	int		c;
 
 	c = va_arg(*args, int);
-	put_and_count((unsigned char)c, bytes_written);
+	put_char_count((char)c, bytes_written);
 }
