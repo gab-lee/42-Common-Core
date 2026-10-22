@@ -22,6 +22,8 @@ char	*get_next_line(const int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	temp = ft_strjoin_safe_and_free(stash, NULL, NULL, NULL);
+	if (!temp)
+		return (NULL);
 	newline = ft_strchr_safe(temp, '\n');
 	if (newline)
 		return (extract_line(&stash, &temp, newline));

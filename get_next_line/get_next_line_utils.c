@@ -49,10 +49,16 @@ int	read_next_line(const int fd, char **stash)
 	buffer[res] = '\0';
 	temp = ft_strjoin_safe_and_free(*stash, NULL, stash, NULL);
 	if (!temp)
+	{
+		free(buffer);
 		return (-1);
+	}
 	*stash = ft_strjoin_safe_and_free(temp, buffer, &temp, &buffer);
 	if (!(*stash))
+	{
+		free_all(&temp, &buffer, NULL);
 		return (-1);
+	}
 	if (ft_strchr_safe(*stash, '\n'))
 		return (1);
 	else
