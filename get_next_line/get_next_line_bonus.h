@@ -30,7 +30,7 @@ typedef struct s_node
 
 char	*get_next_line(const int fd);
 t_node	*get_file_safe(const int fd, t_node **file_lst, t_node **prev);
-int		read_and_create_safe(t_node **file);
+int		read_and_create_safe(t_node *cur);
 char	*build_line(t_node **file, int res);
 void	keep_leftover(t_node **file_lst, t_node **file, int res, t_node **prev);
 char	*alloc_line(t_node **file, int *len, int res);

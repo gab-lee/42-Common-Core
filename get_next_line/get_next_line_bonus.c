@@ -28,7 +28,7 @@ char	*get_next_line(const int fd)
 	file = get_file_safe(fd, &file_lst, &prev);
 	if (!file)
 		return (NULL);
-	res = read_and_create_safe (&file);
+	res = read_and_create_safe(file);
 	line = build_line(&file, res);
 	if (!line)
 		res = -1;
@@ -63,13 +63,11 @@ t_node	*get_file_safe(const int fd, t_node **file_lst, t_node **prev)
 	return (node);
 }
 
-int	read_and_create_safe(t_node **file)
+int	read_and_create_safe(t_node *cur)
 {
 	int		res;
 	char	*buffer;
-	t_node	*cur;
 
-	cur = *file;
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buffer)
 		return (-1);
@@ -82,7 +80,10 @@ int	read_and_create_safe(t_node **file)
 		buffer[res] = '\0';
 		cur->next_buffer = new_node(cur->fd, buffer);
 		if (!(cur->next_buffer))
+		{
+			free(buffer);
 			return (-1);
+		}
 		cur = cur->next_buffer;
 		res = 1;
 	}

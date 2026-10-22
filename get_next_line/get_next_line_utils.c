@@ -48,7 +48,11 @@ int	read_next_line(const int fd, char **stash)
 	}
 	buffer[res] = '\0';
 	temp = ft_strjoin_safe_and_free(*stash, NULL, stash, NULL);
+	if (!temp)
+		return (-1);
 	*stash = ft_strjoin_safe_and_free(temp, buffer, &temp, &buffer);
+	if (!(*stash))
+		return (-1);
 	if (ft_strchr_safe(*stash, '\n'))
 		return (1);
 	else
@@ -67,7 +71,10 @@ char	*ft_strjoin_safe_and_free(char *s1, char *s2, char **fs1, char **fs2)
 		s2 = "";
 	str = malloc((ft_strlen_safe(s1) + ft_strlen_safe(s2) + 1) * sizeof(char));
 	if (!str)
+	{
+		free_all(fs1, fs2, NULL);
 		return (NULL);
+	}
 	while (*s1)
 		str[i++] = *(s1++);
 	while (*s2)
