@@ -12,8 +12,14 @@
 
 #include "ft_printf.h"
 
-void	handle_percent(char *str, va_list *args, int *bytes_written, void (*flags)(char *))
+char	*handle_percent(char *str, va_list *args, int *bytes_written, t_modifier *flags)
 {
+	char	*formatted_str;
+
 	(void) args;
+	formatted_str = malloc(2 * sizeof(char));
+	if (!formatted_str)
+		return (NULL);
 	put_char_count('%', bytes_written);
+	return (formatted_str);
 }

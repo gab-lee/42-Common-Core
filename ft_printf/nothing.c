@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-t_modifier *nothing(char *str)
+char	*nothing(char *str, char handle)
 {
 	return (str);
 }

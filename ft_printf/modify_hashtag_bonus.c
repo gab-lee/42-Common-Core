@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_minus_bonus.c                               :+:      :+:    :+:   */
+/*   modify_hashtag_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,18 @@
 
 #include "ft_printf.h"
 
-t_modifier handle_minus(char *str)
+char	*handle_hashtag(char *str, char handle)
 {
+	char	*fromatted_str;
+	char	hash_str[3];
+
+	hash_str[0] = '0';
+	hash_str[2] = '\0';
+
+	if (!(handle == 'x' || handle == 'X'))
+		return (str);
+	hash_str[1] = handle;
+	fromatted_str = (hash_str, str);
+	free(str);
 	return (str);
 }

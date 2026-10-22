@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_width_bonus.c                               :+:      :+:    :+:   */
+/*   modify_zero_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-t_modifier handle_width(char *str)
+char	*handle_zero(char *str, char handle)
 {
 	return (str);
 }

@@ -12,12 +12,15 @@
 
 #include "ft_printf.h"
 
-void	handle_p(char *str, va_list *args, int *bytes_written, void (*flags)(char *))
+char	*handle_p(char *str, va_list *args, int *bytes_written, t_modifier *flags)
 {
 	char			*formatted_str;
 	unsigned long	p;
 
 	p = va_arg(*args, unsigned long);
 	formatted_str = get_hexadecimal(p,0);
+	if (!formatted_str)
+		return (NULL);
 	put_str_count(formatted_str, bytes_written);
+	return (formatted_str);
 }

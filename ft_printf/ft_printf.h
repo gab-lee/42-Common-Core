@@ -20,34 +20,40 @@
 # define CONVERSIONS "cspdiuxX%"
 # define HEXADECIMAL "0123456789abcdef"
 
-typedef void (*t_handler)(char *str, va_list *args, int *bytes_written, void (*flags)(char *));
-typedef void (*t_modifier)(char *str);
+//types
+typedef char	*(*t_handler)(char *str, va_list *args, int *bytes_written, t_modifier *flags);
+typedef char	*(*t_modifier)(char *str, char handle);
 
 int		ft_printf(const char *str, ...);
 void	put_char_count(char c, int *bytes_written);
 void	put_str_count(char *s, int *bytes_written);
+
+//hanldes
 void	handle_conversion(const char *str, int *i, int *bytes_written, va_list *args);
-void	handle_c(char *str, va_list *args, int *bytes_written, void (*flags)(char *));
-void	handle_s(char *str, va_list *args, int *bytes_written, void (*flags)(char *));
-void	handle_p(char *str, va_list *args, int *bytes_written, void (*flags)(char *));
-void	handle_d_or_i(char *str, va_list *args, int *bytes_written, void (*flags)(char *));
-void	handle_u(char *str, va_list *args, int *bytes_written, void (*flags)(char *));
-void	handle_x(char *str, va_list *args, int *bytes_written, void (*flags)(char *));
-void	handle_upper_x(char *str, va_list *args, int *bytes_written, void (*flags)(char *));
-//utility files
-t_modifier *nothing(char *str);
-t_modifier handle_width(char *str);
-t_modifier handle_dot(char *str);
-t_modifier handle_hashtag(char *str);
-t_modifier handle_zero(char *str);
-t_modifier handle_minus(char *str);
-t_modifier handle_plus(char *str);
-t_modifier handle_space(char *str);
+char	*handle_c(char *str, va_list *args, int *bytes_written, t_modifier *flags);
+char	*handle_s(char *str, va_list *args, int *bytes_written, t_modifier *flags);
+char	*handle_p(char *str, va_list *args, int *bytes_written, t_modifier *flags);
+char	*handle_d_or_i(char *str, va_list *args, int *bytes_written, t_modifier *flags);
+char	*handle_u(char *str, va_list *args, int *bytes_written, t_modifier *flags);
+char	*handle_x(char *str, va_list *args, int *bytes_written, t_modifier *flags);
+char	*handle_upper_x(char *str, va_list *args, int *bytes_written, t_modifier *flags);
+
+//Modifiers
+char	*nothing(char *str, char handle);
+char	*handle_width(char *str, char handle);
+char	*handle_dot(char *str, char handle);
+char	*handle_hashtag(char *str, char handle);
+char	*handle_zero(char *str, char handle);
+char	*handle_minus(char *str, char handle);
+char	*handle_plus(char *str, char handle);
+char	*handle_space(char *str, char handle);
+
 char	*ft_strchr(const char *str, int c);
 char	*ft_strcat_char(char *str, char c);
 size_t	ft_strlen_safe(const char *str);
 static char	*ft_itoa(int n);
 //formatstr
 char	*get_hexadecimal(unsigned long x, int upper);
+char	*ft_strjoin(char const *s1, char const *s2);
 
 #endif

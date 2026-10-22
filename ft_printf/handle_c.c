@@ -12,10 +12,17 @@
 
 #include "ft_printf.h"
 
-void	handle_c(char *str, va_list *args, int *bytes_written, void (*flags)(char *))
+char *handle_c(char *str, va_list *args, int *bytes_written, t_modifier *flags)
 {
 	int		c;
+	char	*formatted_str;
 
 	c = va_arg(*args, int);
-	put_char_count((char)c, bytes_written);
+	formatted_str = malloc(2 * sizeof(char));
+	if (!formatted_str)
+		return (NULL);
+	formatted_str[0] = c;
+	formatted_str[1] = '\0';
+	formatted_str = (*flags)(formatted_str, 'c');
+	return (formatted_str);
 }

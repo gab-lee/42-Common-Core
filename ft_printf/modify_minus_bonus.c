@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_zero_bonus.c                                :+:      :+:    :+:   */
+/*   modify_minus_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-t_modifier handle_zero(char *str)
+char	*handle_minus(char *str, char handle)
 {
 	return (str);
 }

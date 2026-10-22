@@ -16,16 +16,18 @@ static char	*ft_itoa(int n);
 static int	ft_intsize(int n, int *sign);
 static void	ft_fill_str(int n, char *str, int sign);
 
-void	handle_d_or_i(char *str, va_list *args, int *bytes_written, void (*flags)(char *))
+char	*handle_d_or_i(char *str, va_list *args, int *bytes_written, t_modifier *flags)
 {
 	int		d;
-	char	*s;
 	int		i;
 	char	*formatted_str;
 
 	d = va_arg(*args, int);
-	s = ft_itoa(d);
-	put_str_count(s, bytes_written);
+	formatted_str = ft_itoa(d);
+	if (!formatted_str)
+		return (NULL);
+	put_str_count(formatted_str, bytes_written);
+	return (formatted_str);
 }
 
 static char	*ft_itoa(int n)

@@ -16,15 +16,17 @@ static char	*uitoa(unsigned int n);
 static int	ft_uintsize(unsigned int n);
 static void	ft_fill_str(unsigned int n, char *str);
 
-void	handle_u(char *str, va_list *args, int *bytes_written, void (*flags)(char *))
+char	*handle_u(char *str, va_list *args, int *bytes_written, t_modifier *flags)
 {
 	unsigned int	u;
-	char			*s;
 	char			*formatted_str;
 
 	u = va_arg(*args, unsigned int);
-	s = uitoa(u);
-	put_str_count(s, bytes_written);
+	formatted_str = uitoa(u);
+	if (!formatted_str)
+		return (NULL);
+	put_str_count(formatted_str, bytes_written);
+	return (formatted_str);
 }
 
 static char	*uitoa(unsigned int n)

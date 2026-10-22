@@ -19,17 +19,17 @@ static t_modifier	call_modifier(char *flags)
 	m = nothing;
 	if (has_width(flags))
 		m = handle_width(m);
-	if (has_dot(flags))
-		m = handle_dot(m);
-	if (has_hashtag(flags))
-		m = handle_hashtag(m);
-	if (has_zero(flags))
-		m = handle_zero(m);
 	if (has_minus(flags))
 		m = handle_minus(m);
-	if (has_plus(flags))
+	else (has_zero(flags))
+		m = handle_zero(m);
+	if (has_dot(flags))
+		m = handle_dot(m);
+	if (has_plus(flags)) //concats 0x with str
 		m = handle_plus(m);
-	if (has_space(flags))
+	else (has_space(flags))
 		m = handle_space(m);
+	if (has_hashtag(flags)) //concats 0x with str if handle is x ???
+		m = handle_hashtag(m);
 	return (m);
 }

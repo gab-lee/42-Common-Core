@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_space_bonus.c                               :+:      :+:    :+:   */
+/*   modify_plus_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-t_modifier handle_space(char *str)
+char	*handle_plus(char *str, char handle)
 {
 	return (str);
 }

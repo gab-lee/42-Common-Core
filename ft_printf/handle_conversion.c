@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdio.h>
 
 static t_handler	call_handle(char c);
 
@@ -30,12 +29,13 @@ void	handle_conversion(const char *str, int *i, int *bytes_written, va_list *arg
 		{
 			h = call_handle(str[*i]);
 			m = call_modifiers(flags);
-			h((char *)str, args, bytes_written, flags);
+			formatted_str = h((char *)str, args, bytes_written, m);
+			put_str_count(formatted_str, bytes_written);
+			free(formatted_str);
 			break ;
 		}
 		flags = ft_strcat_char(flags, str[*i]);
 	}
-	printf("=flags: %s=", flags);
 }
 
 static t_handler	call_handle(char c)

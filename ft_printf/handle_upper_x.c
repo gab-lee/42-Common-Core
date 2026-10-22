@@ -12,12 +12,15 @@
 
 #include "ft_printf.h"
 
-void	handle_upper_x(char *str, va_list *args, int *bytes_written, void (*flags)(char *))
+char	*handle_upper_x(char *str, va_list *args, int *bytes_written, t_modifier *flags)
 {
 	unsigned int	x;
 	char			*formatted_str;
 
 	x = va_arg(*args, unsigned int);
 	formatted_str = get_hexadecimal(x, 1);
+	if (!formatted_str)
+		return (NULL);
 	put_str_count(formatted_str, bytes_written);
+	return (formatted_str);
 }

@@ -12,10 +12,15 @@
 
 #include "ft_printf.h"
 
-void	handle_s(char *str, va_list *args, int *bytes_written, void (*flags)(char *))
+char	*handle_s(char *str, va_list *args, int *bytes_written, t_modifier *flags)
 {
 	char	*s;
+	char	*formatted_str;
 
 	s = va_arg(*args, char *);
+	formatted_str = malloc(ft_strlen_safe(s) + 1);
+	if (!formatted_str)
+		return (NULL);
 	put_str_count(s, bytes_written);
+	return (formatted_str);
 }
