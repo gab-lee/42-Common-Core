@@ -20,6 +20,8 @@ char	*get_next_line(const int fd)
 	char		*newline;
 	int			res;
 
+	if (fd < 0 || BUFFER_SIZE < 0)
+		return (NULL);
 	temp = ft_strjoin_safe_and_free(stash, NULL, NULL, NULL);
 	newline = ft_strchr_safe(temp, '\n');
 	if (newline)
