@@ -25,21 +25,22 @@ char	*get_next_line(int fd);
 
 ### compile
 
-```bash
-make                    # builds get_next_line.a with the default BUFFER_SIZE
-make BUFFER_SIZE=42     # builds with a custom BUFFER_SIZE
-make clean              # removes object files
-make fclean             # removes object files + get_next_line.a
-make re                 # fclean + rebuild
-```
-
-then link it with your own `main.c`:
+mandatory part:
 
 ```bash
-cc -Wall -Wextra -Werror main.c get_next_line.a
+cc -Wall -Wextra -Werror get_next_line.c get_next_line_utils.c main.c
+cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 get_next_line.c get_next_line_utils.c main.c
 ```
 
-`BUFFER_SIZE` sets how many bytes each `read()` call asks for. try `1`, `9999` and `10000000`. without it, the default set in `get_next_line.h` is used.
+bonus part (multiple file descriptors):
+
+```bash
+cc -Wall -Wextra -Werror get_next_line_bonus.c get_next_line_utils_bonus.c main.c
+```
+
+`main.c` is your own test program. there is no Makefile in this folder.
+
+`BUFFER_SIZE` sets how many bytes each `read()` call asks for. try `1`, `9999` and `10000000`. without `-D BUFFER_SIZE=...`, the default of 42 set in the header is used.
 
 ### use it
 
@@ -57,167 +58,209 @@ while ((line = get_next_line(fd)) != NULL)
 close(fd);
 ```
 
-every returned line is malloc'd, the caller has to free it.
+every returned line is malloc'd, the caller has to free it. for the bonus, include `get_next_line_bonus.h` instead.
+
+## Files
+
+| file | content |
+|---|---|
+| `get_next_line.c` | `get_next_line`, `extract_line` |
+| `get_next_line_utils.c` | `free_all`, `read_next_line`, `ft_strjoin_safe_and_free`, `ft_strchr_safe`, `ft_strlen_safe` |
+| `get_next_line.h` | prototypes, default `BUFFER_SIZE` |
+| `get_next_line_bonus.c` | `get_next_line`, `get_file_safe`, `read_and_create_safe`, `build_line`, `keep_leftover` |
+| `get_next_line_utils_bonus.c` | `alloc_line`, `new_node`, `remove_file`, `ft_strchr_safe`, `ft_strlen_safe` |
+| `get_next_line_bonus.h` | `t_node`, prototypes, default `BUFFER_SIZE` |
 
 ## Helper functions
 
-all helpers live in `get_next_line_utils.c`.
+mandatory, in `get_next_line_utils.c` (`extract_line` is in `get_next_line.c`):
 
 | function | description |
 |---|---|
-| | |
+| `read_next_line` | allocates a buffer, reads `BUFFER_SIZE` bytes, appends them to `stash`, repeats until `stash` has a `\n`. returns `1` (`\n` found), `0` (EOF), `-1` (error) |
+| `extract_line` | cuts the line (with its `\n`) out of the copy of `stash` and stores the rest as the new `stash` |
+| `ft_strjoin_safe_and_free` | joins two strings into a new one, treats `NULL` as `""`, frees the pointers passed as `fs1` and `fs2` (also on malloc failure) |
+| `free_all` | frees up to three `char *` and sets them to `NULL` |
+| `ft_strchr_safe` | `strchr` that accepts `NULL` |
+| `ft_strlen_safe` | `strlen` that accepts `NULL` |
+
+bonus, in `get_next_line_utils_bonus.c`:
+
+| function | description |
+|---|---|
+| `new_node` | allocates a node and copies `str` into it (`NULL` gives `""`), `next_file` and `next_buffer` are `NULL` |
+| `alloc_line` | counts the length of the line and mallocs it (`NULL` if `res < 0` or malloc fails) |
+| `remove_file` | unlinks a file node from the file list and frees it |
+| `ft_strchr_safe` | `strchr` that accepts `NULL` |
+| `ft_strlen_safe` | `strlen` that accepts `NULL` |
 
 ## Algorithm
 
-`read()` pulls `BUFFER_SIZE` bytes at a time, so one read can return more than one line. there is no separate `line` buffer that grows across reads. everything read is stored in `stash`, a `static char *` that survives between calls, so all allocated memory sits in one place for memory checks. a static starts as `NULL`, so it needs no initialisation.
+`read()` pulls `BUFFER_SIZE` bytes at a time, so one read can return more than one line. there is no separate `line` buffer that grows across reads. everything read and not yet returned is stored in `stash`, a `static char *` that survives between calls. a static starts as `NULL`, so it needs no initialisation.
 
 ```
 get_next_line(fd)
 |
-+-- stash contains '\n'?
-|   +-- yes --> extract_line
-|   +-- no  --> read_next_buffer
++-- fd < 0 or BUFFER_SIZE <= 0 --> free stash --> return NULL
 |
-+-- read_next_buffer
-|   |
-|   +-- read(fd, buffer, BUFFER_SIZE)
-|   |   +-- -1 (error) --> free stash, stash = NULL --> return NULL
-|   |   +-- 0  (EOF)   --> stash empty?
-|   |                      +-- yes --> free stash, stash = NULL --> return NULL
-|   |                      +-- no  --> extract_line
-|   |
-|   +-- stash = strjoin(stash, buffer), free old stash
-|   +-- '\n' in stash?
-|       +-- yes --> extract_line
-|       +-- no  --> read_next_buffer again
++-- temp = copy of stash        (malloc fails --> free stash --> return NULL)
 |
-+-- extract_line
-    |
-    +-- copy stash up to and including '\n' into a new string --> returned line
-    +-- keep what is after '\n' as the new stash, free old stash
-    +-- return line
++-- '\n' in temp?
+|   +-- yes --> extract_line --> return line
+|   +-- no  --> read_next_line(fd, &stash)
+|
++-- read_next_line result
+    +--  1 --> free temp, call get_next_line(fd) again
+    |        (stash now holds a '\n', so the next call ends in extract_line)
+    +--  0 (EOF), stash not empty --> return a copy of stash, free stash and temp
+    +--  0 (EOF), stash empty     --> free temp and stash --> return NULL
+    +-- -1 (error)                --> free temp and stash --> return NULL
+```
+
+```
+read_next_line(fd, &stash)
+|
++-- malloc buffer of BUFFER_SIZE + 1       (fails --> return -1)
++-- read(fd, buffer, BUFFER_SIZE)
+|   +-- -1 (error) --> free buffer --> return -1
+|   +-- 0  (EOF)   --> free buffer --> return 0
+|
++-- buffer[res] = '\0'
++-- temp = copy of stash, old stash freed
++-- stash = temp + buffer, temp and buffer freed   (any malloc failure --> return -1)
++-- '\n' in stash?
+    +-- yes --> return 1
+    +-- no  --> read_next_line again
+```
+
+```
+extract_line(&stash, &temp, newline)
+|
++-- *newline = '\0'
++-- line  = temp + "\n", old stash freed
++-- stash = copy of what is after the '\n', temp freed
++-- return line
 ```
 
 | state | what lives where |
 |---|---|
 | stash | every byte read and not yet returned |
+| temp | a copy of stash used for one call, freed before the call returns |
 | returned line | allocated only at the moment of return, freed by the caller |
-| buffer | freed after every read |
+| buffer | allocated and freed inside every `read_next_line` call |
 
-`strjoin` appends each buffer to `stash` and allocates the result, so the old `stash` must be freed after every join.
+`ft_strjoin_safe_and_free` allocates the result and frees the pointers it is given, so no old string is left behind after a join. each read costs two allocations in `stash` (the copy and the joined string).
 
 ### bonus
 
-the bonus (multiple file descriptors) uses a linked list method.
+the bonus (multiple file descriptors) uses a linked list. the list head is `file_lst`, a `static t_node *` inside `get_next_line`.
 
 each node contains:
 
 | field | holds |
 |---|---|
 | `fd` | the file descriptor the node belongs to |
-| `str` | the buffer from one `read()` call, null terminated |
-| `next_file` | the next file node, every node inherits it from the previous node |
-| `next_buffer` | the next node with the same `fd` |
+| `str` | a string: the leftover of a file node, or the bytes of one `read()` call in a buffer node, null terminated |
+| `next_file` | the next file node. only file nodes use it, it is `NULL` on buffer nodes |
+| `next_buffer` | the next node with the same `fd`. only used during one call |
 
-`files` does not hold a line. it holds the starting node for all nodes.
+there is one file node per open fd. between calls a file node holds only the leftover in `str` and `next_buffer` is `NULL`. during a call, one buffer node per `read()` is chained after the file node.
 
 ```
-files
-  |
-  v
-[fd 3] --next_file--> [fd 4] --next_file--> NULL
-  |                     |
- next_buffer           next_buffer
-  |                     |
-  v                     v
-[fd 3] -> fd 4        [fd 4] -> NULL
-  |                     |
- next_buffer           next_buffer
-  |                     |
-  v                     v
-[fd 3] -> fd 4         NULL
-  |
- next_buffer
-  |
-  v
- NULL
-```
+between calls                          during a call on fd 3
 
-down is `next_buffer` (same fd). right is `next_file` (next file). `-> fd 4` is a node's inherited `next_file`.
+file_lst                               file_lst
+  |                                      |
+  v                                      v
+[fd 3] --next_file--> [fd 4] --> NULL  [fd 3] --next_file--> [fd 4] --> NULL
+ str = leftover        str = leftover    |
+                                       next_buffer
+                                         |
+                                         v
+                                       [fd 3] --next_buffer--> [fd 3] --> NULL
+                                        read 1                  read 2
+```
 
 ```
 get_next_line(fd)
 |
-+-- get_file_safe(files, fd)
-|   +-- files empty?            --> create file node, files = file node
-|   +-- file node for fd found? --> return file node
-|   +-- not found               --> create file node, link with next_file, return it
++-- fd < 0 or BUFFER_SIZE <= 0 --> return NULL
+|
++-- get_file_safe(fd, &file_lst, &prev)
+|   +-- list empty?              --> create file node, it becomes file_lst
+|   +-- file node for fd found?  --> return it
+|   +-- not found                --> create file node, append it at the end with next_file
+|   `prev` is set to the file node that points at the returned node (NULL if it is the head)
 |
 +-- read_and_create_safe(file node)
 |   |
-|   +-- last node contains '\n'? --> return 1
-|   +-- create node, next_file = previous node->next_file
-|   +-- read(fd, buffer, BUFFER_SIZE - 1), append '\0'
-|   |   +-- -1 (error) --> return -1
-|   |   +-- 0  (EOF)   --> return 0
-|   +-- '\n' in new node?
-|       +-- yes --> return 1
-|       +-- no  --> create node and read again
+|   +-- malloc buffer of BUFFER_SIZE + 1       (fails --> return -1)
+|   +-- while no '\n' in the last node's str
+|   |   +-- read(fd, buffer, BUFFER_SIZE), buffer[res] = '\0'
+|   |   |   +-- -1 (error) --> return -1
+|   |   |   +-- 0  (EOF)   --> return 0
+|   |   +-- new_node(fd, buffer) chained with next_buffer   (fails --> return -1)
+|   +-- '\n' found --> return 1
 |
-|   each read asks for BUFFER_SIZE - 1 bytes, so a node's str
-|   (bytes + '\0') fits in BUFFER_SIZE
-|
-+-- alloc_line(file node)
++-- build_line(&file node, res)
 |   |
-|   +-- len = len of str in first node
-|   |       + (middle nodes * (BUFFER_SIZE - 1))
-|   |       + len of str in last node up to and including '\n'
-|   |       + 1 for '\0'
-|   +-- return malloc(len)
+|   +-- alloc_line
+|   |   +-- res < 0 --> NULL
+|   |   +-- len = length of str in every node except the last
+|   |   |       + last node: its whole length if res == 0,
+|   |   |         else up to and including '\n'
+|   |   +-- malloc(len + 1)
+|   +-- copy each node's str into line until len bytes are copied
+|   +-- len > 0: append a leftover node L after the last node,
+|   |   L = copy of the last node's str after the copied part
+|   +-- line missing, len == 0 or L not created --> free line, return NULL
+|   +-- return line
 |
-+-- build_line(file node, line)
++-- line is NULL --> res = -1
+|
++-- keep_leftover(&file_lst, &file node, res, &prev)
     |
-    +-- iterate through nodes, copy each node's str into line
-    +-- last node: copy up to and including '\n'
-    +-- file node->str = last node's str after '\n'
-    |   (NULL if nothing is left after '\n')
-    +-- clear all nodes after the file node
-    +-- return line
+    +-- free every node between the file node and the last one
+    +-- free file node's str, next_buffer = NULL
+    +-- res == 1 and last node's str is not empty --> file node's str = last node's str
+    |   otherwise free last node's str
+    +-- free last node
+    +-- file node's str is NULL --> remove_file (unlink and free the file node)
 ```
 
 #### cleanup cases
 
-every call ends in one of two outcomes: **keep** the file node with the leftover, or **finish** the fd. two facts decide which: `res`, and whether a leftover node (`cur`) exists after the buffer nodes are freed.
+every call ends in one of two outcomes: **keep** the file node with the leftover, or **finish** the fd by removing its file node. two facts decide which: `res`, and whether the leftover node (`L`) holds any bytes.
 
 | `res` | chain at cleanup | example | returns | file node after |
 |---|---|---|---|---|
-| 1 | `F -> buffers... -> L` | `ab\ncd`, call 1 | the line | keep: `F(L's string)`, `next_buffer` NULL |
-| 1 | `F -> L` (no buffer nodes, F already held a `\n`) | `ab\ncd\n` with a large buffer, call 2 | the line | keep |
-| 0 | `F -> buffers... -> L("")` | `abc`, call 1 | `"abc"` | keep: `F("")` |
+| 1 | `F -> buffers... -> L("cd")` | `ab\ncd`, call 1 | the line | keep: `F("cd")`, `next_buffer` NULL |
+| 1 | `F -> L("cd\n")` (no buffer nodes, F already held a `\n`) | `ab\ncd\n` with a large buffer, call 2 | the line | keep |
+| 1 | `F -> buffers... -> L("")` | `ab\n`, call 1 | the line | finish (nothing left) |
+| 0 | `F -> buffers... -> L("")` | `abc`, call 1 | `"abc"` | finish |
 | 0 | `F` alone | call after the last line, or empty file | `NULL` | finish |
 | -1 | `F` alone, or `F -> buffers...` | `read` or `malloc` error | `NULL` | finish |
-| any | copy of the leftover fails during keep | out of memory | `NULL` (line freed) | finish |
+| any | `build_line` fails to create `L` | out of memory | `NULL` (line freed, `res` set to -1) | finish |
 
 `F` is the file node, buffer nodes are the nodes made by each `read()`, `L` is the leftover node made by `build_line`.
 
 ```
                  keep_leftover
                         |
-        free every node between F and the last one
+        free every node between F and the last one (L)
                         |
-              res >= 0 and cur exists?
+              res == 1 and L's str not empty?
                  /                  \
                yes                   no
                 |                     |
               KEEP                  FINISH
-   F->str = leftover         free F's whole chain,
-   F->next_buffer = NULL     free F,
-   free L's node             unlink F from the next_file list
-                |
-       did the copy fail? -- yes --> FINISH
+   F->str = L's str          free L's str,
+   F->next_buffer = NULL     F->str is NULL,
+   free L's node             remove_file frees F
+                             and unlinks it
 ```
 
-finish needs the link that points at `F` (`files` itself, or the previous file node's `next_file`) to unlink it.
+`remove_file` needs the link that points at `F`: `file_lst` itself when `prev` is `NULL`, otherwise `prev->next_file`.
 
 ## Resources
 
