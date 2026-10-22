@@ -15,22 +15,16 @@
 char	*get_next_line(const int fd)
 {
 	static char	*stash;
-	char		*line;
 	char		*temp;
 	char		*newline;
 	int			res;
 
-	if (fd < 0 || BUFFER_SIZE < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	temp = ft_strjoin_safe_and_free(stash, NULL, NULL, NULL);
 	newline = ft_strchr_safe(temp, '\n');
 	if (newline)
-	{
-		*newline = '\0';
-		line = ft_strjoin_safe_and_free(temp, "\n", &stash, NULL);
-		stash = ft_strjoin_safe_and_free(newline + 1, NULL, &temp, NULL);
-		return (line);
-	}
+		return (extract_line(&stash, &temp, newline));
 	res = read_next_line(fd, &stash);
 	if (res > 0)
 	{
@@ -41,4 +35,14 @@ char	*get_next_line(const int fd)
 		return (ft_strjoin_safe_and_free(stash, "", &stash, &temp));
 	free_all(&temp, NULL, &stash);
 	return (NULL);
+}
+
+char	*extract_line(char **stash, char **temp, char *newline)
+{
+	char	*line;
+
+	*newline = '\0';
+	line = ft_strjoin_safe_and_free(*temp, "\n", stash, NULL);
+	*stash = ft_strjoin_safe_and_free(newline + 1, NULL, temp, NULL);
+	return (line);
 }
