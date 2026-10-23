@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-char	*handle_minus(char *str, char handle)
+char	*modify_minus(char *str, char handle, int width)
 {
 	return (str);
 }

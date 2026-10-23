@@ -22,7 +22,7 @@
 
 //types
 typedef char	*(*t_handler)(char *str, va_list *args, int *bytes_written, t_modifier *flags);
-typedef char	*(*t_modifier)(char *str, char handle);
+typedef char	*(*t_modifier)(char *str, char handle, int width);
 
 int		ft_printf(const char *str, ...);
 void	put_char_count(char c, int *bytes_written);
@@ -39,14 +39,14 @@ char	*handle_x(char *str, va_list *args, int *bytes_written, t_modifier *flags);
 char	*handle_upper_x(char *str, va_list *args, int *bytes_written, t_modifier *flags);
 
 //Modifiers
-char	*nothing(char *str, char handle);
-char	*handle_width(char *str, char handle);
-char	*handle_dot(char *str, char handle);
-char	*handle_hashtag(char *str, char handle);
-char	*handle_zero(char *str, char handle);
-char	*handle_minus(char *str, char handle);
-char	*handle_plus(char *str, char handle);
-char	*handle_space(char *str, char handle);
+char	*nothing(char *str, char handle, int width);
+char	*modify_width(char *str, char handle, int width);
+char	*modify_dot(char *str, char handle, int width);
+char	*modify_hashtag(char *str, char handle, int width);
+char	*modify_zero(char *str, char handle, int width);
+char	*modify_minus(char *str, char handle, int width);
+char	*modify_plus(char *str, char handle, int width);
+char	*modify_space(char *str, char handle, int width);
 
 char	*ft_strchr(const char *str, int c);
 char	*ft_strcat_char(char *str, char c);

@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-char	*nothing(char *str, char handle)
+char	*nothing(char *str, char handle, int width)
 {
 	return (str);
 }

@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-char	*handle_width(char *str, char handle)
+char	*modify_width(char *str, char handle, int width)
 {
 	return (str);
 }

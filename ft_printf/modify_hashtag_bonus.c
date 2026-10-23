@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-char	*handle_hashtag(char *str, char handle)
+char	*modify_hashtag(char *str, char handle, int width)
 {
 	char	*fromatted_str;
 	char	hash_str[3];
