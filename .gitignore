@@ -1,6 +1,7 @@
 .gitignore
-*/a.out
-*/*.o
-*/*.a
-*/main.c
-*/*.h.pch
+a.out
+*.o
+*.a
+main.c
+*.h.pch
+*.gch
