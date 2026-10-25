@@ -48,7 +48,9 @@ t_node	*new_node(const int fd, char *str)
 	if (!node)
 		return (NULL);
 	node->fd = fd;
-	len = ft_strlen_safe(str);
+	len = BUFFER_SIZE;
+	if (str)
+		len = ft_strlen_safe(str);
 	node->str = malloc((len +1) * sizeof(char));
 	if (!node->str)
 	{
