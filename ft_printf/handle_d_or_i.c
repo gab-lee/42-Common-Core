@@ -22,11 +22,11 @@ char	*handle_d_or_i(char *str, va_list *args, int *bytes_written, t_modifier *fl
 	int		i;
 	char	*formatted_str;
 
+	formatted_str = NULL;
 	d = va_arg(*args, int);
 	formatted_str = ft_itoa(d);
 	if (!formatted_str)
 		return (NULL);
-	put_str_count(formatted_str, bytes_written);
 	return (formatted_str);
 }
 

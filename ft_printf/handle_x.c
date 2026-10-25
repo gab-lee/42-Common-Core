@@ -17,10 +17,10 @@ char	*handle_x(char *str, va_list *args, int *bytes_written, t_modifier *flags)
 	char	*formatted_str;
 	unsigned int x;
 	
+	formatted_str = NULL;
 	x = va_arg(*args, unsigned int);
 	formatted_str = get_hexadecimal(x, 0);
 	if (!formatted_str)
 		return (NULL);
-	put_str_count(formatted_str, bytes_written);
 	return (formatted_str);
 }
