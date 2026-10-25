@@ -84,9 +84,39 @@ static int has_zero(char *flags)
 	i = -1;
 	while (++i, flags[i])
 	{
-		if (flags[i] == '.')
+		if (flags[i] == '.' || (flags[i] > '0' && flags[i] <= '9'))
 			break ;
 		if (flags[i] == '0')
+			return (1);
+	}
+	return (0);
+}
+
+static int has_space(char *flags)
+{
+	int		i;
+
+	i = -1;
+	while (++i, flags[i])
+	{
+		if (flags[i] == '.' || (flags[i] > '0' && flags[i] <= '9'))
+			break ;
+		if (flags[i] == ' ')
+			return (1);
+	}
+	return (0);
+}
+
+static int has_minus(char *flags)
+{
+	int		i;
+
+	i = -1;
+	while (++i, flags[i])
+	{
+		if (flags[i] == '.' || (flags[i] > '0' && flags[i] <= '9'))
+			break ;
+		if (flags[i] == '-')
 			return (1);
 	}
 	return (0);
