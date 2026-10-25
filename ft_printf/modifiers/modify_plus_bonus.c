@@ -14,5 +14,15 @@
 
 int	modify_plus(char **str, char handle, int width, int precision)
 {
+	char	*temp;
+
+	if ((handle != 'd' && handle != 'i') || (*str)[0] == '-')
+		return (1);
+	temp = ft_strjoin("+", *str);
+	if (!temp)
+		return (-1);
+	free(*str);
+	*str = temp;
 	return (1);
 }
+
