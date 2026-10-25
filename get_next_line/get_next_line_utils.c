@@ -6,88 +6,71 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 16:11:58 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/11 10:27:24 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/19 00:03:14 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	free_all(char **s1, char **s2, char **s3)
+char	*alloc_line(t_node **file, int *len, int res)
 {
-	if (s1 && *s1)
-	{
-		free(*s1);
-		*s1 = NULL;
-	}
-	if (s2 && *s2)
-	{
-		free(*s2);
-		*s2 = NULL;
-	}
-	if (s3 && *s3)
-	{
-		free(*s3);
-		*s3 = NULL;
-	}
-}
+	char	*line;
+	t_node	*cur;
 
-int	read_next_line(const int fd, char **stash)
-{
-	int		res;
-	char	*buffer;
-	char	*temp;
-
-	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!buffer)
-		return (-1);
-	res = read(fd, buffer, BUFFER_SIZE);
-	if (res == 0 || res == -1)
+	cur = *file;
+	*len = 0;
+	if (res < 0)
+		return (NULL);
+	while (cur->next_buffer)
 	{
-		free(buffer);
-		return (res);
+		*len += ft_strlen_safe(cur->str);
+		cur = cur ->next_buffer;
 	}
-	buffer[res] = '\0';
-	temp = ft_strjoin_safe_and_free(*stash, NULL, stash, NULL);
-	if (!temp)
-	{
-		free(buffer);
-		return (-1);
-	}
-	*stash = ft_strjoin_safe_and_free(temp, buffer, &temp, &buffer);
-	if (!(*stash))
-	{
-		free_all(&temp, &buffer, NULL);
-		return (-1);
-	}
-	if (ft_strchr_safe(*stash, '\n'))
-		return (1);
+	if (res == 0)
+		*len += ft_strlen_safe(cur->str);
 	else
-		return (read_next_line(fd, stash));
+		*len += (unsigned int)(ft_strchr_safe(cur->str, '\n') - cur->str) + 1;
+	line = malloc((*len +1) * sizeof(char));
+	if (!line)
+		return (NULL);
+	line[*len] = '\0';
+	return (line);
 }
 
-char	*ft_strjoin_safe_and_free(char *s1, char *s2, char **fs1, char **fs2)
+t_node	*new_node(const int fd, char *str)
 {
-	char	*str;
+	t_node	*node;
+	int		len;
 	int		i;
 
-	i = 0;
-	if (!s1)
-		s1 = "";
-	if (!s2)
-		s2 = "";
-	str = malloc((ft_strlen_safe(s1) + ft_strlen_safe(s2) + 1) * sizeof(char));
-	if (!str)
+	i = -1;
+	node = malloc(1 * sizeof(t_node));
+	if (!node)
+		return (NULL);
+	node->fd = fd;
+	len = ft_strlen_safe(str);
+	node->str = malloc((len +1) * sizeof(char));
+	if (!node->str)
 	{
-		free_all(fs1, fs2, NULL);
+		free(node);
 		return (NULL);
 	}
-	while (*s1)
-		str[i++] = *(s1++);
-	while (*s2)
-		str[i++] = *(s2++);
-	str[i] = '\0';
-	free_all(fs1, fs2, NULL);
-	return (str);
+	while (++i, str && str[i])
+		node->str[i] = str[i];
+	node->str[i] = '\0';
+	node->next_file = NULL;
+	node->next_buffer = NULL;
+	return (node);
+}
+
+void	remove_file(t_node **file_lst, t_node **file, t_node **prev)
+{
+	if (!*prev)
+		*file_lst = (*file)->next_file;
+	else
+		(*prev)->next_file = (*file)->next_file;
+	free(*file);
+	*file = NULL;
 }
 
 char	*ft_strchr_safe(const char *str, int c)
@@ -107,14 +90,14 @@ char	*ft_strchr_safe(const char *str, int c)
 	return (NULL);
 }
 
-size_t	ft_strlen_safe(const char *str)
+int	ft_strlen_safe(char *str)
 {
 	int	len;
 
 	if (!str)
 		return (0);
 	len = -1;
-	while (len++, str[len])
+	while (++len, str[len])
 		;
 	return (len);
 }

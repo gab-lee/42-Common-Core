@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/02 13:23:26 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/11 10:27:50 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/19 00:09:37 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,43 +14,134 @@
 
 char	*get_next_line(const int fd)
 {
-	static char	*stash;
-	char		*temp;
-	char		*newline;
-	int			res;
+	static t_node	*file_lst;
+	t_node			*file;
+	t_node			*prev;
+	char			*line;
+	int				res;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
-	{
-		free(stash);
+	prev = NULL;
+	if (fd < 0)
 		return (NULL);
-	}
-	temp = ft_strjoin_safe_and_free(stash, NULL, NULL, NULL);
-	if (!temp)
-	{
-		free(stash);
+	if (BUFFER_SIZE <= 0)
 		return (NULL);
-	}
-	newline = ft_strchr_safe(temp, '\n');
-	if (newline)
-		return (extract_line(&stash, &temp, newline));
-	res = read_next_line(fd, &stash);
-	if (res > 0)
+	file = get_file_safe(fd, &file_lst, &prev);
+	if (!file)
+		return (NULL);
+	res = read_and_create_safe(file);
+	line = build_line(&file, res);
+	if (!line)
+		res = -1;
+	keep_leftover(&file_lst, &file, res, &prev);
+	return (line);
+}
+
+t_node	*get_file_safe(const int fd, t_node **file_lst, t_node **prev)
+{
+	t_node	*cur;
+	t_node	*node;
+
+	if (!file_lst || !*file_lst)
 	{
-		free_all(&temp, NULL, NULL);
-		return (get_next_line(fd));
+		node = new_node (fd, NULL);
+		*file_lst = node;
+		return (node);
 	}
-	if (res == 0 && stash && *stash)
-		return (ft_strjoin_safe_and_free(stash, "", &stash, &temp));
-	free_all(&temp, NULL, &stash);
+	cur = *file_lst;
+	while (cur->next_file)
+	{
+		if (cur->fd == fd)
+			return (cur);
+		*prev = cur;
+		cur = cur->next_file;
+	}
+	if (cur->fd == fd)
+		return (cur);
+	node = new_node (fd, NULL);
+	cur->next_file = node;
+	*prev = cur;
+	return (node);
+}
+
+int	read_and_create_safe(t_node *cur)
+{
+	int		res;
+	char	*buffer;
+
+	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!buffer)
+		return (-1);
+	res = 1;
+	while (!ft_strchr_safe(cur->str, '\n'))
+	{
+		res = read(cur->fd, buffer, BUFFER_SIZE);
+		if (res <= 0)
+			break ;
+		buffer[res] = '\0';
+		cur->next_buffer = new_node(cur->fd, buffer);
+		if (!(cur->next_buffer))
+		{
+			free(buffer);
+			return (-1);
+		}
+		cur = cur->next_buffer;
+		res = 1;
+	}
+	free(buffer);
+	return (res);
+}
+
+char	*build_line(t_node **file, int res)
+{
+	char	*line;
+	t_node	*cur;
+	int		i;
+	int		j;
+	int		len;
+
+	cur = *file;
+	i = 0;
+	j = 0;
+	line = alloc_line(file, &len, res);
+	while (line && j < len)
+	{
+		i = 0;
+		while (j < len && cur->str[i])
+			line[j++] = cur->str[i++];
+		if (j < len)
+			cur = cur->next_buffer;
+	}
+	if (line && len)
+		cur->next_buffer = new_node(cur->fd, &(cur->str[i]));
+	if (line && len && cur->next_buffer)
+		return (line);
+	free(line);
 	return (NULL);
 }
 
-char	*extract_line(char **stash, char **temp, char *newline)
+void	keep_leftover(t_node **file_lst, t_node **file, int res, t_node **prev)
 {
-	char	*line;
+	t_node	*last;
+	t_node	*temp;
 
-	*newline = '\0';
-	line = ft_strjoin_safe_and_free(*temp, "\n", stash, NULL);
-	*stash = ft_strjoin_safe_and_free(newline + 1, NULL, temp, NULL);
-	return (line);
+	if (!file || !*file)
+		return ;
+	last = (*file)->next_buffer;
+	while (last && last->next_buffer)
+	{
+		temp = last->next_buffer;
+		free(last->str);
+		free(last);
+		last = temp;
+	}
+	free((*file)->str);
+	(*file)->str = NULL;
+	(*file)->next_buffer = NULL;
+	if (res == 1 && last && last->str[0])
+		(*file)->str = last->str;
+	else if (last)
+		free(last->str);
+	free(last);
+	if (!(*file)->str)
+		remove_file(file_lst, file, prev);
 }
