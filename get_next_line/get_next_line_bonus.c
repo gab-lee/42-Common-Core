@@ -43,7 +43,7 @@ t_node	*get_file_safe(const int fd, t_node **file_lst, t_node **prev)
 
 	if (!file_lst || !*file_lst)
 	{
-		node = new_node (fd, NULL);
+		node = new_node (fd, "");
 		*file_lst = node;
 		return (node);
 	}
@@ -57,7 +57,7 @@ t_node	*get_file_safe(const int fd, t_node **file_lst, t_node **prev)
 	}
 	if (cur->fd == fd)
 		return (cur);
-	node = new_node (fd, NULL);
+	node = new_node (fd, "");
 	cur->next_file = node;
 	*prev = cur;
 	return (node);
@@ -66,28 +66,26 @@ t_node	*get_file_safe(const int fd, t_node **file_lst, t_node **prev)
 int	read_and_create_safe(t_node *cur)
 {
 	int		res;
-	char	*buffer;
+	t_node	*next;
 
-	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!buffer)
-		return (-1);
 	res = 1;
 	while (!ft_strchr_safe(cur->str, '\n'))
 	{
-		res = read(cur->fd, buffer, BUFFER_SIZE);
-		if (res <= 0)
-			break ;
-		buffer[res] = '\0';
-		cur->next_buffer = new_node(cur->fd, buffer);
-		if (!(cur->next_buffer))
-		{
-			free(buffer);
+		next = new_node(cur->fd, NULL);
+		if (!next)
 			return (-1);
+		res = read(cur->fd, next->str, BUFFER_SIZE);
+		if (res <= 0)
+		{
+			free(next->str);
+			free(next);
+			return (res);
 		}
-		cur = cur->next_buffer;
+		next->str[res] = '\0';
+		cur->next_buffer = next;
+		cur = next;
 		res = 1;
 	}
-	free(buffer);
 	return (res);
 }
 
