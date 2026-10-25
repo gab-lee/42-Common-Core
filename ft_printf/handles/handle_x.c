@@ -14,9 +14,9 @@
 
 char	*handle_x(va_list *args, t_modifier m)
 {
-	char	*formatted_str;
-	unsigned int x;
-	
+	char			*formatted_str;
+	unsigned int	x;
+
 	formatted_str = NULL;
 	x = va_arg(*args, unsigned int);
 	formatted_str = get_hexadecimal(x, 0);
