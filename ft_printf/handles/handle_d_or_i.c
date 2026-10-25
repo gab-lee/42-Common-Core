@@ -19,7 +19,6 @@ static void	ft_fill_str(int n, char *str, int sign);
 char	*handle_d_or_i(va_list *args, t_modifier m)
 {
 	int		d;
-	int		i;
 	char	*formatted_str;
 
 	formatted_str = NULL;

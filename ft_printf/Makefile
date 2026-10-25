@@ -5,9 +5,7 @@ AR = ar rcs
 RM = rm -f
 SRCS = ft_printf.c \
 	handles/handle_c.c \
-	handles/handle_conversion.c \
 	handles/handle_d_or_i.c \
-	handles/handle_flags.c \
 	handles/handle_p.c \
 	handles/handle_percent.c \
 	handles/handle_s.c \
@@ -23,6 +21,8 @@ SRCS = ft_printf.c \
 	modifiers/modify_zero_bonus.c \
 	modifiers/nothing.c \
 	utility/format_str.c \
+	utility/handle_conversion.c \
+	utility/handle_flags.c \
 	utility/ft_printf_utility.c \
 	utility/put_and_count.c
 OBJS = $(SRCS:.c=.o)

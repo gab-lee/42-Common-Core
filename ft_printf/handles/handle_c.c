@@ -19,11 +19,19 @@ char	*handle_c(va_list *args, t_modifier m)
 
 	formatted_str = NULL;
 	c = va_arg(*args, int);
-	formatted_str = malloc(2 * sizeof(char));
+	if (c == 0)
+		formatted_str = malloc(1 * sizeof(char));
+	else
+		formatted_str = malloc(2 * sizeof(char));
 	if (!formatted_str)
 		return (NULL);
-	formatted_str[0] = c;
-	formatted_str[1] = '\0';
+	if (c == 0)
+		formatted_str[0] = (unsigned char)c;
+	else
+	{
+		formatted_str[0] = (unsigned char)c;
+		formatted_str[1] = '\0';
+	}
 	m(&formatted_str);
 	if (!formatted_str)
 		return (NULL);
