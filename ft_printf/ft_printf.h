@@ -44,8 +44,8 @@ int	nothing(char **str, char handle, int width, int precision);
 int	modify_width(char **str, char handle, int width, int precision);
 int	modify_dot(char **str, char handle, int width, int precision);
 int	modify_hashtag(char **str, char handle, int width, int precision);
-int	modify_zero(char **str, char handle, int width, int precision);
-int	modify_minus(char **str, char handle, int width, int precision);
+int	modify_width_zero(char **str, char handle, int width, int precision);
+int	modify_width_minus(char **str, char handle, int width, int precision);
 int	modify_plus(char **str, char handle, int width, int precision);
 int	modify_space(char **str, char handle, int width, int precision);
 

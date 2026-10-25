@@ -12,6 +12,8 @@
 
 #include "ft_printf.h"
 
+static int	str_precision(char **str, int precision);
+
 int	modify_dot(char **str, char handle, int width, int precision)
 {
 
@@ -23,14 +25,27 @@ int	modify_dot(char **str, char handle, int width, int precision)
 
 }
 
-static int str_precision(char **str, int precision)
+static int	str_precision(char **str, int precision)
 {
-	iterate from the back
-	i = ft_strlen_safe(*str);
-	j = 0 
-	if (--i, i >=0 && j < dot && (*str[i] != '0' || ' '))
-	{
-		*str[i] = '0';
-		j++
-	}
+	char	*temp;
+	int		sign;
+	int		len;
+	int		i;
+
+	sign = ((*str)[0] == '-');
+	len = ft_strlen_safe(*str) - sign;
+	if (len >= precision)
+		return (1);
+	temp = malloc((sign + precision + 1) * sizeof(char));
+	if (!temp)
+		return (-1);
+	i = 0;
+	if (sign)
+		temp[i++] = '-';
+	while (i < sign + precision - len)
+		temp[i++] = '0';
+	ft_strlcpy(&temp[i], &(*str)[sign], len + 1);
+	free(*str);
+	*str = temp;
+	return (1);
 }

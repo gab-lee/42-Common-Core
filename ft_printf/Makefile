@@ -14,15 +14,15 @@ SRCS = ft_printf.c \
 	handles/handle_x.c \
 	modifiers/modify_dot_bonus.c \
 	modifiers/modify_hashtag_bonus.c \
-	modifiers/modify_minus_bonus.c \
+	modifiers/modify_width_minus_bonus.c \
 	modifiers/modify_plus_bonus.c \
 	modifiers/modify_space_bonus.c \
 	modifiers/modify_width_bonus.c \
-	modifiers/modify_zero_bonus.c \
+	modifiers/modify_width_zero_bonus.c \
 	modifiers/nothing.c \
 	utility/format_str.c \
 	utility/handle_conversion.c \
-	utility/handle_flags.c \
+	utility/call_modifiers.c \
 	utility/ft_printf_utility.c \
 	utility/put_and_count.c
 OBJS = $(SRCS:.c=.o)
