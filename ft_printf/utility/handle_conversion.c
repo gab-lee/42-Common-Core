@@ -19,7 +19,6 @@ int	handle_conversion(const char *str, int *i, int *bytes_written, va_list *args
 	char		*flags;
 	char		*formatted_str;
 	t_handler	h;
-	t_modifier	m;
 
 	flags = NULL;
 	formatted_str = NULL;
@@ -33,9 +32,9 @@ int	handle_conversion(const char *str, int *i, int *bytes_written, va_list *args
 				free(flags);
 				return (-1);
 			}
-			m = call_modifiers(flags);
-			formatted_str = h(args, m);
-			if (!formatted_str)
+			formatted_str = h(args);
+			if (!formatted_str || call_modifier(&formatted_str, flags,
+					str[*i]) < 0 || !formatted_str)
 			{
 				free(flags);
 				free(formatted_str);
@@ -43,6 +42,7 @@ int	handle_conversion(const char *str, int *i, int *bytes_written, va_list *args
 			}
 			put_str_count(formatted_str, bytes_written);
 			free(formatted_str);
+			free(flags);
 			break ;
 		}
 		flags = ft_strcat_char(flags, str[*i]);

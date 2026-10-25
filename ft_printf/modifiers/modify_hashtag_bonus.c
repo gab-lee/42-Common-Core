@@ -12,18 +12,20 @@
 
 #include "ft_printf.h"
 
-char	*modify_hashtag(char *str, char handle, int width)
+int	modify_hashtag(char **str, char handle, int width, int precision)
 {
-	char	*fromatted_str;
+	char	*formatted_str;
 	char	hash_str[3];
 
 	hash_str[0] = '0';
 	hash_str[2] = '\0';
-
 	if (!(handle == 'x' || handle == 'X'))
-		return (str);
+		return (-1);
 	hash_str[1] = handle;
-	fromatted_str = (hash_str, str);
-	free(str);
-	return (str);
+	formatted_str = ft_strjoin(hash_str, *str);
+	if (!formatted_str)
+		return (-1);
+	free(*str);
+	*str = formatted_str;
+	return (1);
 }

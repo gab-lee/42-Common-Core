@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-char	*handle_c(va_list *args, t_modifier m)
+char	*handle_c(va_list *args)
 {
 	int		c;
 	char	*formatted_str;
@@ -32,8 +32,5 @@ char	*handle_c(va_list *args, t_modifier m)
 		formatted_str[0] = (unsigned char)c;
 		formatted_str[1] = '\0';
 	}
-	m(&formatted_str);
-	if (!formatted_str)
-		return (NULL);
 	return (formatted_str);
 }

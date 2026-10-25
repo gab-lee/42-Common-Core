@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-char	*modify_space(char *str, char handle, int width)
+int	modify_space(char **str, char handle, int width, int precision)
 {
-	return (str);
+	return (1);
 }

@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-char	*handle_p(va_list *args, t_modifier m)
+char	*handle_p(va_list *args)
 {
 	char			*formatted_str;
 	unsigned long	p;
@@ -20,9 +20,6 @@ char	*handle_p(va_list *args, t_modifier m)
 	formatted_str = NULL;
 	p = va_arg(*args, unsigned long);
 	formatted_str = get_hexadecimal(p,0);
-	if (!formatted_str)
-		return (NULL);
-	m(&formatted_str);
 	if (!formatted_str)
 		return (NULL);
 	return (formatted_str);

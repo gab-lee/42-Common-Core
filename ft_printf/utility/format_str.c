@@ -79,3 +79,43 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	str[i] = '\0';
 	return (str);
 }
+
+size_t	str_shrink(char **str, size_t n)
+{
+	size_t	i;
+	char *temp;
+
+	i = -1;
+	if (n == 0)
+	{
+		free(*str);
+		*str = NULL;
+		return (1);
+	}
+	if (ft_strlen_safe(*str) >= n)
+		return (1);
+	if (ft_strlen_safe(*str) < n)
+	{
+		temp = malloc (n * sizeof (char));
+		if (!temp)
+			return (-1);
+		strlcpy(temp, str, n);
+		free(*str);
+		*str = temp;
+		free(temp); 
+	}
+	return (1);
+}
+
+size_t	ft_strlcpy(char *dest, const char *src, size_t n)
+{
+	size_t	i;
+
+	i = -1;
+	if (!n)
+		return (ft_strlen(src));
+	while (++i, src[i] && i < (n - 1))
+		dest[i] = src[i];
+	dest[i] = '\0';
+	return (ft_strlen(src));
+}

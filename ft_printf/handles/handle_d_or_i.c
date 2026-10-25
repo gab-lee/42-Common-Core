@@ -16,7 +16,7 @@ static char	*ft_itoa(int n);
 static int	ft_intsize(int n, int *sign);
 static void	ft_fill_str(int n, char *str, int sign);
 
-char	*handle_d_or_i(va_list *args, t_modifier m)
+char	*handle_d_or_i(va_list *args)
 {
 	int		d;
 	char	*formatted_str;
@@ -24,9 +24,6 @@ char	*handle_d_or_i(va_list *args, t_modifier m)
 	formatted_str = NULL;
 	d = va_arg(*args, int);
 	formatted_str = ft_itoa(d);
-	if (!formatted_str)
-		return (NULL);
-	m(&formatted_str);
 	if (!formatted_str)
 		return (NULL);
 	return (formatted_str);

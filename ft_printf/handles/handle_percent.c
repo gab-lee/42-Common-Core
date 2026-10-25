@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-char	*handle_percent(va_list *args, t_modifier m)
+char	*handle_percent(va_list *args)
 {
 	char	*formatted_str;
 
@@ -23,8 +23,5 @@ char	*handle_percent(va_list *args, t_modifier m)
 		return (NULL);
 	formatted_str[0] = '%';
 	formatted_str[1] = '\0';
-	m(&formatted_str);
-	if (!formatted_str)
-		return (NULL);
 	return (formatted_str);
 }

@@ -12,7 +12,25 @@
 
 #include "ft_printf.h"
 
-char	*modify_dot(char *str, char handle, int width)
+int	modify_dot(char **str, char handle, int width, int precision)
 {
-	return (str);
+
+	if (handle == 'c' || handle == '%')
+		return (1);
+	if (handle == 's')
+		return (str_shrink(str, precision));
+	return (str_precision(str, precision));
+
+}
+
+static int str_precision(char **str, int precision)
+{
+	iterate from the back
+	i = ft_strlen_safe(*str);
+	j = 0 
+	if (--i, i >=0 && j < dot && (*str[i] != '0' || ' '))
+	{
+		*str[i] = '0';
+		j++
+	}
 }

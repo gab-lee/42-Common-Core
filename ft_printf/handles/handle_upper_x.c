@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-char	*handle_upper_x(va_list *args, t_modifier m)
+char	*handle_upper_x(va_list *args)
 {
 	unsigned int	x;
 	char			*formatted_str;
@@ -20,9 +20,6 @@ char	*handle_upper_x(va_list *args, t_modifier m)
 	formatted_str = NULL;
 	x = va_arg(*args, unsigned int);
 	formatted_str = get_hexadecimal(x, 1);
-	if (!formatted_str)
-		return (NULL);
-	m(&formatted_str);
 	if (!formatted_str)
 		return (NULL);
 	return (formatted_str);

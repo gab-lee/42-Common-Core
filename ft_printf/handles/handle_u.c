@@ -16,7 +16,7 @@ static char	*uitoa(unsigned int n);
 static int	ft_uintsize(unsigned int n);
 static void	ft_fill_str(unsigned int n, char *str);
 
-char	*handle_u(va_list *args, t_modifier m)
+char	*handle_u(va_list *args)
 {
 	unsigned int	u;
 	char			*formatted_str;
@@ -24,9 +24,6 @@ char	*handle_u(va_list *args, t_modifier m)
 	formatted_str = NULL;
 	u = va_arg(*args, unsigned int);
 	formatted_str = uitoa(u);
-	if (!formatted_str)
-		return (NULL);
-	m(&formatted_str);
 	if (!formatted_str)
 		return (NULL);
 	return (formatted_str);

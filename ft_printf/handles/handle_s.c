@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-char	*handle_s(va_list *args, t_modifier m)
+char	*handle_s(va_list *args)
 {
 	char	*s;
 	char	*formatted_str;
@@ -20,9 +20,6 @@ char	*handle_s(va_list *args, t_modifier m)
 	formatted_str = NULL;
 	s = va_arg(*args, char *);
 	formatted_str = ft_strjoin("", s);
-	if (!formatted_str)
-		return (NULL);
-	m(&formatted_str);
 	if (!formatted_str)
 		return (NULL);
 	return (formatted_str);

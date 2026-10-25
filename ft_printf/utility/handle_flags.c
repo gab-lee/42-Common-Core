@@ -12,14 +12,14 @@
 
 #include "ft_printf.h"
 
-static t_modifier	call_modifier(char *flags, char handle)
+int	call_modifier(char **str, char *flags, char handle)
 {
 	t_modifier	m;
 
 	m = nothing;//do nothing to the string
 	if (plus)
 	{
-		m = modify_plus(m, handle, 0);
+		m = modify_plus(m(str), handle, 0);
 	}
 	else if (has_space(flags))
 		m = modify_space(m, handle, 0);
@@ -28,16 +28,14 @@ static t_modifier	call_modifier(char *flags, char handle)
 	{
 		if (has_zero(flags))
 			//pad with zero [sign][zero][space]
-		else if (has_minus(flags))
-			//left justify [sign][number][space]
 		else
 			//pad with space [space][sign][number]
 	}
-
-
 	if (has_dot(flags))
 		m = modify_dot(m, handle, width);
 	if (has_hashtag(flags)) //concats 0x with str if handle is x ???
 		m = modify_hashtag(m, handle, width);
+	if(has_minus(flags))
+			//left justify [sign][number][space]
 	return (m);
 }
