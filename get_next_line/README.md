@@ -4,7 +4,7 @@
 
 ## Description
 
-get_next_line is a function that reads a file descriptor and returns one line per call, so a loop of calls walks through a file (or standard input) line by line.
+get_next_line is a function that reads a file descriptor and returns one line per call, so a loop of calls walks through a file (or standard input) line by line. it keeps one list of leftovers per open file descriptor, so several file descriptors can be read in turn.
 
 ```c
 char	*get_next_line(int fd);
@@ -25,14 +25,14 @@ char	*get_next_line(int fd);
 
 ### compile
 
-mandatory part:
+main implementation:
 
 ```bash
 cc -Wall -Wextra -Werror get_next_line.c get_next_line_utils.c main.c
 cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 get_next_line.c get_next_line_utils.c main.c
 ```
 
-bonus part (multiple file descriptors):
+bonus (a copy of the main implementation under the `_bonus` names the subject asks for):
 
 ```bash
 cc -Wall -Wextra -Werror get_next_line_bonus.c get_next_line_utils_bonus.c main.c
@@ -64,27 +64,15 @@ every returned line is malloc'd, the caller has to free it. for the bonus, inclu
 
 | file | content |
 |---|---|
-| `get_next_line.c` | `get_next_line`, `extract_line` |
-| `get_next_line_utils.c` | `free_all`, `read_next_line`, `ft_strjoin_safe_and_free`, `ft_strchr_safe`, `ft_strlen_safe` |
-| `get_next_line.h` | prototypes, default `BUFFER_SIZE` |
-| `get_next_line_bonus.c` | `get_next_line`, `get_file_safe`, `read_and_create_safe`, `build_line`, `keep_leftover` |
-| `get_next_line_utils_bonus.c` | `alloc_line`, `new_node`, `remove_file`, `ft_strchr_safe`, `ft_strlen_safe` |
-| `get_next_line_bonus.h` | `t_node`, prototypes, default `BUFFER_SIZE` |
+| `get_next_line.c` | `get_next_line`, `get_file_safe`, `read_and_create_safe`, `build_line`, `keep_leftover` |
+| `get_next_line_utils.c` | `alloc_line`, `new_node`, `remove_file`, `ft_strchr_safe`, `ft_strlen_safe` |
+| `get_next_line.h` | `t_node`, prototypes, default `BUFFER_SIZE` |
+| `get_next_line_bonus.c`, `get_next_line_utils_bonus.c`, `get_next_line_bonus.h` | identical to the three files above, only the file names and the header guard differ |
+| `get_next_line_stash.c`, `get_next_line_utils_stash.c`, `get_next_line_stash.h` | the previous single-fd implementation, kept for reference, see [previous implementation](#previous-implementation-stash) |
 
 ## Helper functions
 
-mandatory, in `get_next_line_utils.c` (`extract_line` is in `get_next_line.c`):
-
-| function | description |
-|---|---|
-| `read_next_line` | allocates a buffer, reads `BUFFER_SIZE` bytes, appends them to `stash`, repeats until `stash` has a `\n`. returns `1` (`\n` found), `0` (EOF), `-1` (error) |
-| `extract_line` | cuts the line (with its `\n`) out of the copy of `stash` and stores the rest as the new `stash` |
-| `ft_strjoin_safe_and_free` | joins two strings into a new one, treats `NULL` as `""`, frees the pointers passed as `fs1` and `fs2` (also on malloc failure) |
-| `free_all` | frees up to three `char *` and sets them to `NULL` |
-| `ft_strchr_safe` | `strchr` that accepts `NULL` |
-| `ft_strlen_safe` | `strlen` that accepts `NULL` |
-
-bonus, in `get_next_line_utils_bonus.c`:
+`get_file_safe`, `read_and_create_safe`, `build_line` and `keep_leftover` are in `get_next_line.c`. the helpers below are in `get_next_line_utils.c`.
 
 | function | description |
 |---|---|
@@ -96,64 +84,7 @@ bonus, in `get_next_line_utils_bonus.c`:
 
 ## Algorithm
 
-`read()` pulls `BUFFER_SIZE` bytes at a time, so one read can return more than one line. there is no separate `line` buffer that grows across reads. everything read and not yet returned is stored in `stash`, a `static char *` that survives between calls. a static starts as `NULL`, so it needs no initialisation.
-
-```
-get_next_line(fd)
-|
-+-- fd < 0 or BUFFER_SIZE <= 0 --> free stash --> return NULL
-|
-+-- temp = copy of stash        (malloc fails --> free stash --> return NULL)
-|
-+-- '\n' in temp?
-|   +-- yes --> extract_line --> return line
-|   +-- no  --> read_next_line(fd, &stash)
-|
-+-- read_next_line result
-    +--  1 --> free temp, call get_next_line(fd) again
-    |        (stash now holds a '\n', so the next call ends in extract_line)
-    +--  0 (EOF), stash not empty --> return a copy of stash, free stash and temp
-    +--  0 (EOF), stash empty     --> free temp and stash --> return NULL
-    +-- -1 (error)                --> free temp and stash --> return NULL
-```
-
-```
-read_next_line(fd, &stash)
-|
-+-- malloc buffer of BUFFER_SIZE + 1       (fails --> return -1)
-+-- read(fd, buffer, BUFFER_SIZE)
-|   +-- -1 (error) --> free buffer --> return -1
-|   +-- 0  (EOF)   --> free buffer --> return 0
-|
-+-- buffer[res] = '\0'
-+-- temp = copy of stash, old stash freed
-+-- stash = temp + buffer, temp and buffer freed   (any malloc failure --> return -1)
-+-- '\n' in stash?
-    +-- yes --> return 1
-    +-- no  --> read_next_line again
-```
-
-```
-extract_line(&stash, &temp, newline)
-|
-+-- *newline = '\0'
-+-- line  = temp + "\n", old stash freed
-+-- stash = copy of what is after the '\n', temp freed
-+-- return line
-```
-
-| state | what lives where |
-|---|---|
-| stash | every byte read and not yet returned |
-| temp | a copy of stash used for one call, freed before the call returns |
-| returned line | allocated only at the moment of return, freed by the caller |
-| buffer | allocated and freed inside every `read_next_line` call |
-
-`ft_strjoin_safe_and_free` allocates the result and frees the pointers it is given, so no old string is left behind after a join. each read costs two allocations in `stash` (the copy and the joined string).
-
-### bonus
-
-the bonus (multiple file descriptors) uses a linked list. the list head is `file_lst`, a `static t_node *` inside `get_next_line`.
+`read()` pulls `BUFFER_SIZE` bytes at a time, so one read can return more than one line. each `read()` result is kept in its own node, and the nodes of one file descriptor are chained until a `\n` is found. the list of files is `file_lst`, a `static t_node *` inside `get_next_line`. a static starts as `NULL`, so it needs no initialisation.
 
 each node contains:
 
@@ -228,7 +159,7 @@ get_next_line(fd)
     +-- file node's str is NULL --> remove_file (unlink and free the file node)
 ```
 
-#### cleanup cases
+### cleanup cases
 
 every call ends in one of two outcomes: **keep** the file node with the leftover, or **finish** the fd by removing its file node. two facts decide which: `res`, and whether the leftover node (`L`) holds any bytes.
 
@@ -261,6 +192,76 @@ every call ends in one of two outcomes: **keep** the file node with the leftover
 ```
 
 `remove_file` needs the link that points at `F`: `file_lst` itself when `prev` is `NULL`, otherwise `prev->next_file`.
+
+## ~~Previous implementation (stash)~~
+
+~~replaced by the linked list implementation above. it only handles one file descriptor at a time because the leftover lives in a single static string. files: `get_next_line_stash.c`, `get_next_line_utils_stash.c`, `get_next_line_stash.h`.~~
+
+~~`read()` pulls `BUFFER_SIZE` bytes at a time, so one read can return more than one line. there is no separate `line` buffer that grows across reads. everything read and not yet returned is stored in `stash`, a `static char *` that survives between calls.~~
+
+| ~~function~~ | ~~description~~ |
+|---|---|
+| ~~`read_next_line`~~ | ~~allocates a buffer, reads `BUFFER_SIZE` bytes, appends them to `stash`, repeats until `stash` has a `\n`. returns `1` (`\n` found), `0` (EOF), `-1` (error)~~ |
+| ~~`extract_line`~~ | ~~cuts the line (with its `\n`) out of the copy of `stash` and stores the rest as the new `stash`~~ |
+| ~~`ft_strjoin_safe_and_free`~~ | ~~joins two strings into a new one, treats `NULL` as `""`, frees the pointers passed as `fs1` and `fs2` (also on malloc failure)~~ |
+| ~~`free_all`~~ | ~~frees up to three `char *` and sets them to `NULL`~~ |
+| ~~`ft_strchr_safe`~~ | ~~`strchr` that accepts `NULL`~~ |
+| ~~`ft_strlen_safe`~~ | ~~`strlen` that accepts `NULL`~~ |
+
+~~`extract_line` is in `get_next_line_stash.c`, the other functions are in `get_next_line_utils_stash.c`.~~
+
+```
+get_next_line(fd)
+|
++-- fd < 0 or BUFFER_SIZE <= 0 --> free stash --> return NULL
+|
++-- temp = copy of stash        (malloc fails --> free stash --> return NULL)
+|
++-- '\n' in temp?
+|   +-- yes --> extract_line --> return line
+|   +-- no  --> read_next_line(fd, &stash)
+|
++-- read_next_line result
+    +--  1 --> free temp, call get_next_line(fd) again
+    |        (stash now holds a '\n', so the next call ends in extract_line)
+    +--  0 (EOF), stash not empty --> return a copy of stash, free stash and temp
+    +--  0 (EOF), stash empty     --> free temp and stash --> return NULL
+    +-- -1 (error)                --> free temp and stash --> return NULL
+```
+
+```
+read_next_line(fd, &stash)
+|
++-- malloc buffer of BUFFER_SIZE + 1       (fails --> return -1)
++-- read(fd, buffer, BUFFER_SIZE)
+|   +-- -1 (error) --> free buffer --> return -1
+|   +-- 0  (EOF)   --> free buffer --> return 0
+|
++-- buffer[res] = '\0'
++-- temp = copy of stash, old stash freed
++-- stash = temp + buffer, temp and buffer freed   (any malloc failure --> return -1)
++-- '\n' in stash?
+    +-- yes --> return 1
+    +-- no  --> read_next_line again
+```
+
+```
+extract_line(&stash, &temp, newline)
+|
++-- *newline = '\0'
++-- line  = temp + "\n", old stash freed
++-- stash = copy of what is after the '\n', temp freed
++-- return line
+```
+
+| ~~state~~ | ~~what lives where~~ |
+|---|---|
+| ~~stash~~ | ~~every byte read and not yet returned~~ |
+| ~~temp~~ | ~~a copy of stash used for one call, freed before the call returns~~ |
+| ~~returned line~~ | ~~allocated only at the moment of return, freed by the caller~~ |
+| ~~buffer~~ | ~~allocated and freed inside every `read_next_line` call~~ |
+
+~~`ft_strjoin_safe_and_free` allocates the result and frees the pointers it is given, so no old string is left behind after a join. each read costs two allocations in `stash` (the copy and the joined string).~~
 
 ## Resources
 
