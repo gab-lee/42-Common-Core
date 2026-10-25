@@ -12,7 +12,37 @@
 
 #include "ft_printf.h"
 
+static char	*space_padding(size_t count);
+
 int	modify_width(char **str, char handle, int width, int precision)
 {
+	char *padding;
+	char *temp;
+
+	if (width < ft_strlen_safe(*str))
+		return (1);
+	padding = space_padding(width- ft_strlen_safe(*str));
+
+	temp = ft_strjoin(padding, *str);
+	if (!temp)
+		return (-1);
+	free(*str);
+	*str = temp;
 	return (1);
+}
+
+
+static char	*space_padding(size_t count)
+{
+	char	*str;
+	int i;
+
+	i = -1;
+	str = malloc((count+1) * sizeof(char));
+	if (!str)
+		return (NULL);
+	str[count] = '\0';
+	while (++i, str[i])
+		str[i] = ' ';
+	return (str);
 }
