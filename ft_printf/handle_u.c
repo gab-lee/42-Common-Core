@@ -21,11 +21,11 @@ char	*handle_u(char *str, va_list *args, int *bytes_written, t_modifier *flags)
 	unsigned int	u;
 	char			*formatted_str;
 
+	formatted_str = NULL;
 	u = va_arg(*args, unsigned int);
 	formatted_str = uitoa(u);
 	if (!formatted_str)
 		return (NULL);
-	put_str_count(formatted_str, bytes_written);
 	return (formatted_str);
 }
 

@@ -29,7 +29,7 @@ void	put_char_count(char c, int *bytes_written);
 void	put_str_count(char *s, int *bytes_written);
 
 //hanldes
-void	handle_conversion(const char *str, int *i, int *bytes_written, va_list *args);
+int		handle_conversion(const char *str, int *i, int *bytes_written, va_list *args);
 char	*handle_c(char *str, va_list *args, int *bytes_written, t_modifier *flags);
 char	*handle_s(char *str, va_list *args, int *bytes_written, t_modifier *flags);
 char	*handle_p(char *str, va_list *args, int *bytes_written, t_modifier *flags);

@@ -17,9 +17,11 @@ char	*handle_percent(char *str, va_list *args, int *bytes_written, t_modifier *f
 	char	*formatted_str;
 
 	(void) args;
+	formatted_str = NULL;
 	formatted_str = malloc(2 * sizeof(char));
 	if (!formatted_str)
 		return (NULL);
-	put_char_count('%', bytes_written);
+	formatted_str[0] = '%';
+	formatted_str[1] = '\0';
 	return (formatted_str);
 }

@@ -17,6 +17,7 @@ char *handle_c(char *str, va_list *args, int *bytes_written, t_modifier *flags)
 	int		c;
 	char	*formatted_str;
 
+	formatted_str = NULL;
 	c = va_arg(*args, int);
 	formatted_str = malloc(2 * sizeof(char));
 	if (!formatted_str)
