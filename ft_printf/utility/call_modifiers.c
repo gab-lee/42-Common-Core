@@ -65,13 +65,21 @@ static int get_width(char *flags)
 {
 	int		i;
 	char	*width;
+	int		start;
 
 	i = -1;
+	width = "";
+	start = 0;
 	while (++i, flags[i])
 	{
 		if (flags[i] == '.')
 			break ;
-		if (flags[i] >= '0' && flags[i] <=9)
+		if (!start && flags[i] > '0' && flags[i] <=9)
+		{
+			start = 1;
+			ft_strcat_char(width, flags[i]);
+		}
+		if (start && flags[i] >= '0' && flags[i] <=9)
 			ft_strcat_char(width, flags[i]);
 	}
 	return (atoi(width));
@@ -129,6 +137,7 @@ static int get_precision(char *flags)
 
 	i = -1;
 	start = 0;
+	precision = "";
 	while (++i, flags[i])
 	{
 		if (flags[i] == '.')
