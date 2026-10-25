@@ -35,6 +35,12 @@ int	handle_conversion(const char *str, int *i, int *bytes_written, va_list *args
 			}
 			m = call_modifiers(flags);
 			formatted_str = h((char *)str, args, bytes_written, m);
+			if (!formatted_str)
+			{
+				free(flags);
+				free(formatted_str);
+				return(-1);
+			}
 			put_str_count(formatted_str, bytes_written);
 			free(formatted_str);
 			break ;

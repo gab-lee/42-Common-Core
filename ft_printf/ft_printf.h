@@ -21,8 +21,8 @@
 # define HEXADECIMAL "0123456789abcdef"
 
 //types
-typedef char	*(*t_handler)(char *str, va_list *args, int *bytes_written, t_modifier *flags);
 typedef char	*(*t_modifier)(char *str, char handle, int width);
+typedef char	*(*t_handler)(char *str, va_list *args, int *bytes_written, t_modifier *flags);
 
 int		ft_printf(const char *str, ...);
 void	put_char_count(char c, int *bytes_written);
@@ -51,7 +51,6 @@ char	*modify_space(char *str, char handle, int width);
 char	*ft_strchr(const char *str, int c);
 char	*ft_strcat_char(char *str, char c);
 size_t	ft_strlen_safe(const char *str);
-static char	*ft_itoa(int n);
 //formatstr
 char	*get_hexadecimal(unsigned long x, int upper);
 char	*ft_strjoin(char const *s1, char const *s2);
