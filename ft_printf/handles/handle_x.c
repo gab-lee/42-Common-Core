@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_c.c                                         :+:      :+:    :+:   */
+/*   handle_x.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/10/20 23:06:06 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/21 22:59:11 by gabrlee          ###   ########.fr       */
+/*   Created: 2026/10/20 23:05:41 by gabrlee           #+#    #+#             */
+/*   Updated: 2026/10/21 16:10:16 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-char *handle_c(char *str, va_list *args, int *bytes_written, t_modifier *flags)
+char	*handle_x(va_list *args, t_modifier m)
 {
-	int		c;
 	char	*formatted_str;
-
+	unsigned int x;
+	
 	formatted_str = NULL;
-	c = va_arg(*args, int);
-	formatted_str = malloc(2 * sizeof(char));
+	x = va_arg(*args, unsigned int);
+	formatted_str = get_hexadecimal(x, 0);
 	if (!formatted_str)
 		return (NULL);
-	formatted_str[0] = c;
-	formatted_str[1] = '\0';
-	formatted_str = (*flags)(formatted_str, 'c');
+	m(&formatted_str);
+	if (!formatted_str)
+		return (NULL);
 	return (formatted_str);
 }

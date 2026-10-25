@@ -1,42 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_d_or_i.c                                    :+:      :+:    :+:   */
+/*   handle_u.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/10/20 23:06:03 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/21 22:34:35 by gabrlee          ###   ########.fr       */
+/*   Created: 2026/10/20 23:05:45 by gabrlee           #+#    #+#             */
+/*   Updated: 2026/10/21 22:37:46 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static char	*ft_itoa(int n);
-static int	ft_intsize(int n, int *sign);
-static void	ft_fill_str(int n, char *str, int sign);
+static char	*uitoa(unsigned int n);
+static int	ft_uintsize(unsigned int n);
+static void	ft_fill_str(unsigned int n, char *str);
 
-char	*handle_d_or_i(char *str, va_list *args, int *bytes_written, t_modifier *flags)
+char	*handle_u(va_list *args, t_modifier m)
 {
-	int		d;
-	int		i;
-	char	*formatted_str;
+	unsigned int	u;
+	char			*formatted_str;
 
 	formatted_str = NULL;
-	d = va_arg(*args, int);
-	formatted_str = ft_itoa(d);
+	u = va_arg(*args, unsigned int);
+	formatted_str = uitoa(u);
+	if (!formatted_str)
+		return (NULL);
+	m(&formatted_str);
 	if (!formatted_str)
 		return (NULL);
 	return (formatted_str);
 }
 
-static char	*ft_itoa(int n)
+static char	*uitoa(unsigned int n)
 {
 	char	*str;
-	int		sign;
 	int		size;
 
-	sign = 1;
 	if (n == 0)
 	{
 		str = malloc(2 * sizeof(char));
@@ -46,38 +46,29 @@ static char	*ft_itoa(int n)
 		str[1] = '\0';
 		return (str);
 	}
-	size = ft_intsize(n, &sign);
+	size = ft_uintsize(n);
 	str = malloc((size + 1) * sizeof(char));
 	if (!str || !n)
 		return (NULL);
-	ft_fill_str(n, &str[size - 1], sign);
+	ft_fill_str(n, &str[size - 1]);
 	str[size] = '\0';
 	return (str);
 }
 
-static int	ft_intsize(int n, int *sign)
+static int	ft_uintsize(unsigned int n)
 {
 	int	size;
 
 	size = -1;
-	if (n < 0)
-	{
-		size++;
-		*sign = -1;
-	}
 	while (++size, n)
 		n = n / 10;
 	return (size);
 }
 
-static void	ft_fill_str(int n, char *str, int sign)
+static void	ft_fill_str(unsigned int n, char *str)
 {
 	if (!n)
-	{
-		if (sign == -1)
-			*str = '-';
 		return ;
-	}
-	*str = (n % 10) * sign + '0';
-	ft_fill_str(n / 10, str - 1, sign);
+	*str = (n % 10) + '0';
+	ft_fill_str(n / 10, str - 1);
 }

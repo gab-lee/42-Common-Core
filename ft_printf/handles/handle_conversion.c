@@ -34,7 +34,7 @@ int	handle_conversion(const char *str, int *i, int *bytes_written, va_list *args
 				return (-1);
 			}
 			m = call_modifiers(flags);
-			formatted_str = h((char *)str, args, bytes_written, m);
+			formatted_str = h(args, m);
 			if (!formatted_str)
 			{
 				free(flags);
