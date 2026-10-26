@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/21 23:05:13 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/21 23:05:48 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/26 13:22:10 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	modify_hashtag(char **str, char handle, int width, int precision)
 	if (!(handle == 'x' || handle == 'X'))
 		return (-1);
 	hash_str[1] = handle;
-	formatted_str = ft_strjoin(hash_str, *str);
+	formatted_str = strjoin_safe(hash_str, *str);
 	if (!formatted_str)
 		return (-1);
 	free(*str);

@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 22:22:29 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/21 23:07:15 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/26 13:22:10 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*ft_strcat_char(char *str, char c);
 size_t	ft_strlen_safe(const char *str);
 //formatstr
 char	*get_hexadecimal(unsigned long x, int upper);
-char	*ft_strjoin(char const *s1, char const *s2);
+char	*strjoin_safe(char const *s1, char const *s2);
 size_t	str_shrink(char **str, size_t n);
 size_t	ft_strlcpy(char *dest, const char *src, size_t n);
 

@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/21 23:05:13 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/21 23:05:48 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/26 13:22:10 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,11 @@ int	modify_width_zero(char **str, char handle, int width, int precision)
 
 	if (width < ft_strlen_safe(*str))
 		return (1);
-	zero = zero_padding(width- ft_strlen_safe(*str));
-
-	temp = ft_strjoin(zero, *str);
+	zero = zero_padding(width - ft_strlen_safe(*str));
+	if((*str)[0] == '-')
+		temp = strjoin_safe(strjoin_safe("-", zero), *str + 1);
+	else
+		temp = strjoin_safe(zero, *str);
 	if (!temp)
 		return (-1);
 	free(*str);
