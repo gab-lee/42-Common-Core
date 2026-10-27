@@ -170,6 +170,7 @@ ft_printf/
 │   └── modify_space_bonus.c
 ├── utility/                  parsing, counting and formatting helpers
 │   ├── handle_conversion.c
+│   ├── handle_conversion_bonus.c bonus only
 │   ├── call_modifiers_bonus.c    bonus only
 │   ├── format_str.c
 │   ├── get_hexadecimal.c
