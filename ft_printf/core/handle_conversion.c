@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_conversion_bonus.c                          :+:      :+:    :+:   */
+/*   handle_conversion.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 23:06:05 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/27 23:48:47 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/27 23:14:05 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf_bonus.h"
+#include "ft_printf.h"
 
 int	handle_conversion(const char *str, int *i, int *bytes_written, va_list *args)
 {
@@ -19,32 +19,30 @@ int	handle_conversion(const char *str, int *i, int *bytes_written, va_list *args
 	t_handler	h;
 
 	flags = NULL;
-	formatted_str = NULL;
-	while ((*i)++, str[(*i)])
+	(*i)++;
+	while (str[*i])
 	{
-		if (ft_strchr(CONVERSIONS, (str[*i])))
+		if (ft_strchr(CONVERSIONS, str[*i]))
 		{
 			h = call_handle(str[*i]);
-			if (!h)
+			formatted_str = NULL;
+			if (h)
+				formatted_str = h(args);
+			if (!formatted_str || (flags
+					&& call_modifier(&formatted_str, flags, str[*i]) < 0))
 			{
 				free(flags);
+				free(formatted_str);
 				return (-1);
 			}
-			formatted_str = h(args);
-			if (!flags && formatted_str)
-			{
-				put_str_count(formatted_str, bytes_written);
-				free(formatted_str);
-				free(flags);
-				return (1);
-			}
-			call_modifier(&formatted_str, flags, str[*i]);
 			put_str_count(formatted_str, bytes_written);
 			free(formatted_str);
 			free(flags);
-			break ;
+			return (0);
 		}
 		flags = ft_strcat_char(flags, str[*i]);
+		(*i)++;
 	}
-	return (0);
+	free(flags);
+	return (-1);
 }
