@@ -19,6 +19,7 @@
 typedef int	(*t_modifier)(char **str, char handle, int width, int precision);
 
 int	call_modifier(char **str, char *flags, char handle);
+char	*ft_strcat_char(char *str, char c);
 
 //Modifiers
 int	nothing(char **str, char handle, int width, int precision);

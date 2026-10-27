@@ -41,7 +41,6 @@ t_handler	call_handle(char c);
 
 int	ft_atoi(const char *str);
 char	*ft_strchr(const char *str, int c);
-char	*ft_strcat_char(char *str, char c);
 size_t	ft_strlen_safe(const char *str);
 //formatstr
 char	*get_hexadecimal(unsigned long x, int upper);

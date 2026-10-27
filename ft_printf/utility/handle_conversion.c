@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 23:06:05 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/27 23:01:47 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/27 23:14:05 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	handle_conversion(const char *str, int *i, int *bytes_written, va_list *args
 	t_handler	h;
 
 	formatted_str = NULL;
+	(*i)++;
 	while (str[(*i)])
 	{
 		if (ft_strchr(CONVERSIONS, (str[*i])))

@@ -15,7 +15,6 @@ COMMON_SRCS = ft_printf.c \
 	utility/call_handle.c \
 	utility/format_str.c \
 	utility/get_hexadecimal.c \
-	utility/ft_printf_utility.c \
 	utility/put_and_count.c \
 	libft_safe/ft_atoi.c \
 	libft_safe/ft_strchr.c \
@@ -26,6 +25,7 @@ SRCS = $(COMMON_SRCS) utility/handle_conversion.c
 BONUS_SRCS = $(COMMON_SRCS) \
 	utility/handle_conversion_bonus.c \
 	utility/call_modifiers_bonus.c \
+	utility/ft_strcat_char.c \
 	modifiers/modify_dot_bonus.c \
 	modifiers/modify_hashtag_bonus.c \
 	modifiers/modify_width_minus_bonus.c \
