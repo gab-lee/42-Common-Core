@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 23:06:05 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/27 23:16:01 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/27 23:18:33 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ int	handle_conversion(const char *str, int *i, int *bytes_written, va_list *args
 				return (-1);
 			}
 			formatted_str = h(args);
-			if (!formatted_str || call_modifier(&formatted_str, flags,
+			if (!flags && formatted_str)
+				return (formatted_str);
+			if (!formatted_str || !call_modifier(&formatted_str, flags,
 					str[*i]) < 0 || !formatted_str)
 			{
 				free(flags);
