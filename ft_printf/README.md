@@ -158,8 +158,8 @@ ft_printf/
 │   ├── handle_x.c
 │   ├── handle_upper_x.c
 │   └── handle_percent.c
-├── modifiers/                bonus flags
-│   ├── nothing.c
+├── modifiers/                bonus flags, built only by `make bonus`
+│   ├── nothing_bonus.c
 │   ├── modify_width_bonus.c
 │   ├── modify_dot_bonus.c
 │   ├── modify_hashtag_bonus.c
@@ -169,7 +169,7 @@ ft_printf/
 │   └── modify_space_bonus.c
 ├── utility/                  parsing, counting and formatting helpers
 │   ├── handle_conversion.c
-│   ├── call_modifiers.c
+│   ├── call_modifiers_bonus.c    bonus only
 │   ├── format_str.c
 │   ├── get_hexadecimal.c
 │   ├── ft_printf_utility.c
@@ -189,7 +189,7 @@ ft_printf/
 | walk the format string | `ft_printf` | `ft_printf.c` |
 | collect flags, find the conversion letter | `handle_conversion` | `utility/handle_conversion.c` |
 | pick the handler from the letter | `call_handle` | `utility/handle_conversion.c` |
-| pick the modifiers from the flags | `call_modifier` | `utility/call_modifiers.c` |
+| pick the modifiers from the flags | `call_modifier` | `utility/call_modifiers_bonus.c` |
 | write and count | `put_char_count`, `put_str_count` | `utility/put_and_count.c` |
 | hexadecimal string | `get_hexadecimal` | `utility/get_hexadecimal.c` |
 
