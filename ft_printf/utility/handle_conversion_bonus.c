@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 23:06:05 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/27 23:28:52 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/27 23:48:47 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ int	handle_conversion(const char *str, int *i, int *bytes_written, va_list *args
 
 	flags = NULL;
 	formatted_str = NULL;
-	(*i)++;
-	while (str[(*i)])
+	while ((*i)++, str[(*i)])
 	{
 		if (ft_strchr(CONVERSIONS, (str[*i])))
 		{
@@ -33,7 +32,12 @@ int	handle_conversion(const char *str, int *i, int *bytes_written, va_list *args
 			}
 			formatted_str = h(args);
 			if (!flags && formatted_str)
+			{
+				put_str_count(formatted_str, bytes_written);
+				free(formatted_str);
+				free(flags);
 				return (1);
+			}
 			call_modifier(&formatted_str, flags, str[*i]);
 			put_str_count(formatted_str, bytes_written);
 			free(formatted_str);
@@ -41,7 +45,6 @@ int	handle_conversion(const char *str, int *i, int *bytes_written, va_list *args
 			break ;
 		}
 		flags = ft_strcat_char(flags, str[*i]);
-		i++;
 	}
 	return (0);
 }
