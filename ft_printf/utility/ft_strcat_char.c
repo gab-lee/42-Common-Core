@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 23:27:36 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/27 23:05:23 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/27 23:34:47 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_strcat_char(char *str, char c)
 	size_t	str_len;
 	char	*temp;
 
-	i = 0;
+	i = -1;
 	if (!str)
 		temp = malloc((2) * sizeof(char));
 	else
@@ -28,7 +28,7 @@ char	*ft_strcat_char(char *str, char c)
 	}
 	if (!temp)
 		return (NULL);
-	while (str && str[i++])
+	while (++i, str && str[i])
 		temp[i] = str[i];
 	temp[i] = c;
 	temp[i+1] = '\0';
