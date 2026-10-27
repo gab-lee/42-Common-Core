@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/21 16:04:50 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/26 13:22:11 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/27 17:28:58 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 size_t	str_shrink(char **str, size_t n)
 {
-	size_t	i;
 	char *temp;
 
-	i = -1;
 	if (n == 0)
 	{
 		free(*str);
@@ -31,7 +29,7 @@ size_t	str_shrink(char **str, size_t n)
 		temp = malloc (n * sizeof (char));
 		if (!temp)
 			return (-1);
-		ft_strlcpy(temp, str, n);
+		ft_strlcpy(temp, *str, n);
 		free(*str);
 		*str = temp;
 		free(temp); 
