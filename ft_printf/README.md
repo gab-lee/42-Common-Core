@@ -141,16 +141,59 @@ the variadic arguments are never copied. one `va_list` is created in `ft_printf`
   end of str  --->  return bytes_written
 ```
 
+### file structure
+
+```
+ft_printf/
+├── Makefile
+├── README.md
+├── ft_printf.h
+├── ft_printf_bonus.h
+├── ft_printf.c
+├── handles/                  one handler per conversion
+│   ├── handle_c.c
+│   ├── handle_s.c
+│   ├── handle_p.c
+│   ├── handle_d_or_i.c
+│   ├── handle_u.c
+│   ├── handle_x.c
+│   ├── handle_upper_x.c
+│   └── handle_percent.c
+├── modifiers/                bonus flags, built only by `make bonus`
+│   ├── nothing_bonus.c
+│   ├── modify_width_bonus.c
+│   ├── modify_dot_bonus.c
+│   ├── modify_hashtag_bonus.c
+│   ├── modify_width_zero_bonus.c
+│   ├── modify_width_minus_bonus.c
+│   ├── modify_plus_bonus.c
+│   └── modify_space_bonus.c
+├── utility/                  parsing, counting and formatting helpers
+│   ├── handle_conversion.c
+│   ├── handle_conversion_bonus.c bonus only
+│   ├── call_modifiers_bonus.c    bonus only
+│   ├── format_str.c
+│   ├── get_hexadecimal.c
+│   ├── ft_printf_utility.c
+│   └── put_and_count.c
+└── libft_safe/               libft functions adapted for ft_printf
+    ├── ft_atoi.c
+    ├── ft_strchr.c
+    ├── ft_strlcpy.c
+    ├── ft_strlen_safe.c
+    └── strjoin_safe.c
+```
+
 ### code map
 
 | step | function | file |
 |---|---|---|
 | walk the format string | `ft_printf` | `ft_printf.c` |
-| collect flags, find the conversion letter | `handle_conversion` | `handle_conversion.c` |
-| pick the handler from the letter | `call_handle` | `handle_conversion.c` |
-| pick the modifiers from the flags | `call_modifier` | `handle_flags.c` |
-| write and count | `put_char_count`, `put_str_count` | `put_and_count.c` |
-| hexadecimal string | `get_hexadecimal` | `format_str.c` |
+| collect flags, find the conversion letter | `handle_conversion` | `utility/handle_conversion.c` |
+| pick the handler from the letter | `call_handle` | `utility/handle_conversion.c` |
+| pick the modifiers from the flags | `call_modifier` | `utility/call_modifiers_bonus.c` |
+| write and count | `put_char_count`, `put_str_count` | `utility/put_and_count.c` |
+| hexadecimal string | `get_hexadecimal` | `utility/get_hexadecimal.c` |
 
 the "case function table" in the diagram is the `call_handle` function, which returns a `t_handler` function pointer:
 
@@ -167,11 +210,23 @@ the "case function table" in the diagram is the `call_handle` function, which re
 
 ### helper functions
 
+#### libft functions used (`libft_safe/`)
+
+these are copied from my [libft](../libft) into `libft_safe/` so that `libftprintf.a` builds without linking `libft.a`. `ft_printf` can receive `NULL` (for example `%s` with a null pointer), so the functions that would crash on it are changed.
+
+| function | original libft function | used for | remarks |
+|---|---|---|---|
+| `ft_atoi` | `ft_atoi` | reading width and precision from the flags | unchanged, only the included header differs |
+| `ft_strchr` | `ft_strchr` | checking if a char is one of the conversion letters | unchanged, only the included header differs |
+| `ft_strlcpy` | `ft_strlcpy` | copying strings while building the output | modified: calls `ft_strlen_safe` instead of `ft_strlen` |
+| `ft_strlen_safe` | `ft_strlen` | string length | modified: returns `0` when the string is `NULL` |
+| `strjoin_safe` | `ft_strjoin` | joining padding, prefix and digits | modified: returns `NULL` when `s1` or `s2` is `NULL`, uses `ft_strlen_safe` |
+
+#### other helpers
+
 | function | description |
 |---|---|
-| `ft_strchr` | checks if a char is one of the conversion letters |
 | `ft_strcat_char` | appends one char to a malloc'd string, used to collect the flags |
-| `ft_strlen_safe` | string length that accepts `NULL` |
 | `ft_itoa` | signed int to string, local to `handle_d_or_i.c` |
 | `uitoa` | unsigned int to string, local to `handle_u.c` |
 | `get_hexadecimal` | unsigned long to a hexadecimal string, lowercase or uppercase |

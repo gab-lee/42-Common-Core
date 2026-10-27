@@ -21,7 +21,6 @@
 # define HEXADECIMAL "0123456789abcdef"
 
 //types
-typedef int	(*t_modifier)(char **str, char handle, int width, int precision);
 typedef char	*(*t_handler)(va_list *args);
 
 int		ft_printf(const char *str, ...);
@@ -30,7 +29,6 @@ void	put_str_count(char *s, int *bytes_written);
 
 //hanldes
 int		handle_conversion(const char *str, int *i, int *bytes_written, va_list *args);
-int		call_modifier(char **str, char *flags, char handle);
 char	*handle_c(va_list *args);
 char	*handle_s(va_list *args);
 char	*handle_p(va_list *args);
@@ -38,16 +36,6 @@ char	*handle_d_or_i(va_list *args);
 char	*handle_u(va_list *args);
 char	*handle_x(va_list *args);
 char	*handle_upper_x(va_list *args);
-
-//Modifiers
-int	nothing(char **str, char handle, int width, int precision);
-int	modify_width(char **str, char handle, int width, int precision);
-int	modify_dot(char **str, char handle, int width, int precision);
-int	modify_hashtag(char **str, char handle, int width, int precision);
-int	modify_width_zero(char **str, char handle, int width, int precision);
-int	modify_width_minus(char **str, char handle, int width, int precision);
-int	modify_plus(char **str, char handle, int width, int precision);
-int	modify_space(char **str, char handle, int width, int precision);
 
 int	ft_atoi(const char *str);
 char	*ft_strchr(const char *str, int c);
