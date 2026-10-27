@@ -17,5 +17,5 @@ int	call_modifier(char **str, char *flags, char handle)
 	(void)str;
 	(void)flags;
 	(void)handle;
-	return (1);
+	return (-1);
 }
