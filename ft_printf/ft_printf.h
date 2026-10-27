@@ -39,10 +39,14 @@ char	*handle_upper_x(va_list *args);
 char	*handle_percent(va_list *args);
 t_handler	call_handle(char c);
 
+//modifiers (a no-op in the mandatory build, real flag handling in the bonus)
+int	call_modifier(char **str, char *flags, char handle);
+
+//libft_safe
 int	ft_atoi(const char *str);
 char	*ft_strchr(const char *str, int c);
+char	*ft_strcat_char(char *str, char c);
 size_t	ft_strlen_safe(const char *str);
-//formatstr
 char	*get_hexadecimal(unsigned long x, int upper);
 char	*strjoin_safe(char const *s1, char const *s2);
 size_t	str_shrink(char **str, size_t n);

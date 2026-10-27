@@ -12,20 +12,20 @@ COMMON_SRCS = ft_printf.c \
 	handles/handle_u.c \
 	handles/handle_upper_x.c \
 	handles/handle_x.c \
-	utility/call_handle.c \
-	utility/format_str.c \
-	utility/get_hexadecimal.c \
-	utility/put_and_count.c \
+	core/call_handle.c \
+	core/handle_conversion.c \
 	libft_safe/ft_atoi.c \
+	libft_safe/ft_strcat_char.c \
+	libft_safe/get_hexadecimal.c \
+	libft_safe/put_and_count.c \
+	libft_safe/str_shrink.c \
 	libft_safe/ft_strchr.c \
 	libft_safe/ft_strlcpy.c \
 	libft_safe/ft_strlen_safe.c \
 	libft_safe/strjoin_safe.c
-SRCS = $(COMMON_SRCS) utility/handle_conversion.c
+SRCS = $(COMMON_SRCS) core/call_modifier.c
 BONUS_SRCS = $(COMMON_SRCS) \
-	utility/handle_conversion_bonus.c \
-	utility/call_modifiers_bonus.c \
-	utility/ft_strcat_char.c \
+	modifiers/call_modifiers_bonus.c \
 	modifiers/modify_dot_bonus.c \
 	modifiers/modify_hashtag_bonus.c \
 	modifiers/modify_width_minus_bonus.c \
@@ -39,7 +39,7 @@ BONUS_OBJS = $(BONUS_SRCS:.c=.o)
 
 all: $(NAME)
 
-# mandatory and bonus both define handle_conversion, so each target rebuilds
+# mandatory and bonus each provide call_modifier, so each target rebuilds
 # the archive from scratch and invalidates the other one
 $(NAME): $(OBJS)
 	$(RM) $(NAME) .bonus
@@ -51,7 +51,7 @@ bonus: .bonus
 	$(RM) $(NAME)
 	$(AR) $(NAME) $(BONUS_OBJS)
 	@touch .bonus
-	@$(RM) utility/handle_conversion.o
+	@$(RM) core/call_modifier.o
 
 %.o: %.c ft_printf.h ft_printf_bonus.h
 	$(CC) $(CFLAGS) -c $< -o $@
