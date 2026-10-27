@@ -26,11 +26,11 @@ SRCS = ft_printf.c \
 	utility/call_modifiers.c \
 	utility/ft_printf_utility.c \
 	utility/put_and_count.c \
-	libft/ft_atoi.c \
-	libft/ft_strchr.c \
-	libft/ft_strlcpy.c \
-	libft/ft_strlen_safe.c \
-	libft/strjoin_safe.c
+	libft_safe/ft_atoi.c \
+	libft_safe/ft_strchr.c \
+	libft_safe/ft_strlcpy.c \
+	libft_safe/ft_strlen_safe.c \
+	libft_safe/strjoin_safe.c
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
