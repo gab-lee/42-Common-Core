@@ -49,6 +49,7 @@ int	modify_width_minus(char **str, char handle, int width, int precision);
 int	modify_plus(char **str, char handle, int width, int precision);
 int	modify_space(char **str, char handle, int width, int precision);
 
+int	ft_atoi(const char *str);
 char	*ft_strchr(const char *str, int c);
 char	*ft_strcat_char(char *str, char c);
 size_t	ft_strlen_safe(const char *str);

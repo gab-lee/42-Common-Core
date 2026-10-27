@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_flags.c                                     :+:      :+:    :+:   */
+/*   call_modifiers.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 23:27:41 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/22 17:31:00 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/27 17:31:51 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static int	ft_atoi(const char *str);
 static int	get_width(char *flags);
 static int	get_precision(char *flags);
+static int	has_zero(char *flags);
+static int	has_space(char *flags);
+static int	has_minus(char *flags);
 static int	apply_width(char **str, char *flags, char handle, int width);
 
 int	call_modifier(char **str, char *flags, char handle)
@@ -38,7 +40,7 @@ int	call_modifier(char **str, char *flags, char handle)
 	width = get_width(flags);
 	if (width && apply_width(str, flags, handle, width) < 0)
 		return (-1);
-	precision = get_precision(flags)
+	precision = get_precision(flags);
 	if (precision)
 	{
 		if (modify_dot(str, handle, width, precision) < 0)
@@ -146,29 +148,4 @@ static int get_precision(char *flags)
 			ft_strcat_char(precision, flags[i]);
 	}
 	return (atoi(precision));
-}
-
-static int	ft_atoi(const char *str)
-{
-	int	i;
-	int	sign;
-	int	result;
-
-	i = 0;
-	sign = 1;
-	result = 0;
-	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
-		i++;
-	if (str[i] == '-' || str[i] == '+')
-	{
-		if (str[i] == '-')
-			sign = -1;
-		i++;
-	}
-	while ((str[i] >= '0' && str[i] <= '9'))
-	{
-		result = result * 10 + (str[i] - '0');
-		i++;
-	}
-	return (result * sign);
 }

@@ -26,6 +26,7 @@ SRCS = ft_printf.c \
 	utility/call_modifiers.c \
 	utility/ft_printf_utility.c \
 	utility/put_and_count.c \
+	libft/ft_atoi.c \
 	libft/ft_strchr.c \
 	libft/ft_strlcpy.c \
 	libft/ft_strlen_safe.c \
