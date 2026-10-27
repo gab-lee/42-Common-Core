@@ -45,7 +45,7 @@ bonus: .bonus
 	$(AR) $(NAME) $(OBJS) $(BONUS_OBJS)
 	@touch .bonus
 
-%.o: %.c ft_printf.h
+%.o: %.c ft_printf.h ft_printf_bonus.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
