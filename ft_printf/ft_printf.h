@@ -36,6 +36,8 @@ char	*handle_d_or_i(va_list *args);
 char	*handle_u(va_list *args);
 char	*handle_x(va_list *args);
 char	*handle_upper_x(va_list *args);
+char	*handle_percent(va_list *args);
+t_handler	call_handle(char c);
 
 int	ft_atoi(const char *str);
 char	*ft_strchr(const char *str, int c);

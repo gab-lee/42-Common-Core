@@ -12,6 +12,7 @@ COMMON_SRCS = ft_printf.c \
 	handles/handle_u.c \
 	handles/handle_upper_x.c \
 	handles/handle_x.c \
+	utility/call_handle.c \
 	utility/format_str.c \
 	utility/get_hexadecimal.c \
 	utility/ft_printf_utility.c \

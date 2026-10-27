@@ -12,8 +12,6 @@
 
 #include "ft_printf_bonus.h"
 
-static t_handler	call_handle(char c);
-
 int	handle_conversion(const char *str, int *i, int *bytes_written, va_list *args)
 {
 	char		*flags;
@@ -49,23 +47,3 @@ int	handle_conversion(const char *str, int *i, int *bytes_written, va_list *args
 	}
 	return (0);
 }
-
-static t_handler	call_handle(char c)
-{
-	if (c == 'c')
-		return (handle_c);
-	if (c == 's')
-		return (handle_s);
-	if (c == 'p')
-		return (handle_p);
-	if (c == 'd' || c == 'i')
-		return (handle_d_or_i);
-	if (c == 'u')
-		return (handle_u);
-	if (c == 'x')
-		return (handle_x);
-	if (c == 'X')
-		return (handle_upper_x);
-	return (NULL);
-}
-
