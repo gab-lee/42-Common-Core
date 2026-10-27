@@ -12,21 +12,6 @@
 
 #include "ft_printf.h"
 
-char	*ft_strchr(const char *str, int c)
-{
-	int	i;
-
-	i = -1;
-	while (++i, str[i])
-	{
-		if ((unsigned char)str[i] == (unsigned char)c)
-			return ((char *)&str[i]);
-	}
-	if ((unsigned char)str[i] == (unsigned char)c)
-		return ((char *)&str[i]);
-	return (NULL);
-}
-
 char	*ft_strcat_char(char *str, char c)
 {
 	size_t	i;
@@ -49,16 +34,4 @@ char	*ft_strcat_char(char *str, char c)
 	temp[i+1] = '\0';
 	free(str);
 	return (temp);
-}
-
-size_t	ft_strlen_safe(const char *str)
-{
-	int	len;
-
-	if (!str)
-		return (0);
-	len = -1;
-	while (len++, str[len])
-		;
-	return (len);
 }

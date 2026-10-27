@@ -6,20 +6,47 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/21 23:05:13 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/21 23:05:48 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/26 18:20:23 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
+static char	*space_padding(size_t count);
+
 int	modify_width_minus(char **str, char handle, int width, int precision)
 {
-	char *s1;
-	char *s2;
+	char	*padding;
+	char	*temp;
+	int		len;
+	(void)handle;
+	(void)precision;
+
+	len = (int)ft_strlen_safe(*str);
+	if (width < len)
+		return (1);
+	padding = space_padding(width - ft_strlen_safe(*str));
+
+	temp = strjoin_safe(*str, padding);
+	if (!temp)
+		return (-1);
+	free(*str);
+	*str = temp;
+	return (1);
+}
+
+
+static char	*space_padding(size_t count)
+{
+	char	*str;
 	int i;
 
-	len(ft_strlen_safe(*str));
-	i = -1; 
-	while (++i, i < len)
-	return (1);
+	i = -1;
+	str = malloc((count+1) * sizeof(char));
+	if (!str)
+		return (NULL);
+	str[count] = '\0';
+	while (++i, str[i])
+		str[i] = ' ';
+	return (str);
 }

@@ -21,10 +21,15 @@ SRCS = ft_printf.c \
 	modifiers/modify_width_zero_bonus.c \
 	modifiers/nothing.c \
 	utility/format_str.c \
+	utility/get_hexadecimal.c \
 	utility/handle_conversion.c \
 	utility/call_modifiers.c \
 	utility/ft_printf_utility.c \
-	utility/put_and_count.c
+	utility/put_and_count.c \
+	libft/ft_strchr.c \
+	libft/ft_strlcpy.c \
+	libft/ft_strlen_safe.c \
+	libft/strjoin_safe.c
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
