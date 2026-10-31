@@ -12,7 +12,7 @@ COMMON_SRCS = ft_printf.c \
 	handles/handle_u.c \
 	handles/handle_upper_x.c \
 	handles/handle_x.c \
-	core/call_handle.c \
+	utility/call_handle.c \
 	libft_safe/ft_atoi.c \
 	libft_safe/ft_strcat_char.c \
 	libft_safe/get_hexadecimal.c \
@@ -23,8 +23,8 @@ COMMON_SRCS = ft_printf.c \
 	libft_safe/ft_strlen_safe.c \
 	libft_safe/strjoin_safe.c
 SRCS = $(COMMON_SRCS) \
-	core/call_modifier.c \
-	core/handle_conversion.c
+	utility/call_modifier.c \
+	utility/handle_conversion.c
 BONUS_SRCS = $(COMMON_SRCS) \
 	utility/handle_conversion_bonus.c \
 	modifiers/call_modifiers_bonus.c \
@@ -53,7 +53,7 @@ bonus: .bonus
 	$(RM) $(NAME)
 	$(AR) $(NAME) $(BONUS_OBJS)
 	@touch .bonus
-	@$(RM) core/call_modifier.o core/handle_conversion.o
+	@$(RM) utility/call_modifier.o utility/handle_conversion.o
 
 %.o: %.c ft_printf.h ft_printf_bonus.h
 	$(CC) $(CFLAGS) -c $< -o $@

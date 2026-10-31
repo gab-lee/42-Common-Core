@@ -159,8 +159,9 @@ ft_printf/
 │   ├── handle_x.c
 │   ├── handle_upper_x.c
 │   └── handle_percent.c
-├── core/                     parsing and dispatch
+├── utility/                  parsing and dispatch
 │   ├── handle_conversion.c
+│   ├── handle_conversion_bonus.c
 │   ├── call_handle.c
 │   └── call_modifier.c       mandatory only, does nothing
 ├── modifiers/                bonus flags, built only by `make bonus`
@@ -190,8 +191,8 @@ ft_printf/
 | step | function | file |
 |---|---|---|
 | walk the format string | `ft_printf` | `ft_printf.c` |
-| collect flags, find the conversion letter | `handle_conversion` | `core/handle_conversion.c` |
-| pick the handler from the letter | `call_handle` | `core/call_handle.c` |
+| collect flags, find the conversion letter | `handle_conversion` | `utility/handle_conversion.c` |
+| pick the handler from the letter | `call_handle` | `utility/call_handle.c` |
 | pick the modifiers from the flags | `call_modifier` | `modifiers/call_modifiers_bonus.c` |
 | write and count | `put_char_count`, `put_str_count` | `libft_safe/put_and_count.c` |
 | hexadecimal string | `get_hexadecimal` | `libft_safe/get_hexadecimal.c` |
