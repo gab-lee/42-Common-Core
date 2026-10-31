@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 23:06:05 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/28 00:02:10 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/31 08:54:39 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	handle_conversion(const char *str, int *i, int *bytes_written, va_list *args)
 {
 	char		*flags;
+	char		*temp;
 	char		*formatted_str;
 	t_handler	h;
 
@@ -44,7 +45,15 @@ int	handle_conversion(const char *str, int *i, int *bytes_written, va_list *args
 			free(flags);
 			break ;
 		}
-		flags = ft_strcat_char(flags, str[*i]);
+		temp = ft_strcat_char(flags, str[*i]);
+		if (!temp)
+		{
+			free (formatted_str);
+			free (flags);
+			return (-1);
+		}
+		free (flags);
+		flags = temp;
 	}
 	return (0);
 }
