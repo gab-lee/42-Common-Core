@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 23:27:41 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/27 23:07:18 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/11/01 11:03:00 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static int	has_zero(char *flags);
 static int	has_space(char *flags);
 static int	has_minus(char *flags);
 static int	apply_width(char **str, char *flags, char handle, int width);
+#include <stdio.h>
 
 int	call_modifier(char **str, char *flags, char handle)
 {
@@ -26,7 +27,7 @@ int	call_modifier(char **str, char *flags, char handle)
 
 	width = 0;
 	precision = 0;
-
+	printf("test\n");
 	if (ft_strchr(flags, '+'))
 	{
 		if (modify_plus(str, handle, width, precision) < 0)
@@ -76,15 +77,17 @@ static int get_width(char *flags)
 	{
 		if (flags[i] == '.')
 			break ;
-		if (!start && flags[i] > '0' && flags[i] <=9)
+		if (!start && flags[i] > '0' && flags[i] <= '9')
 		{
 			start = 1;
 			ft_strcat_char(width, flags[i]);
 		}
-		if (start && flags[i] >= '0' && flags[i] <=9)
+		if (start && flags[i] >= '0' && flags[i] <= '9')
 			ft_strcat_char(width, flags[i]);
 	}
-	return (ft_atoi(width));
+	if (width)
+		return (ft_atoi(width));
+	return (0);
 }
 
 static int has_zero(char *flags)

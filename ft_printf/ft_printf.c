@@ -25,10 +25,8 @@ int	ft_printf(const char *str, ...)
 	va_start(args, str);
 	while (++i, str[i] || res == -1)
 	{
-		if (str[i] == '%' && (!BONUS))
+		if (str[i] == '%')
 			res = call_mandatory(str, &i, &bytes_written, &args);
-		else if (str[i] == '%' && (BONUS))
-			res = call_bonus(str, &i, &bytes_written, &args);
 		else
 			put_char_count(str[i], &bytes_written);
 		if (res == -1)

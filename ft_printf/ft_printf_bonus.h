@@ -22,6 +22,9 @@
 //types
 typedef int	(*t_modifier)(char **str, char handle, int width, int precision);
 
+//calls
+int	call_bonus(const char *str, int *i, int *bytes_written, va_list *args);
+
 //Modifiers
 int	call_modifier(char **str, char *flags, char handle);
 int	nothing(char **str, char handle, int width, int precision);

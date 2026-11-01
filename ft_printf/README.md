@@ -150,6 +150,7 @@ ft_printf/
 ├── ft_printf.h
 ├── ft_printf_bonus.h
 ├── ft_printf.c
+├── ft_printf_bonus.c         bonus ft_printf, calls call_bonus
 ├── handles/                  one handler per conversion
 │   ├── handle_c.c
 │   ├── handle_s.c
@@ -161,10 +162,10 @@ ft_printf/
 │   └── handle_percent.c
 ├── utility/                  parsing and dispatch
 │   ├── call_mandatory.c
-│   ├── call_bonus.c
-│   └── call_handle.c
-├── modifiers/                bonus flags, always compiled in
-│   ├── call_modifiers_bonus.c
+│   ├── call_handle.c
+│   ├── call_bonus.c            bonus only
+│   └── call_modifiers_bonus.c  bonus only
+├── modifiers/                bonus flags, built only by `make bonus`
 │   ├── nothing_bonus.c
 │   ├── modify_width_bonus.c
 │   ├── modify_dot_bonus.c
@@ -192,7 +193,7 @@ ft_printf/
 | walk the format string | `ft_printf` | `ft_printf.c` |
 | collect flags, find the conversion letter | `call_mandatory` / `call_bonus` | `utility/call_mandatory.c`, `utility/call_bonus.c` |
 | pick the handler from the letter | `call_handle` | `utility/call_handle.c` |
-| pick the modifiers from the flags | `call_modifier` | `modifiers/call_modifiers_bonus.c` |
+| pick the modifiers from the flags | `call_modifier` | `utility/call_modifiers_bonus.c` |
 | write and count | `put_char_count`, `put_str_count` | `libft_safe/put_and_count.c` |
 | hexadecimal string | `get_hexadecimal` | `libft_safe/get_hexadecimal.c` |
 

@@ -3,8 +3,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -I.
 AR = ar rcs
 RM = rm -f
-COMMON_SRCS = ft_printf.c \
-	handles/handle_c.c \
+COMMON_SRCS = handles/handle_c.c \
 	handles/handle_d_or_i.c \
 	handles/handle_p.c \
 	handles/handle_percent.c \
@@ -13,7 +12,6 @@ COMMON_SRCS = ft_printf.c \
 	handles/handle_upper_x.c \
 	handles/handle_x.c \
 	utility/call_handle.c \
-	utility/call_bonus.c \
 	utility/call_mandatory.c \
 	libft_safe/ft_atoi.c \
 	libft_safe/ft_strcat_char.c \
@@ -23,8 +21,13 @@ COMMON_SRCS = ft_printf.c \
 	libft_safe/ft_strchr.c \
 	libft_safe/ft_strlcpy.c \
 	libft_safe/ft_strlen_safe.c \
-	libft_safe/strjoin_safe.c \
-	modifiers/call_modifiers_bonus.c \
+	libft_safe/strjoin_safe.c
+SRCS = $(COMMON_SRCS) \
+	ft_printf.c
+BONUS_SRCS = $(COMMON_SRCS) \
+	ft_printf_bonus.c \
+	utility/call_bonus.c \
+	utility/call_modifiers_bonus.c \
 	modifiers/modify_dot_bonus.c \
 	modifiers/modify_hashtag_bonus.c \
 	modifiers/modify_width_minus_bonus.c \
@@ -33,20 +36,32 @@ COMMON_SRCS = ft_printf.c \
 	modifiers/modify_width_bonus.c \
 	modifiers/modify_width_zero_bonus.c \
 	modifiers/nothing_bonus.c
-OBJS = $(COMMON_SRCS:.c=.o)
+OBJS = $(SRCS:.c=.o)
+BONUS_OBJS = $(BONUS_SRCS:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	$(AR) $(NAME) $(OBJS)
+$(NAME): .mandatory
 
-bonus: all
+# mandatory and bonus both produce libftprintf.a (each with its own ft_printf),
+# so each target rebuilds the archive from scratch and invalidates the other one
+.mandatory: $(OBJS)
+	$(RM) $(NAME) .bonus
+	$(AR) $(NAME) $(OBJS)
+	@touch .mandatory
+
+bonus: .bonus
+
+.bonus: $(BONUS_OBJS)
+	$(RM) $(NAME) .mandatory
+	$(AR) $(NAME) $(BONUS_OBJS)
+	@touch .bonus
 
 %.o: %.c ft_printf.h ft_printf_bonus.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	$(RM) $(OBJS)
+	$(RM) $(OBJS) $(BONUS_OBJS) .mandatory .bonus
 
 fclean: clean
 	$(RM) $(NAME)
