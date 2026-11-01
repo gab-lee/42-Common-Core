@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 23:06:05 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/11/01 09:22:42 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/11/01 09:31:10 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +14,21 @@
 
 int	call_mandatory(const char *str, int *i, int *bytes_written, va_list *args)
 {
-	char		*flags;
 	char		*formatted_str;
 	t_handler	h;
 
-	flags = NULL;
-	(*i)++;
-	while (str[*i])
+	if (!ft_strchr(CONVERSIONS, str[*i + 1]))
 	{
-		if (ft_strchr(CONVERSIONS, str[*i]))
-		{
-			h = call_handle(str[*i]);
-			formatted_str = NULL;
-			if (h)
-				formatted_str = h(args);
-			if (!formatted_str || (flags
-					&& call_modifier(&formatted_str, flags, str[*i]) < 0))
-			{
-				free(flags);
-				free(formatted_str);
-				return (-1);
-			}
-			put_str_count(formatted_str, bytes_written);
-			free(formatted_str);
-			free(flags);
-			return (0);
-		}
-		flags = ft_strcat_char(flags, str[*i]);
-		(*i)++;
+		put_char_count(str[*i], i);
+		return (0);
 	}
-	free(flags);
-	return (-1);
+	h = call_handle(str[*i + 1]);
+	formatted_str = NULL;
+	if (h)
+		formatted_str = h(args);
+	if (!formatted_str)
+		return (-1);
+	put_str_count(formatted_str, bytes_written);
+	free(formatted_str);
+	return (0);
 }
