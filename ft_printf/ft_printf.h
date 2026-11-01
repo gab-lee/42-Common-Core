@@ -28,6 +28,10 @@ int		ft_printf(const char *str, ...);
 void	put_char_count(char c, int *bytes_written);
 void	put_str_count(char *s, int *bytes_written);
 
+//calls (one per build, picked in ft_printf)
+int		call_mandatory(const char *str, int *i, int *bytes_written, va_list *args);
+int		call_bonus(const char *str, int *i, int *bytes_written, va_list *args);
+
 //hanldes
 char	*handle_c(va_list *args);
 char	*handle_s(va_list *args);
