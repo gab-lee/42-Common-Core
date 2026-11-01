@@ -17,11 +17,13 @@
 
 # undef BONUS
 # define BONUS 1
+# define FLAGS "-0.# +"
 
 //types
 typedef int	(*t_modifier)(char **str, char handle, int width, int precision);
 
 //Modifiers
+int	call_modifier(char **str, char *flags, char handle);
 int	nothing(char **str, char handle, int width, int precision);
 int	modify_width(char **str, char handle, int width, int precision);
 int	modify_dot(char **str, char handle, int width, int precision);

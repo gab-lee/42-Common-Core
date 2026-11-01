@@ -43,8 +43,6 @@ char	*handle_upper_x(va_list *args);
 char	*handle_percent(va_list *args);
 t_handler	call_handle(char c);
 
-//modifiers (a no-op in the mandatory build, real flag handling in the bonus)
-int	call_modifier(char **str, char *flags, char handle);
 
 //libft_safe
 int	ft_atoi(const char *str);

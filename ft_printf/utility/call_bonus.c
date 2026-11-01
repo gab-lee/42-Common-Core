@@ -6,59 +6,66 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 23:06:05 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/11/01 09:22:32 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/11/01 10:29:26 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf_bonus.h"
 
+static int check_valid_flags(const char *str, int *i, char **flags, t_handler *h);
+
 int	call_bonus(const char *str, int *i, int *bytes_written, va_list *args)
 {
 	char		*flags;
-	char		*temp;
 	char		*formatted_str;
 	t_handler	h;
-	int			len;
 
 	flags = NULL;
 	formatted_str = NULL;
-	while ((*i)++, str[(*i)])
+	h = NULL;
+	(*i)++;
+	if (check_valid_flags(str, i, &flags, &h) == -1)
 	{
-		if (ft_strchr(CONVERSIONS, (str[*i])))
+		put_char_count(str[*i - 1], bytes_written);
+		return (0);
+	}
+	if (ft_strchr(CONVERSIONS, str[*i]))
+	{
+		(*i)--;
+		return (call_mandatory(str, i, bytes_written, args));
+	}
+	formatted_str = h(args);
+	call_modifier(&formatted_str, flags, str[*i]);
+	put_str_count(formatted_str, ft_strlen_safe(formatted_str), bytes_written);
+	free(formatted_str);
+	free(flags);
+	return (0);
+}
+
+static int check_valid_flags(const char *str, int *i, char **flags, t_handler *h)
+{
+	int	j;
+
+	j = -1;
+	while (++j, str[(*i) + j] && !*h)
+	{
+		if (ft_strchr(FLAGS, (str[*i + j])) || ((str[*i + j]) > '0' && (str[*i + j]) < '9'))
+			*flags = ft_strcat_char(*flags, str[*i + j]);
+		else if (ft_strchr(CONVERSIONS, (str[*i + j])))
+			*h = call_handle(str[*i + j]);
+		else
 		{
-			h = call_handle(str[*i]);
-			if (!h)
-			{
-				free(flags);
-				return (-1);
-			}
-			formatted_str = h(args);
-			if (!flags && formatted_str)
-			{
-				len = 1;
-				if (str[*i] != 'c')
-					len = ft_strlen_safe(formatted_str);
-				put_str_count(formatted_str, len, bytes_written);
-				free(formatted_str);
-				free(flags);
-				return (1);
-			}
-			call_modifier(&formatted_str, flags, str[*i]);
-			put_str_count(formatted_str, ft_strlen_safe(formatted_str),
-				bytes_written);
-			free(formatted_str);
-			free(flags);
-			break ;
-		}
-		temp = ft_strcat_char(flags, str[*i]);
-		if (!temp)
-		{
-			free (formatted_str);
-			free (flags);
+			free(*flags);
+			*flags = NULL;
 			return (-1);
 		}
-		free (flags);
-		flags = temp;
 	}
+	if (!*h)
+	{
+		free(*flags);
+		*flags = NULL;
+		return (-1);
+	}
+	*i = *i + j - 1; 
 	return (0);
 }

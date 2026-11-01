@@ -23,10 +23,7 @@ COMMON_SRCS = ft_printf.c \
 	libft_safe/ft_strchr.c \
 	libft_safe/ft_strlcpy.c \
 	libft_safe/ft_strlen_safe.c \
-	libft_safe/strjoin_safe.c
-SRCS = $(COMMON_SRCS) \
-	utility/call_modifier.c
-BONUS_SRCS = $(COMMON_SRCS) \
+	libft_safe/strjoin_safe.c \
 	modifiers/call_modifiers_bonus.c \
 	modifiers/modify_dot_bonus.c \
 	modifiers/modify_hashtag_bonus.c \
@@ -36,30 +33,20 @@ BONUS_SRCS = $(COMMON_SRCS) \
 	modifiers/modify_width_bonus.c \
 	modifiers/modify_width_zero_bonus.c \
 	modifiers/nothing_bonus.c
-OBJS = $(SRCS:.c=.o)
-BONUS_OBJS = $(BONUS_SRCS:.c=.o)
+OBJS = $(COMMON_SRCS:.c=.o)
 
 all: $(NAME)
 
-# mandatory and bonus each provide call_modifier, so each target rebuilds
-# the archive from scratch and invalidates the other one
 $(NAME): $(OBJS)
-	$(RM) $(NAME) .bonus
 	$(AR) $(NAME) $(OBJS)
 
-bonus: .bonus
-
-.bonus: $(BONUS_OBJS)
-	$(RM) $(NAME)
-	$(AR) $(NAME) $(BONUS_OBJS)
-	@touch .bonus
-	@$(RM) utility/call_modifier.o
+bonus: all
 
 %.o: %.c ft_printf.h ft_printf_bonus.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	$(RM) $(OBJS) $(BONUS_OBJS) .bonus
+	$(RM) $(OBJS)
 
 fclean: clean
 	$(RM) $(NAME)

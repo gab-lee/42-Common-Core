@@ -162,9 +162,8 @@ ft_printf/
 ├── utility/                  parsing and dispatch
 │   ├── call_mandatory.c
 │   ├── call_bonus.c
-│   ├── call_handle.c
-│   └── call_modifier.c       mandatory only, does nothing
-├── modifiers/                bonus flags, built only by `make bonus`
+│   └── call_handle.c
+├── modifiers/                bonus flags, always compiled in
 │   ├── call_modifiers_bonus.c
 │   ├── nothing_bonus.c
 │   ├── modify_width_bonus.c
