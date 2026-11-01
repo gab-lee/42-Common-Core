@@ -15,6 +15,9 @@
 
 # include "ft_printf.h"
 
+# undef BONUS
+# define BONUS 1
+
 //types
 typedef int	(*t_modifier)(char **str, char handle, int width, int precision);
 

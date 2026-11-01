@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_conversion.c                                :+:      :+:    :+:   */
+/*   call_mandatory.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 23:06:05 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/27 23:14:05 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/11/01 09:22:42 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	handle_conversion(const char *str, int *i, int *bytes_written, va_list *args)
+int	call_mandatory(const char *str, int *i, int *bytes_written, va_list *args)
 {
 	char		*flags;
 	char		*formatted_str;

@@ -160,8 +160,8 @@ ft_printf/
 │   ├── handle_upper_x.c
 │   └── handle_percent.c
 ├── utility/                  parsing and dispatch
-│   ├── handle_conversion.c
-│   ├── handle_conversion_bonus.c
+│   ├── call_mandatory.c
+│   ├── call_bonus.c
 │   ├── call_handle.c
 │   └── call_modifier.c       mandatory only, does nothing
 ├── modifiers/                bonus flags, built only by `make bonus`
@@ -191,7 +191,7 @@ ft_printf/
 | step | function | file |
 |---|---|---|
 | walk the format string | `ft_printf` | `ft_printf.c` |
-| collect flags, find the conversion letter | `handle_conversion` | `utility/handle_conversion.c` |
+| collect flags, find the conversion letter | `call_mandatory` / `call_bonus` | `utility/call_mandatory.c`, `utility/call_bonus.c` |
 | pick the handler from the letter | `call_handle` | `utility/call_handle.c` |
 | pick the modifiers from the flags | `call_modifier` | `modifiers/call_modifiers_bonus.c` |
 | write and count | `put_char_count`, `put_str_count` | `libft_safe/put_and_count.c` |
@@ -266,7 +266,7 @@ Order of application on a converted string: precision, then sign or prefix, then
 ### justification
 
 - one `va_list` passed by pointer keeps argument order correct without a separate argument array.
-- a table of handlers keyed by the conversion letter keeps `handle_conversion` small. adding a conversion means adding a handler and one line in `call_handle`.
+- a table of handlers keyed by the conversion letter keeps `call_mandatory`/`call_bonus` small. adding a conversion means adding a handler and one line in `call_handle`.
 - modifiers are separate from handlers, so the mandatory conversions work without them and the bonus only plugs into the same call.
 - the return value is counted at the single place where bytes are written, so it cannot drift from what was actually printed.
 
@@ -276,7 +276,7 @@ Order of application on a converted string: precision, then sign or prefix, then
 - `%d` and `%i` share one handler, they only differ on input in `scanf`.
 - integer conversions build their string with a local `itoa`, so the sign, zero padding and precision can be applied to a string afterwards.
 - `INT_MIN` is handled by converting each digit with the sign factored in, instead of negating the number.
-- the `flags` string is built with `malloc`, so every exit path of `handle_conversion` must free it.
+- the `flags` string is built with `malloc`, so every exit path of `call_mandatory`/`call_bonus` must free it.
 
 ## Resources
 

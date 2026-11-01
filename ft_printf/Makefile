@@ -24,9 +24,9 @@ COMMON_SRCS = ft_printf.c \
 	libft_safe/strjoin_safe.c
 SRCS = $(COMMON_SRCS) \
 	utility/call_modifier.c \
-	utility/handle_conversion.c
+	utility/call_mandatory.c
 BONUS_SRCS = $(COMMON_SRCS) \
-	utility/handle_conversion_bonus.c \
+	utility/call_bonus.c \
 	modifiers/call_modifiers_bonus.c \
 	modifiers/modify_dot_bonus.c \
 	modifiers/modify_hashtag_bonus.c \
@@ -41,7 +41,7 @@ BONUS_OBJS = $(BONUS_SRCS:.c=.o)
 
 all: $(NAME)
 
-# mandatory and bonus each provide call_modifier and handle_conversion, so each target rebuilds
+# mandatory and bonus each provide call_modifier and call_mandatory/call_bonus, so each target rebuilds
 # the archive from scratch and invalidates the other one
 $(NAME): $(OBJS)
 	$(RM) $(NAME) .bonus
@@ -53,7 +53,7 @@ bonus: .bonus
 	$(RM) $(NAME)
 	$(AR) $(NAME) $(BONUS_OBJS)
 	@touch .bonus
-	@$(RM) utility/call_modifier.o utility/handle_conversion.o
+	@$(RM) utility/call_modifier.o utility/call_mandatory.o
 
 %.o: %.c ft_printf.h ft_printf_bonus.h
 	$(CC) $(CFLAGS) -c $< -o $@

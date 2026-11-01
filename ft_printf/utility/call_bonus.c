@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_conversion_bonus.c                          :+:      :+:    :+:   */
+/*   call_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 23:06:05 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/31 08:54:39 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/11/01 09:22:32 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf_bonus.h"
 
-int	handle_conversion(const char *str, int *i, int *bytes_written, va_list *args)
+int	call_bonus(const char *str, int *i, int *bytes_written, va_list *args)
 {
 	char		*flags;
 	char		*temp;

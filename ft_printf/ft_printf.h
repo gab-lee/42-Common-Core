@@ -19,6 +19,7 @@
 
 # define CONVERSIONS "cspdiuxX%"
 # define HEXADECIMAL "0123456789abcdef"
+# define BONUS 0
 
 //types
 typedef char	*(*t_handler)(va_list *args);
@@ -28,7 +29,6 @@ void	put_char_count(char c, int *bytes_written);
 void	put_str_count(char *s, int *bytes_written);
 
 //hanldes
-int		handle_conversion(const char *str, int *i, int *bytes_written, va_list *args);
 char	*handle_c(va_list *args);
 char	*handle_s(va_list *args);
 char	*handle_p(va_list *args);
