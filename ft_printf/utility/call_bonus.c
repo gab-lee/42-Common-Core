@@ -18,6 +18,7 @@ int	call_bonus(const char *str, int *i, int *bytes_written, va_list *args)
 	char		*temp;
 	char		*formatted_str;
 	t_handler	h;
+	int			len;
 
 	flags = NULL;
 	formatted_str = NULL;
@@ -34,13 +35,17 @@ int	call_bonus(const char *str, int *i, int *bytes_written, va_list *args)
 			formatted_str = h(args);
 			if (!flags && formatted_str)
 			{
-				put_str_count(formatted_str, bytes_written);
+				len = 1;
+				if (str[*i] != 'c')
+					len = ft_strlen_safe(formatted_str);
+				put_str_count(formatted_str, len, bytes_written);
 				free(formatted_str);
 				free(flags);
 				return (1);
 			}
 			call_modifier(&formatted_str, flags, str[*i]);
-			put_str_count(formatted_str, bytes_written);
+			put_str_count(formatted_str, ft_strlen_safe(formatted_str),
+				bytes_written);
 			free(formatted_str);
 			free(flags);
 			break ;

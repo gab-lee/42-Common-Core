@@ -18,11 +18,11 @@ void	put_char_count(char c, int *bytes_written)
 	(*bytes_written)++;
 }
 
-void	put_str_count(char *s, int *bytes_written)
+void	put_str_count(char *s, int len, int *bytes_written)
 {
 	int	i;
 
 	i = -1;
-	while (++i, s[i])
+	while (++i < len)
 		put_char_count(s[i], bytes_written);
 }

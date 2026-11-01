@@ -26,7 +26,7 @@ typedef char	*(*t_handler)(va_list *args);
 
 int		ft_printf(const char *str, ...);
 void	put_char_count(char c, int *bytes_written);
-void	put_str_count(char *s, int *bytes_written);
+void	put_str_count(char *s, int len, int *bytes_written);
 
 //calls (one per build, picked in ft_printf)
 int		call_mandatory(const char *str, int *i, int *bytes_written, va_list *args);

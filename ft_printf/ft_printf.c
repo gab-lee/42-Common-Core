@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 22:22:32 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/11/01 09:32:23 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/11/01 09:45:45 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,19 @@ int	ft_printf(const char *str, ...)
 	res = 0;
 	bytes_written = 0;
 	va_start(args, str);
-	while (++i, str[i] && res != -1)
+	while (++i, str[i] || res == -1)
 	{
 		if (str[i] == '%' && (!BONUS))
-			res = call_mandatory(str, &bytes_written, &args);
+			res = call_mandatory(str, &i, &bytes_written, &args);
 		else if (str[i] == '%' && (BONUS))
-			res = call_bonus(str, &bytes_written, &args);
+			res = call_bonus(str, &i, &bytes_written, &args);
+		else
+			put_char_count(str[i], &bytes_written);
 		if (res == -1)
 		{
 			bytes_written = -1;
 			break ;
 		}
-		else
-			put_char_count(str[i], &bytes_written);
 	}
 	va_end(args);
 	return (bytes_written);
