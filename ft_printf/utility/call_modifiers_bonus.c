@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 23:27:41 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/11/01 11:03:00 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/11/01 19:25:28 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,45 +14,30 @@
 
 static int	get_width(char *flags);
 static int	get_precision(char *flags);
-static int	has_zero(char *flags);
-static int	has_space(char *flags);
-static int	has_minus(char *flags);
 static int	apply_width(char **str, char *flags, char handle, int width);
-#include <stdio.h>
 
 int	call_modifier(char **str, char *flags, char handle)
 {
-	int width;
-	int precision;
-
-	width = 0;
-	precision = 0;
-	printf("test\n");
-	if (ft_strchr(flags, '+'))
-	{
-		if (modify_plus(str, handle, width, precision) < 0)
-			return (-1);
-	}
-	else if (has_space(flags))
-	{
-		if (modify_space(str, handle, width, precision) < 0)
-			return (-1);
-	}
-	width = get_width(flags);
-	if (width && apply_width(str, flags, handle, width) < 0)
+	if (check_valid_flags(flags) == -1)
 		return (-1);
-	precision = get_precision(flags);
-	if (precision)
-	{
-		if (modify_dot(str, handle, width, precision) < 0)
-			return (-1);
-	}
-	if (ft_strchr(flags, '#'))
-	{
-		if (modify_hashtag(str, handle, width, precision) < 0)
-			return (-1);
-	}
+	if (modify_dot(str, handle, get_precision(flags)) == -1)
+		return (-1);
+	if (apply_sign(str, handle, has_plus(flags), has_space(flags)) == -1)
+		return (-1);
+	if (modify_hashtag(str, handle, has_hash(flags)) == -1)
+		return (-1);
+	if (apply_width(str, flags, handle, get_width(flags)) == -1)
+		return (-1);
 	return (1);
+}
+
+static int	apply_sign(char *str, char *handle, int has_plus, int has_space)
+{
+	if (has_plus)
+		return (modify_plus(str, handle));
+	else if (has_space)
+		return (modify_space(str, handle));
+	return (0);
 }
 
 static int	apply_width(char **str, char *flags, char handle, int width)
@@ -80,60 +65,16 @@ static int get_width(char *flags)
 		if (!start && flags[i] > '0' && flags[i] <= '9')
 		{
 			start = 1;
-			ft_strcat_char(width, flags[i]);
+			width = ft_strcat_char(width, flags[i]);
 		}
 		if (start && flags[i] >= '0' && flags[i] <= '9')
-			ft_strcat_char(width, flags[i]);
+			width = ft_strcat_char(width, flags[i]);
 	}
 	if (width)
 		return (ft_atoi(width));
 	return (0);
 }
 
-static int has_zero(char *flags)
-{
-	int		i;
-
-	i = -1;
-	while (++i, flags[i])
-	{
-		if (flags[i] == '.' || (flags[i] > '0' && flags[i] <= '9'))
-			break ;
-		if (flags[i] == '0')
-			return (1);
-	}
-	return (0);
-}
-
-static int has_space(char *flags)
-{
-	int		i;
-
-	i = -1;
-	while (++i, flags[i])
-	{
-		if (flags[i] == '.' || (flags[i] > '0' && flags[i] <= '9'))
-			break ;
-		if (flags[i] == ' ')
-			return (1);
-	}
-	return (0);
-}
-
-static int has_minus(char *flags)
-{
-	int		i;
-
-	i = -1;
-	while (++i, flags[i])
-	{
-		if (flags[i] == '.' || (flags[i] > '0' && flags[i] <= '9'))
-			break ;
-		if (flags[i] == '-')
-			return (1);
-	}
-	return (0);
-}
 static int get_precision(char *flags)
 {
 	int		i;
@@ -147,8 +88,11 @@ static int get_precision(char *flags)
 	{
 		if (flags[i] == '.')
 			start = 1 ;
-		if (start && flags[i] >= '0' && flags[i] <=9)
+		if (start && flags[i] >= '0' && flags[i] <= '9')
 			ft_strcat_char(precision, flags[i]);
 	}
-	return (ft_atoi(precision));
+	if (precision)
+		return (ft_atoi(precision));
+	else 
+		return (0);
 }
