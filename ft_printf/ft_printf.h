@@ -16,6 +16,7 @@
 # include <stdarg.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include "libft/libft.h"
 
 # define CONVERSIONS "cspdiuxX%"
 # define HEXADECIMAL "0123456789abcdef"
@@ -43,14 +44,11 @@ char	*handle_percent(va_list *args);
 t_handler	call_handle(char c);
 
 
-//libft_safe
-int	ft_atoi(const char *str);
-char	*ft_strchr(const char *str, int c);
+//libft_safe (what libft does not cover)
 char	*ft_strcat_char(char *str, char c);
 size_t	ft_strlen_safe(const char *str);
 char	*get_hexadecimal(unsigned long x, int upper);
 char	*strjoin_safe(char const *s1, char const *s2);
 size_t	str_shrink(char **str, size_t n);
-size_t	ft_strlcpy(char *dest, const char *src, size_t n);
 
 #endif
