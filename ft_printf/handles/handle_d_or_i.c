@@ -12,10 +12,6 @@
 
 #include "ft_printf.h"
 
-static char	*ft_itoa(int n);
-static int	ft_intsize(int n, int *sign);
-static void	ft_fill_str(int n, char *str, int sign);
-
 char	*handle_d_or_i(va_list *args)
 {
 	int		d;
@@ -27,56 +23,4 @@ char	*handle_d_or_i(va_list *args)
 	if (!formatted_str)
 		return (NULL);
 	return (formatted_str);
-}
-
-static char	*ft_itoa(int n)
-{
-	char	*str;
-	int		sign;
-	int		size;
-
-	sign = 1;
-	if (n == 0)
-	{
-		str = malloc(2 * sizeof(char));
-		if (!str)
-			return (NULL);
-		str[0] = '0';
-		str[1] = '\0';
-		return (str);
-	}
-	size = ft_intsize(n, &sign);
-	str = malloc((size + 1) * sizeof(char));
-	if (!str || !n)
-		return (NULL);
-	ft_fill_str(n, &str[size - 1], sign);
-	str[size] = '\0';
-	return (str);
-}
-
-static int	ft_intsize(int n, int *sign)
-{
-	int	size;
-
-	size = -1;
-	if (n < 0)
-	{
-		size++;
-		*sign = -1;
-	}
-	while (++size, n)
-		n = n / 10;
-	return (size);
-}
-
-static void	ft_fill_str(int n, char *str, int sign)
-{
-	if (!n)
-	{
-		if (sign == -1)
-			*str = '-';
-		return ;
-	}
-	*str = (n % 10) * sign + '0';
-	ft_fill_str(n / 10, str - 1, sign);
 }
