@@ -1,293 +1,120 @@
 *This project has been created as part of the 42 curriculum by gabrlee.*
 
-# ft_printf
+# Libft
 
 ## Description
 
-ft_printf is my own implementation of the libc `printf`, built as a Common Core project at 42. it formats its arguments according to a format string, writes the result to standard output and returns the number of bytes written.
+libft is my own C library, built from scratch as the first project of the Common Core at 42. it reimplements a bunch of standard libc functions.
 
-```c
-int	ft_printf(const char *str, ...);
-```
-
-| case | return |
-|---|---|
-| success | the number of bytes written |
-| write error | `-1` |
-
-| | functions |
-|---|---|
-| allowed | `malloc`, `free`, `write`, `va_start`, `va_arg`, `va_copy`, `va_end` |
-| forbidden | `printf` and the rest of the libc `printf` family |
-
-### Features
-
-#### Mandatory conversions
-
-| conversion | prints |
-|---|---|
-| `%c` | a single character |
-| `%s` | a string |
-| `%p` | a pointer in hexadecimal |
-| `%d` | a signed decimal integer |
-| `%i` | a signed integer, same output as `%d` |
-| `%u` | an unsigned decimal integer |
-| `%x` | an unsigned integer in lowercase hexadecimal |
-| `%X` | an unsigned integer in uppercase hexadecimal |
-| `%%` | a literal percent sign |
-
-#### Bonus
-
-| flag | effect |
-|---|---|
-| `-` | left-justify within the width |
-| `0` | pad with zeros instead of spaces |
-| `.` | precision |
-| width | minimum field width |
-| `#` | `0x` / `0X` prefix |
-| space | space before a non-negative number |
-| `+` | always print the sign |
-
-the full rules and the combinations that are valid per conversion are in the tables below.
+[github page](https://github.com/gab-lee/42-Common-Core)
 
 ## Instructions
 
-### compile
+### compile the library
 
 ```bash
-make        # builds libftprintf.a (mandatory part)
-make bonus  # builds libftprintf.a with the bonus flags
+make        # builds libft.a (mandatory part)
+make all    # same as make
 make clean  # removes object files
-make fclean # removes object files + libftprintf.a
+make fclean # removes object files + libft.a
 make re     # fclean + rebuild
 ```
 
-then link it with your own `main.c`:
+this produces `libft.a` at the root of the repo, built with `ar`.
 
-```bash
-cc -Wall -Wextra -Werror main.c libftprintf.a
+### use it in another project
+
+copy the `libft` folder into your project, then in your project's Makefile:
+
+```makefile
+libft/libft.a:
+	make -C libft
+
+$(NAME): libft/libft.a $(OBJS)
+	$(CC) $(OBJS) -Llibft -lft -o $(NAME)
 ```
 
-### use it
+and include the header where needed:
 
 ```c
-#include "ft_printf.h"
-
-int	n = ft_printf("age: %5d, id: %s\n", 42, "ab");
+#include "libft/libft.h"
 ```
 
-`n` holds the number of bytes written, `\n` included.
+every function follows the same prototype/behaviour as its libc counterpart, just prefixed with `ft_`.
 
-## Algorithm and data structure
+## Library content
 
-### chosen approach
+### part 1 — libc functions
 
-`ft_printf` walks the format string one character at a time. a plain character is written straight away. a `%` starts a conversion: every character after it is collected into a `flags` string until a conversion letter from `cspdiuxX%` is found. the letter selects the handler, the collected `flags` select the modifiers that change how the handler prints.
-
-the variadic arguments are never copied. one `va_list` is created in `ft_printf` and passed by pointer, so each handler consumes exactly its own argument with `va_arg` and the next handler continues where it stopped. every write goes through `put_char_count` and `put_str_count`, which add to a single `bytes_written` counter, so the return value is built as the output is produced.
-
-```
- caller:  ft_printf("age: %5d, id: %s\n", 42, "ab");
-
-                    int ft_printf(const char *str, ...)
-                    |                           |
-        +-----------+                           +-------------+
-        |                                                     |
-        v                                                     v
-  str (read-only string)                        ... (variadic arguments)
-  "age: %5d, id: %s\n"                          stored in a va_list
-        |                                       consumed one at a time
-        |                                       with va_arg
-        v
-  +-----------------------------+
-  | walk str one char at a time |<---------------------------------+
-  +-----------------------------+                                   |
-        |                                                           |
-        +-- not '%' --> write char, bytes_written += 1 ------------>+
-        |                                                           |
-        +-- '%' --> collect chars after it until a conversion       |
-                    letter (c s p d i u x X %)                      |
-                                |                                   |
-              +-----------------+-----------+                       |
-              |                             |                       |
-              v                             v                       |
-     modifiers collected            conversion letter               |
-     (bonus only)                   selects a case function         |
-     - 0 . width # + space                  |                       |
-              |                             v                       |
-              |            +-----------------------------+          |
-              |            | case function table         |          |
-              |            |   'c' -> print_char         |          |
-              |            |   's' -> print_str          |          |
-              |            |   'p' -> print_ptr          |          |
-              |            |   'd' -> print_int          |          |
-              |            |   'i' -> print_int          |          |
-              |            |   'u' -> print_uint         |          |
-              |            |   'x' -> print_hex (lower)  |          |
-              |            |   'X' -> print_hex (upper)  |          |
-              |            |   '%' -> print_percent      |          |
-              |            +-----------------------------+          |
-              |                             |                       |
-              +-- modifies how the -------->|                       |
-                  case function works       v                       |
-                                takes next arg from va_list         |
-                                (none for '%')                      |
-                                            |                       |
-                                writes the output and               |
-                                returns bytes written               |
-                                            |                       |
-                                bytes_written += returned --------->+
-
-  end of str  --->  return bytes_written
-```
-
-### file structure
-
-```
-ft_printf/
-├── Makefile
-├── README.md
-├── ft_printf.h
-├── ft_printf_bonus.h
-├── ft_printf.c
-├── ft_printf_bonus.c         bonus ft_printf, calls call_bonus
-├── handles/                  one handler per conversion
-│   ├── handle_c.c
-│   ├── handle_s.c
-│   ├── handle_p.c
-│   ├── handle_d_or_i.c
-│   ├── handle_u.c
-│   ├── handle_x.c
-│   ├── handle_upper_x.c
-│   └── handle_percent.c
-├── utility/                  parsing and dispatch
-│   ├── call_mandatory.c
-│   ├── call_handle.c
-│   ├── call_bonus.c            bonus only
-│   └── call_modifiers_bonus.c  bonus only
-├── modifiers/                bonus flags, built only by `make bonus`
-│   ├── nothing_bonus.c
-│   ├── modify_width_bonus.c
-│   ├── modify_dot_bonus.c
-│   ├── modify_hashtag_bonus.c
-│   ├── modify_width_zero_bonus.c
-│   ├── modify_width_minus_bonus.c
-│   ├── modify_plus_bonus.c
-│   └── modify_space_bonus.c
-└── libft_safe/               libft functions and helpers adapted for ft_printf
-    ├── ft_atoi.c
-    ├── ft_strchr.c
-    ├── ft_strlcpy.c
-    ├── ft_strlen_safe.c
-    ├── strjoin_safe.c
-    ├── ft_strcat_char.c
-    ├── str_shrink.c
-    ├── get_hexadecimal.c
-    └── put_and_count.c
-```
-
-### code map
-
-| step | function | file |
+| # | function | description |
 |---|---|---|
-| walk the format string | `ft_printf` | `ft_printf.c` |
-| collect flags, find the conversion letter | `call_mandatory` / `call_bonus` | `utility/call_mandatory.c`, `utility/call_bonus.c` |
-| pick the handler from the letter | `call_handle` | `utility/call_handle.c` |
-| pick the modifiers from the flags | `call_modifier` | `utility/call_modifiers_bonus.c` |
-| write and count | `put_char_count`, `put_str_count` | `libft_safe/put_and_count.c` |
-| hexadecimal string | `get_hexadecimal` | `libft_safe/get_hexadecimal.c` |
+| 1 | `ft_isalpha` | checks if a char is alphabetic |
+| 2 | `ft_isdigit` | checks if a char is a digit |
+| 3 | `ft_isalnum` | checks if a char is alphanumeric |
+| 4 | `ft_isascii` | checks if a char is in the ASCII range |
+| 5 | `ft_isprint` | checks if a char is printable |
+| 6 | `ft_strlen` | returns the length of a string |
+| 7 | `ft_memset` | fills a memory area with a byte |
+| 8 | `ft_bzero` | zeroes out a memory area |
+| 9 | `ft_memcpy` | copies a memory area |
+| 10 | `ft_memmove` | copies a memory area, handles overlap |
+| 11 | `ft_strlcpy` | copies a string, size-bounded |
+| 12 | `ft_strlcat` | concatenates a string, size-bounded |
+| 13 | `ft_toupper` | converts a char to uppercase |
+| 14 | `ft_tolower` | converts a char to lowercase |
+| 15 | `ft_strchr` | finds first occurrence of a char in a string |
+| 16 | `ft_strrchr` | finds last occurrence of a char in a string |
+| 17 | `ft_strncmp` | compares two strings up to n chars |
+| 18 | `ft_memchr` | finds a byte in a memory area |
+| 19 | `ft_memcmp` | compares two memory areas |
+| 20 | `ft_strnstr` | finds a substring within n chars |
+| 21 | `ft_atoi` | converts a string to an int |
+| 22 | `ft_calloc` | allocates and zeroes memory |
+| 23 | `ft_strdup` | duplicates a string |
 
-the "case function table" in the diagram is the `call_handle` function, which returns a `t_handler` function pointer:
+### part 2 — additional functions
 
-| letter | handler | file |
+| # | function | description |
 |---|---|---|
-| `c` | `handle_c` | `handle_c.c` |
-| `s` | `handle_s` | `handle_s.c` |
-| `p` | `handle_p` | `handle_p.c` |
-| `d` `i` | `handle_d_or_i` | `handle_d_or_i.c` |
-| `u` | `handle_u` | `handle_u.c` |
-| `x` | `handle_x` | `handle_x.c` |
-| `X` | `handle_upper_x` | `handle_upper_x.c` |
-| `%` | `handle_percent` | `handle_percent.c` |
+| 24 | `ft_substr` | allocates and returns a substring |
+| 25 | `ft_strjoin` | allocates and returns the concatenation of two strings |
+| 26 | `ft_strtrim` | trims chars from the start/end of a string |
+| 27 | `ft_split` | splits a string into an array of strings by delimiter |
+| 28 | `ft_itoa` | converts an int to a string |
+| 29 | `ft_strmapi` | applies a function to each char of a string, returns a new string |
+| 30 | `ft_striteri` | applies a function to each char of a string in place |
+| 31 | `ft_putchar_fd` | writes a char to a file descriptor |
+| 32 | `ft_putstr_fd` | writes a string to a file descriptor |
+| 33 | `ft_putendl_fd` | writes a string + newline to a file descriptor |
+| 34 | `ft_putnbr_fd` | writes an int to a file descriptor |
 
-### helper functions
+### part 3 — linked list
 
-#### libft functions used (`libft_safe/`)
-
-these are copied from my [libft](../libft) into `libft_safe/` so that `libftprintf.a` builds without linking `libft.a`. `ft_printf` can receive `NULL` (for example `%s` with a null pointer), so the functions that would crash on it are changed.
-
-| function | original libft function | used for | remarks |
-|---|---|---|---|
-| `ft_atoi` | `ft_atoi` | reading width and precision from the flags | unchanged, only the included header differs |
-| `ft_strchr` | `ft_strchr` | checking if a char is one of the conversion letters | unchanged, only the included header differs |
-| `ft_strlcpy` | `ft_strlcpy` | copying strings while building the output | modified: calls `ft_strlen_safe` instead of `ft_strlen` |
-| `ft_strlen_safe` | `ft_strlen` | string length | modified: returns `0` when the string is `NULL` |
-| `strjoin_safe` | `ft_strjoin` | joining padding, prefix and digits | modified: returns `NULL` when `s1` or `s2` is `NULL`, uses `ft_strlen_safe` |
-
-#### other helpers
-
-| function | description |
-|---|---|
-| `ft_strcat_char` | appends one char to a malloc'd string, used to collect the flags |
-| `ft_itoa` | signed int to string, local to `handle_d_or_i.c` |
-| `uitoa` | unsigned int to string, local to `handle_u.c` |
-| `get_hexadecimal` | unsigned long to a hexadecimal string, lowercase or uppercase |
-
-`get_hexadecimal` computes the length first, allocates once and fills the string from the last digit to the first, so no reversing is needed. uppercase is applied while filling, through a function pointer.
-
-### bonus: flags and modifiers
-
-a modifier is a function pointer (`t_modifier`). `call_modifier` starts from a modifier that does nothing and wraps it once per flag found in `flags`, in a fixed order: width, precision, `#`, `0`, `-`, `+`, space. the same flags therefore always produce the same chain, no matter the order they were typed in the format string.
-
-| Flag | Effect | Triggered by | Interactions |
-|---|---|---|---|
-| `-` | Left-justifies within the width and pads on the right with spaces | Any conversion, when a width is present | Overrides `0` |
-| `0` | Pads with zeros instead of spaces up to the width | `d i u x X` | Ignored if `-` is present, and ignored for integers if a precision is given |
-| `.` (precision) | `s`: maximum characters printed. Integers: minimum digits, padded with leading zeros | `s d i u x X` | A precision of 0 with value 0 prints no digits |
-| width (number) | Minimum field width, padded with spaces | Any conversion | Never truncates |
-| `#` | Prefixes `0x` or `0X` | `x X`, only when the value is nonzero | No effect on other conversions |
-| space | Prefixes a space when the number is not negative | `d i` | Ignored if `+` is present |
-| `+` | Always prints a sign | `d i` | Overrides space |
-
-Order of application on a converted string: precision, then sign or prefix, then width padding.
-
-| Conversion | Valid flags and modifiers | Not valid |
+| # | function | description |
 |---|---|---|
-| `c` | `-`, width | `0`, `#`, `+`, space, precision |
-| `s` | `-`, width, precision | `0`, `#`, `+`, space |
-| `p` | `-`, width | `0`, `#`, `+`, space, precision |
-| `d` `i` | `-`, `0`, `+`, space, width, precision | `#` |
-| `u` | `-`, `0`, width, precision | `#`, `+`, space |
-| `x` `X` | `-`, `0`, `#`, width, precision | `+`, space |
-| `%` | none | all |
-
-"Not valid" means the C standard leaves the behavior undefined. Most libcs ignore those combinations silently.
-
-### justification
-
-- one `va_list` passed by pointer keeps argument order correct without a separate argument array.
-- a table of handlers keyed by the conversion letter keeps `call_mandatory`/`call_bonus` small. adding a conversion means adding a handler and one line in `call_handle`.
-- modifiers are separate from handlers, so the mandatory conversions work without them and the bonus only plugs into the same call.
-- the return value is counted at the single place where bytes are written, so it cannot drift from what was actually printed.
-
-### technical choices
-
-- `%p` and `%x` share `get_hexadecimal`, which takes an `unsigned long`.
-- `%d` and `%i` share one handler, they only differ on input in `scanf`.
-- integer conversions build their string with a local `itoa`, so the sign, zero padding and precision can be applied to a string afterwards.
-- `INT_MIN` is handled by converting each digit with the sign factored in, instead of negating the number.
-- the `flags` string is built with `malloc`, so every exit path of `call_mandatory`/`call_bonus` must free it.
+| 35 | `ft_lstnew` | creates a new list node |
+| 36 | `ft_lstadd_front` | adds a node at the front of the list |
+| 37 | `ft_lstsize` | counts the nodes in a list |
+| 38 | `ft_lstlast` | returns the last node of a list |
+| 39 | `ft_lstadd_back` | adds a node at the end of the list |
+| 40 | `ft_lstdelone` | frees a single node and its content |
+| 41 | `ft_lstclear` | frees a whole list and its content |
+| 42 | `ft_lstiter` | applies a function to each node's content |
+| 43 | `ft_lstmap` | applies a function to each node's content, returns a new list |
 
 ## Resources
 
-- [Linux man pages: printf(3)](https://man7.org/linux/man-pages/man3/printf.3.html), the behaviour spec for the format string, flags and conversions
-- [Linux man pages: stdarg(3)](https://man7.org/linux/man-pages/man3/stdarg.3.html), `va_list`, `va_start`, `va_arg`, `va_end`
-- [libft](../libft), my own library from the first project of the Common Core
+- [Linux man pages](https://man7.org/linux/man-pages/) — the actual behaviour spec for every part 1 function
+- [mini-moulinette](https://github.com/gab-lee/mini-moulinette) — the testing tool I'm currently building to check this library
+- [libftTester](https://github.com/Tripouille/libftTester) — an existing, established libft tester
 
 ### AI usage
 
 used Claude (Claude Code) for:
-- reviewing the current state of the code: it pointed out compile errors, index bugs and leaks
+- checking my finished `libft.h` prototypes against the subject's required function list to catch anything missing or extra
 - drafting this README
+- running norminette and `-Wall -Wextra -Werror` compile checks, and testing every function against libc
+- reviewing my code: it pointed out bugs (an out-of-bounds read in `ft_strtrim`, `malloc` use in `ft_memmove`) and places where I could reuse my own libft functions
+- talking through how `ft_memmove` handles overlapping memory
 
-no function implementation was written or fixed by AI, all the `.c` logic is mine.
+no function implementation was written or fixed by AI — all the `.c` logic is mine.
