@@ -14,13 +14,12 @@
 
 static char	*zero_padding(size_t count);
 
-int	modify_width_zero(char **str, char handle, int width, int precision)
+int	modify_width_zero(char **str, char handle, int width)
 {
 	char	*zero;
 	char	*temp;
 	int len;
 	(void)handle;
-	(void)precision;
 
 	len = (int)ft_strlen_safe(*str);
 	if (width < len)

@@ -12,11 +12,9 @@
 
 #include "ft_printf_bonus.h"
 
-int	modify_space(char **str, char handle, int width, int precision)
+int	modify_space(char **str, char handle)
 {
 	char	*temp;
-	(void)precision;
-	(void)width;
 
 	if ((handle != 'd' && handle != 'i') || (*str)[0] == '-')
 		return (1);

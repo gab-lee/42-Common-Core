@@ -14,9 +14,8 @@
 
 static int	str_precision(char **str, int precision);
 
-int	modify_dot(char **str, char handle, int width, int precision)
+int	modify_dot(char **str, char handle, int precision)
 {
-	(void) width;
 	if (handle == 'c' || handle == '%')
 		return (1);
 	if (handle == 's')

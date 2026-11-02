@@ -12,13 +12,13 @@
 
 #include "ft_printf_bonus.h"
 
-int	modify_hashtag(char **str, char handle, int width, int precision)
+int	modify_hashtag(char **str, char handle, int has_hash)
 {
 	char	*formatted_str;
 	char	hash_str[3];
-	(void) precision;
-	(void) width;
 
+	if (!has_hash)
+		return (1);
 	hash_str[0] = '0';
 	hash_str[2] = '\0';
 	if (!(handle == 'x' || handle == 'X'))

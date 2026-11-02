@@ -14,13 +14,12 @@
 
 static char	*space_padding(size_t count);
 
-int	modify_width(char **str, char handle, int width, int precision)
+int	modify_width(char **str, char handle, int width)
 {
 	char *padding;
 	char *temp;
 	int len;
 	(void)handle;
-	(void)precision;
 
 	len = (int)ft_strlen_safe(*str);
 	if (width < len)
