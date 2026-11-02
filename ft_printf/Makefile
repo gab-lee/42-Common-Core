@@ -1,7 +1,8 @@
 NAME = libftprintf.a
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I.
+CFLAGS = -Wall -Wextra -Werror -I. -Ilibft
 AR = ar rcs
+LIBFT = libft/libft.a
 RM = rm -f
 COMMON_SRCS = handles/handle_c.c \
 	handles/handle_d_or_i.c \
@@ -13,13 +14,10 @@ COMMON_SRCS = handles/handle_c.c \
 	handles/handle_x.c \
 	utility/call_handle.c \
 	utility/call_mandatory.c \
-	libft_safe/ft_atoi.c \
 	libft_safe/ft_strcat_char.c \
 	libft_safe/get_hexadecimal.c \
 	libft_safe/put_and_count.c \
 	libft_safe/str_shrink.c \
-	libft_safe/ft_strchr.c \
-	libft_safe/ft_strlcpy.c \
 	libft_safe/ft_strlen_safe.c \
 	libft_safe/strjoin_safe.c
 SRCS = $(COMMON_SRCS) \
@@ -43,17 +41,23 @@ all: $(NAME)
 
 $(NAME): .mandatory
 
+$(LIBFT):
+	$(MAKE) -C libft
+
 # mandatory and bonus both produce libftprintf.a (each with its own ft_printf),
-# so each target rebuilds the archive from scratch and invalidates the other one
-.mandatory: $(OBJS)
+# so each target rebuilds the archive from scratch and invalidates the other one.
+# libft.a is the base of the archive so users only need to link -lftprintf.
+.mandatory: $(LIBFT) $(OBJS)
 	$(RM) $(NAME) .bonus
+	cp $(LIBFT) $(NAME)
 	$(AR) $(NAME) $(OBJS)
 	@touch .mandatory
 
 bonus: .bonus
 
-.bonus: $(BONUS_OBJS)
+.bonus: $(LIBFT) $(BONUS_OBJS)
 	$(RM) $(NAME) .mandatory
+	cp $(LIBFT) $(NAME)
 	$(AR) $(NAME) $(BONUS_OBJS)
 	@touch .bonus
 
@@ -61,9 +65,11 @@ bonus: .bonus
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
+	$(MAKE) -C libft clean
 	$(RM) $(OBJS) $(BONUS_OBJS) .mandatory .bonus
 
 fclean: clean
+	$(MAKE) -C libft fclean
 	$(RM) $(NAME)
 
 re: fclean all
