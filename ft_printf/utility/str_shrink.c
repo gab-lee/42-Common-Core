@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-size_t	str_shrink(char **str, size_t n)
+int	str_shrink(char **str, size_t n)
 {
 	char *temp;
 
@@ -20,10 +20,10 @@ size_t	str_shrink(char **str, size_t n)
 	{
 		free(*str);
 		*str = NULL;
-		return (1);
+		return (0);
 	}
 	if (ft_strlen(safe_call(*str)) >= n)
-		return (1);
+		return (0);
 	if (ft_strlen(safe_call(*str)) < n)
 	{
 		temp = malloc (n * sizeof (char));
@@ -34,5 +34,5 @@ size_t	str_shrink(char **str, size_t n)
 		*str = temp;
 		free(temp); 
 	}
-	return (1);
+	return (0);
 }

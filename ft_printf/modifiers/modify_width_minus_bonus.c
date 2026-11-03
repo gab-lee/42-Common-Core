@@ -23,7 +23,7 @@ int	modify_width_minus(char **str, char handle, int width)
 	(void) handle;
 	len = (int)ft_strlen(safe_call(*str));
 	if (width < len)
-		return (1);
+		return (0);
 	padding = space_padding(width - len);
 
 	temp = ft_strjoin(safe_call(*str), safe_call(padding));
@@ -32,7 +32,7 @@ int	modify_width_minus(char **str, char handle, int width)
 		return (-1);
 	free(*str);
 	*str = temp;
-	return (1);
+	return (0);
 }
 
 

@@ -18,7 +18,7 @@ int	modify_hashtag(char **str, char handle, int has_hash)
 	char	hash_str[3];
 
 	if (!has_hash)
-		return (1);
+		return (0);
 	hash_str[0] = '0';
 	hash_str[2] = '\0';
 	if (!(handle == 'x' || handle == 'X'))
@@ -29,5 +29,5 @@ int	modify_hashtag(char **str, char handle, int has_hash)
 		return (-1);
 	free(*str);
 	*str = formatted_str;
-	return (1);
+	return (0);
 }

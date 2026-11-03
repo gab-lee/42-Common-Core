@@ -23,7 +23,7 @@ int	modify_width_zero(char **str, char handle, int width)
 
 	len = (int)ft_strlen(safe_call(*str));
 	if (width < len)
-		return (1);
+		return (0);
 	zero = zero_padding(width - ft_strlen(safe_call(*str)));
 	if ((*str)[0] == '-')
 	{
@@ -46,7 +46,7 @@ int	modify_width_zero(char **str, char handle, int width)
 		return (-1);
 	free(*str);
 	*str = temp;
-	return (1);
+	return (0);
 }
 
 static char	*zero_padding(size_t count)

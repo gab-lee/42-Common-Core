@@ -48,6 +48,6 @@ t_handler	call_handle(char c);
 char	*ft_strcat_char(char *str, char c);
 char	*get_hexadecimal(unsigned long x, int upper);
 char	*safe_call(char *str);
-size_t	str_shrink(char **str, size_t n);
+int	str_shrink(char **str, size_t n);
 
 #endif

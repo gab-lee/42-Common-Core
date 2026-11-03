@@ -18,5 +18,5 @@ int	nothing(char **str, char handle, int width, int precision)
 	(void) handle;
 	(void) width;
 	(void) precision;
-	return (1);
+	return (0);
 }

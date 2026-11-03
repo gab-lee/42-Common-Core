@@ -19,7 +19,7 @@ int	modify_dot(char **str, char handle, int precision)
 	if (precision == -1)
 		return (0);
 	if (handle == 'c' || handle == '%')
-		return (1);
+		return (0);
 	if (handle == 's')
 		return (str_shrink(str, precision));
 	return (str_precision(str, precision));
@@ -36,7 +36,7 @@ static int	str_precision(char **str, int precision)
 	sign = ((*str)[0] == '-');
 	len = ft_strlen(safe_call(*str)) - sign;
 	if (len >= precision)
-		return (1);
+		return (0);
 	temp = malloc((sign + precision + 1) * sizeof(char));
 	if (!temp)
 		return (-1);
@@ -48,5 +48,5 @@ static int	str_precision(char **str, int precision)
 	ft_strlcpy(&temp[i], &(*str)[sign], len + 1);
 	free(*str);
 	*str = temp;
-	return (1);
+	return (0);
 }

@@ -30,7 +30,7 @@ int	call_modifier(char **str, char *flags, char handle)
 		return (-1);
 	if (apply_width(str, flags, handle, get_width(flags)) == -1)
 		return (-1);
-	return (1);
+	return (0);
 }
 
 static int	apply_sign(char **str, char handle, int has_plus, int has_space)

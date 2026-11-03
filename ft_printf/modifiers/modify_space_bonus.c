@@ -17,11 +17,11 @@ int	modify_space(char **str, char handle)
 	char	*temp;
 
 	if ((handle != 'd' && handle != 'i') || (*str)[0] == '-')
-		return (1);
+		return (0);
 	temp = ft_strjoin(safe_call(" "), safe_call(*str));
 	if (!temp)
 		return (-1);
 	free(*str);
 	*str = temp;
-	return (1);
+	return (0);
 }
