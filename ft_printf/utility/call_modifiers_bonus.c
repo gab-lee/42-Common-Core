@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 23:27:41 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/11/03 11:52:00 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/11/03 22:30:27 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ static int	apply_sign(char **str, char handle, int has_plus, int has_space)
 
 static int	apply_width(char **str, char *flags, char handle, int width)
 {
+	if (width < 0)
+		return (-1);
 	if (has_minus(flags))
 		return (modify_width_minus(str, handle, width));
 	if (has_zero(flags))
@@ -71,6 +73,8 @@ static int	get_width(char *flags)
 		else if (start && flags[i] >= '0' && flags[i] <= '9')
 			width = ft_strcat_char(width, flags[i]);
 	}
+	if (width >= 2147483647)
+		return (-1);
 	if (width)
 		return (ft_atoi(width));
 	return (0);
