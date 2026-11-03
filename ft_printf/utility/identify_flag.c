@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 23:06:05 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/27 22:55:40 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/11/03 22:58:26 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	has_zero(char *flags)
 	i = -1;
 	while (++i, flags[i])
 	{
-		if (flags[i] == '.' || (flags[i] >= '0' && flags[i] <= '9'))
+		if (flags[i] == '.' || (flags[i] > '0' && flags[i] <= '9'))
 			break ;
 		if (flags[i] == '0')
 			return (1);

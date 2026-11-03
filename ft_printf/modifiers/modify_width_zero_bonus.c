@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/21 23:05:13 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/26 18:22:54 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/11/03 22:56:39 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	modify_width_zero(char **str, char handle, int width)
 		free(zero);
 		zero = ft_strjoin(safe_call(""), safe_call(temp));
 		free(temp);
-		temp = ft_strjoin(safe_call(""), safe_call((*str) + 1));
+		temp = ft_strjoin(safe_call(zero), safe_call((*str) + 1));
 		if (!temp)
 			return (-1);
 		free(*str);
