@@ -51,14 +51,10 @@ int	modify_width_zero(char **str, char handle, int width)
 static char	*zero_padding(size_t count)
 {
 	char	*str;
-	int i;
 
-	i = -1;
 	str = ft_calloc(count + 1, sizeof(char));
 	if (!str)
 		return (NULL);
-	str[count] = '\0';
-	while (++i, (size_t)i < count)
-		str[i] = '0';
+	ft_memset(str, '0', count);
 	return (str);
 }

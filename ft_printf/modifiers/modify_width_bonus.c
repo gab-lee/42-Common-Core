@@ -38,14 +38,10 @@ int	modify_width(char **str, char handle, int width)
 static char	*space_padding(size_t count)
 {
 	char	*str;
-	int i;
 
-	i = -1;
 	str = ft_calloc(count + 1, sizeof(char));
 	if (!str)
 		return (NULL);
-	str[count] = '\0';
-	while (++i, (size_t)i < count)
-		str[i] = ' ';
+	ft_memset(str, ' ', count);
 	return (str);
 }
