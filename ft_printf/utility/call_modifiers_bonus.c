@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 23:27:41 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/11/01 19:25:28 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/11/03 10:52:16 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,13 @@ static int	apply_sign(char *str, char *handle, int has_plus, int has_space)
 static int	apply_width(char **str, char *flags, char handle, int width)
 {
 	if (has_minus(flags))
-		return (modify_width_minus(str, handle, width, 0));
+		return (modify_width_minus(str, handle, width));
 	if (has_zero(flags))
-		return (modify_width_zero(str, handle, width, 0));
-	return (modify_width(str, handle, width, 0));
+		return (modify_width_zero(str, handle, width));
+	return (modify_width(str, handle, width));
 }
 
-static int get_width(char *flags)
+static int	get_width(char *flags)
 {
 	int		i;
 	char	*width;
@@ -93,6 +93,6 @@ static int get_precision(char *flags)
 	}
 	if (precision)
 		return (ft_atoi(precision));
-	else 
+	else
 		return (0);
 }
