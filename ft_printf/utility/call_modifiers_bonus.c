@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 23:27:41 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/11/03 22:46:36 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/11/03 23:13:25 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ static int get_precision(char *flags)
 	if (precision)
 		return (ft_atoi(precision));
 	else
-		return (0);
+		return (-1);
 }
 static int	is_valid_width(char *width)
 {

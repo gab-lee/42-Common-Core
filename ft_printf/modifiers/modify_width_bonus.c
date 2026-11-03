@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/21 23:05:13 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/11/03 22:18:54 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/11/03 23:08:48 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ int	modify_width(char **str, char handle, int width)
 	if (width < len)
 		return (1);
 	padding = space_padding(width - ft_strlen(safe_call(*str)));
-
 	temp = ft_strjoin(safe_call(padding), safe_call(*str));
+	free(padding);
 	if (!temp)
 		return (-1);
 	free(*str);

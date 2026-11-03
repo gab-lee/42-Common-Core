@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/21 23:05:13 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/26 18:20:23 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/11/03 23:08:28 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,15 @@ int	modify_width_minus(char **str, char handle, int width)
 	char	*padding;
 	char	*temp;
 	int		len;
-	(void)handle;
 
+	(void) handle;
 	len = (int)ft_strlen(safe_call(*str));
 	if (width < len)
 		return (1);
-	padding = space_padding(width - ft_strlen(safe_call(*str)));
+	padding = space_padding(width - len);
 
 	temp = ft_strjoin(safe_call(*str), safe_call(padding));
+	free(padding);
 	if (!temp)
 		return (-1);
 	free(*str);
