@@ -32,7 +32,7 @@ static int	str_precision(char **str, int precision)
 	int		i;
 
 	sign = ((*str)[0] == '-');
-	len = ft_strlen_safe(*str) - sign;
+	len = ft_strlen(safe_call(*str)) - sign;
 	if (len >= precision)
 		return (1);
 	temp = malloc((sign + precision + 1) * sizeof(char));

@@ -23,7 +23,7 @@ char	*handle_p(va_list *args)
 	temp = get_hexadecimal(p,0);
 	if (!temp)
 		return (NULL);
-	formatted_str = strjoin_safe("0x", temp);
+	formatted_str = ft_strjoin(safe_call("0x"), safe_call(temp));
 	free(temp);
 	if (!formatted_str)
 		return (NULL);

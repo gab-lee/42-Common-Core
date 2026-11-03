@@ -46,9 +46,8 @@ t_handler	call_handle(char c);
 
 //libft_safe (what libft does not cover)
 char	*ft_strcat_char(char *str, char c);
-size_t	ft_strlen_safe(const char *str);
 char	*get_hexadecimal(unsigned long x, int upper);
-char	*strjoin_safe(char const *s1, char const *s2);
+char	*safe_call(char *str);
 size_t	str_shrink(char **str, size_t n);
 
 #endif

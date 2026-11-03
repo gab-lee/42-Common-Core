@@ -34,7 +34,7 @@ int	call_mandatory(const char *str, int *i, int *bytes_written, va_list *args)
 	if (!formatted_str)
 		return (-1);
 	if (len < 0)
-		len = ft_strlen_safe(formatted_str);
+		len = ft_strlen(safe_call(formatted_str));
 	put_str_count(formatted_str, len, bytes_written);
 	free(formatted_str);
 	return (0);

@@ -24,7 +24,7 @@ int	modify_hashtag(char **str, char handle, int has_hash)
 	if (!(handle == 'x' || handle == 'X'))
 		return (-1);
 	hash_str[1] = handle;
-	formatted_str = strjoin_safe(hash_str, *str);
+	formatted_str = ft_strjoin(safe_call(hash_str), safe_call(*str));
 	if (!formatted_str)
 		return (-1);
 	free(*str);

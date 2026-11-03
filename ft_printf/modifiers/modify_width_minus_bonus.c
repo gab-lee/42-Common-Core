@@ -21,12 +21,12 @@ int	modify_width_minus(char **str, char handle, int width)
 	int		len;
 	(void)handle;
 
-	len = (int)ft_strlen_safe(*str);
+	len = (int)ft_strlen(safe_call(*str));
 	if (width < len)
 		return (1);
-	padding = space_padding(width - ft_strlen_safe(*str));
+	padding = space_padding(width - ft_strlen(safe_call(*str)));
 
-	temp = strjoin_safe(*str, padding);
+	temp = ft_strjoin(safe_call(*str), safe_call(padding));
 	if (!temp)
 		return (-1);
 	free(*str);
@@ -41,7 +41,7 @@ static char	*space_padding(size_t count)
 	int i;
 
 	i = -1;
-	str = malloc((count+1) * sizeof(char));
+	str = ft_calloc(count + 1, sizeof(char));
 	if (!str)
 		return (NULL);
 	str[count] = '\0';

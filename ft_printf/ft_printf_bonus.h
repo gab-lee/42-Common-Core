@@ -31,6 +31,7 @@ int	has_space(char *flags);
 int	has_minus(char *flags);
 int	has_plus(char *flags);
 int	has_hash(char *flags);
+int	check_valid_flags(char *flags);
 
 //Modifiers
 int	call_modifier(char **str, char *flags, char handle);

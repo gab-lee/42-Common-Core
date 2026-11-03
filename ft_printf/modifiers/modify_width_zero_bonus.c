@@ -21,26 +21,26 @@ int	modify_width_zero(char **str, char handle, int width)
 	int len;
 	(void)handle;
 
-	len = (int)ft_strlen_safe(*str);
+	len = (int)ft_strlen(safe_call(*str));
 	if (width < len)
 		return (1);
-	zero = zero_padding(width - ft_strlen_safe(*str));
+	zero = zero_padding(width - ft_strlen(safe_call(*str)));
 	if ((*str)[0] == '-')
 	{
-		temp = strjoin_safe("-", zero);
+		temp = ft_strjoin(safe_call("-"), safe_call(zero));
 		if (!temp)
 			return (-1);
 		free(zero);
-		zero = strjoin_safe("", temp);
+		zero = ft_strjoin(safe_call(""), safe_call(temp));
 		free(temp);
-		temp = strjoin_safe("", (*str) + 1);
+		temp = ft_strjoin(safe_call(""), safe_call((*str) + 1));
 		if (!temp)
 			return (-1);
 		free(*str);
 		*str = temp;
 		free(temp);
 	}
-	temp = strjoin_safe(zero, *str);
+	temp = ft_strjoin(safe_call(zero), safe_call(*str));
 	if (!temp)
 		return (-1);
 	free(*str);
@@ -54,7 +54,7 @@ static char	*zero_padding(size_t count)
 	int i;
 
 	i = -1;
-	str = malloc((count + 1) * sizeof(char));
+	str = ft_calloc(count + 1, sizeof(char));
 	if (!str)
 		return (NULL);
 	str[count] = '\0';

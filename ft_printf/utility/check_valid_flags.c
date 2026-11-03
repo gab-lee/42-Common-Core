@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/01 19:26:02 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/11/03 10:51:34 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/11/03 11:45:51 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	check_valid_flags(char *flags)
 	int	order;
 
 	i = -1;
+	order = 0;
 	if (!flags)
 		return (-1);
 	while (++i, flags[i])
@@ -39,12 +40,12 @@ static int	check_order(char c, int *order)
 		*order = 2;
 		return (0);
 	}
-	else if (order == 0 && (c >= '1' && c <= '9'))
+	else if (*order == 0 && (c >= '1' && c <= '9'))
 	{
-		order = 1;
-		return (1);
+		*order = 1;
+		return (0);
 	}
-	if (order > 0 && !ft_isdigit(c))
+	if (*order > 0 && !ft_isdigit(c))
 		return (-1);
 	return (0);
 }

@@ -18,7 +18,7 @@ int	modify_space(char **str, char handle)
 
 	if ((handle != 'd' && handle != 'i') || (*str)[0] == '-')
 		return (1);
-	temp = strjoin_safe(" ", *str);
+	temp = ft_strjoin(safe_call(" "), safe_call(*str));
 	if (!temp)
 		return (-1);
 	free(*str);

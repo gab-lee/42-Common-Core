@@ -21,7 +21,7 @@ char	*handle_s(va_list *args)
 	s = va_arg(*args, char *);
 	if (!s)
 		s = "(null)";
-	formatted_str = strjoin_safe("", s);
+	formatted_str = ft_strjoin(safe_call(""), safe_call(s));
 	if (!formatted_str)
 		return (NULL);
 	return (formatted_str);
