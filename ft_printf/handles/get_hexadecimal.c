@@ -12,9 +12,8 @@
 
 #include "ft_printf.h"
 
-static int	to_upper(int c);
 static int	hexa_len(unsigned long x);
-static void	fill_hexa(char *str, unsigned long x, int idx, int (*f)(int));
+static void	fill_hexa(char *str, unsigned long x, int idx, int upper);
 
 char	*get_hexadecimal(unsigned long x, int upper)
 {
@@ -26,10 +25,7 @@ char	*get_hexadecimal(unsigned long x, int upper)
 	if (!formatted_str)
 		return (NULL);
 	formatted_str[len] = '\0';
-	if (upper)
-		fill_hexa(formatted_str, x, len - 1, to_upper);
-	else
-		fill_hexa(formatted_str, x, len - 1, NULL);
+	fill_hexa(formatted_str, x, len - 1, upper);
 	return (formatted_str);
 }
 
@@ -46,19 +42,11 @@ static int	hexa_len(unsigned long x)
 	return (len);
 }
 
-static void	fill_hexa(char *str, unsigned long x, int idx, int (*f)(int))
+static void	fill_hexa(char *str, unsigned long x, int idx, int upper)
 {
-	if (f)
-		str[idx] = f(HEXADECIMAL[x % 16]);
-	else
-		str[idx] = HEXADECIMAL[x % 16];
+	str[idx] = HEXADECIMAL[x % 16];
+	if (upper)
+		str[idx] = ft_toupper(str[idx]);
 	if (x >= 16)
-		fill_hexa(str, x / 16, idx - 1, f);
-}
-
-static int	to_upper(int c)
-{
-	if (c >= 'a' && c <= 'z')
-		return (c - 32);
-	return (c);
+		fill_hexa(str, x / 16, idx - 1, upper);
 }
