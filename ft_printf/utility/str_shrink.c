@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/21 16:04:50 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/27 17:28:58 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/11/03 23:40:42 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,13 @@ int	str_shrink(char **str, size_t n)
 		*str = NULL;
 		return (0);
 	}
-	if (ft_strlen(safe_call(*str)) >= n)
+	if (ft_strlen(safe_call(*str)) <= n)
 		return (0);
-	if (ft_strlen(safe_call(*str)) < n)
-	{
-		temp = malloc (n * sizeof (char));
-		if (!temp)
-			return (-1);
-		ft_strlcpy(temp, *str, n);
-		free(*str);
-		*str = temp;
-		free(temp); 
-	}
+	temp = malloc (n * sizeof (char));
+	if (!temp)
+		return (-1);
+	ft_strlcpy(temp, *str, n + 1);
+	free(*str);
+	*str = temp;
 	return (0);
 }
