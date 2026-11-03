@@ -32,6 +32,7 @@ int	has_minus(char *flags);
 int	has_plus(char *flags);
 int	has_hash(char *flags);
 int	check_valid_flags(char *flags);
+int	extract_flags(char *flags, int *width, int *precision);
 
 //Modifiers
 char	*create_padding(size_t count, char c);

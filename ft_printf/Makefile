@@ -26,6 +26,7 @@ BONUS_SRCS = $(COMMON_SRCS) \
 	utility/call_bonus.c \
 	utility/call_modifiers_bonus.c \
 	utility/check_valid_flags.c \
+	utility/extract_flags.c \
 	utility/identify_flag.c \
 	modifiers/modify_dot_bonus.c \
 	modifiers/modify_hashtag_bonus.c \
