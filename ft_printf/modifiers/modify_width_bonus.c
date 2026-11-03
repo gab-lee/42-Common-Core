@@ -12,8 +12,6 @@
 
 #include "ft_printf_bonus.h"
 
-static char	*space_padding(size_t count);
-
 int	modify_width(char **str, char handle, int width)
 {
 	char *padding;
@@ -24,7 +22,7 @@ int	modify_width(char **str, char handle, int width)
 	len = (int)ft_strlen(safe_call(*str));
 	if (width < len)
 		return (0);
-	padding = space_padding(width - ft_strlen(safe_call(*str)));
+	padding = create_padding(width - ft_strlen(safe_call(*str)), ' ');
 	temp = ft_strjoin(safe_call(padding), safe_call(*str));
 	free(padding);
 	if (!temp)
@@ -32,16 +30,4 @@ int	modify_width(char **str, char handle, int width)
 	free(*str);
 	*str = temp;
 	return (0);
-}
-
-
-static char	*space_padding(size_t count)
-{
-	char	*str;
-
-	str = ft_calloc(count + 1, sizeof(char));
-	if (!str)
-		return (NULL);
-	ft_memset(str, ' ', count);
-	return (str);
 }

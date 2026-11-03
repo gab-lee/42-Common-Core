@@ -34,6 +34,7 @@ int	has_hash(char *flags);
 int	check_valid_flags(char *flags);
 
 //Modifiers
+char	*create_padding(size_t count, char c);
 int	call_modifier(char **str, char *flags, char handle);
 int	nothing(char **str, char handle, int width, int precision);
 int	modify_width(char **str, char handle, int width);

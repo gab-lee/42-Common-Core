@@ -12,8 +12,6 @@
 
 #include "ft_printf_bonus.h"
 
-static char	*zero_padding(size_t count);
-
 int	modify_width_zero(char **str, char handle, int width)
 {
 	char	*zero;
@@ -24,7 +22,7 @@ int	modify_width_zero(char **str, char handle, int width)
 	len = (int)ft_strlen(safe_call(*str));
 	if (width < len)
 		return (0);
-	zero = zero_padding(width - ft_strlen(safe_call(*str)));
+	zero = create_padding(width - ft_strlen(safe_call(*str)), '0');
 	if ((*str)[0] == '-')
 	{
 		temp = ft_strjoin(safe_call("-"), safe_call(zero));
@@ -47,15 +45,4 @@ int	modify_width_zero(char **str, char handle, int width)
 	free(*str);
 	*str = temp;
 	return (0);
-}
-
-static char	*zero_padding(size_t count)
-{
-	char	*str;
-
-	str = ft_calloc(count + 1, sizeof(char));
-	if (!str)
-		return (NULL);
-	ft_memset(str, '0', count);
-	return (str);
 }
