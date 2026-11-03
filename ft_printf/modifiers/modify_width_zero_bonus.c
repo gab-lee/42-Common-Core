@@ -58,7 +58,7 @@ static char	*zero_padding(size_t count)
 	if (!str)
 		return (NULL);
 	str[count] = '\0';
-	while (++i, str[i])
+	while (++i, (size_t)i < count)
 		str[i] = '0';
 	return (str);
 }
