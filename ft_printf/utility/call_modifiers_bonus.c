@@ -6,13 +6,14 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 23:27:41 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/11/03 22:30:27 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/11/03 22:45:35 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf_bonus.h"
 
 static int	get_width(char *flags);
+static int	is_valid_width(char *width);
 static int	get_precision(char *flags);
 static int	apply_width(char **str, char *flags, char handle, int width);
 static int	apply_sign(char **str, char handle, int has_plus, int has_space);
@@ -57,6 +58,7 @@ static int	get_width(char *flags)
 	int		i;
 	char	*width;
 	int		start;
+	int		res;
 
 	i = -1;
 	width = NULL;
@@ -73,11 +75,16 @@ static int	get_width(char *flags)
 		else if (start && flags[i] >= '0' && flags[i] <= '9')
 			width = ft_strcat_char(width, flags[i]);
 	}
-	if (width >= 2147483647)
+	if (!width)
+		return (0);
+	if (is_valid_width(width) == -1)
+	{
+		free(width);
 		return (-1);
-	if (width)
-		return (ft_atoi(width));
-	return (0);
+	}
+	res = ft_atoi(width);
+	free(width);
+	return (res);
 }
 
 static int get_precision(char *flags)
@@ -94,10 +101,29 @@ static int get_precision(char *flags)
 		if (flags[i] == '.')
 			start = 1 ;
 		if (start && flags[i] >= '0' && flags[i] <= '9')
-			ft_strcat_char(precision, flags[i]);
+			precision = (precision, flags[i]);
 	}
 	if (precision)
 		return (ft_atoi(precision));
 	else
 		return (0);
+}
+static int	is_valid_width(char *width)
+{
+	char	*padded;
+	int		res;
+
+	if (ft_strlen(safe_call(width)) > 10 || ft_strlen(safe_call(width)) == 0)
+		return (-1);
+	padded = ft_strdup(width);
+	if (!padded || modify_width_zero(&padded, 'd', 10) == -1)
+	{
+		free(padded);
+		return (-1);
+	}
+	res = -1;
+	if (ft_strncmp("2147483647", padded, 10) > 0)
+		res = 0;
+	free(padded);
+	return (res);
 }
