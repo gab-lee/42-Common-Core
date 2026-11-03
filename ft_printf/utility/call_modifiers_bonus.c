@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 23:27:41 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/11/03 10:52:16 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/11/03 11:52:00 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static int	get_width(char *flags);
 static int	get_precision(char *flags);
 static int	apply_width(char **str, char *flags, char handle, int width);
+static int	apply_sign(char **str, char handle, int has_plus, int has_space);
 
 int	call_modifier(char **str, char *flags, char handle)
 {
@@ -31,7 +32,7 @@ int	call_modifier(char **str, char *flags, char handle)
 	return (1);
 }
 
-static int	apply_sign(char *str, char *handle, int has_plus, int has_space)
+static int	apply_sign(char **str, char handle, int has_plus, int has_space)
 {
 	if (has_plus)
 		return (modify_plus(str, handle));
@@ -67,7 +68,7 @@ static int	get_width(char *flags)
 			start = 1;
 			width = ft_strcat_char(width, flags[i]);
 		}
-		if (start && flags[i] >= '0' && flags[i] <= '9')
+		else if (start && flags[i] >= '0' && flags[i] <= '9')
 			width = ft_strcat_char(width, flags[i]);
 	}
 	if (width)
