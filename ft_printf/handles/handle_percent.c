@@ -18,10 +18,9 @@ char	*handle_percent(va_list *args)
 
 	(void) args;
 	formatted_str = NULL;
-	formatted_str = malloc(2 * sizeof(char));
+	formatted_str = ft_calloc(2, sizeof(char));
 	if (!formatted_str)
 		return (NULL);
 	formatted_str[0] = '%';
-	formatted_str[1] = '\0';
 	return (formatted_str);
 }

@@ -19,15 +19,9 @@ char	*handle_c(va_list *args)
 
 	formatted_str = NULL;
 	c = va_arg(*args, int);
-	formatted_str = malloc(2 * sizeof(char));
+	formatted_str = ft_calloc(2, sizeof(char));
 	if (!formatted_str)
 		return (NULL);
-	if (c == 0)
-		formatted_str[0] = (unsigned char)c;
-	else
-	{
-		formatted_str[0] = (unsigned char)c;
-		formatted_str[1] = '\0';
-	}
+	formatted_str[0] = (unsigned char)c;
 	return (formatted_str);
 }
