@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 23:06:05 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/11/04 10:51:53 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/11/04 10:52:49 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int get_flags(const char *str, int *i, char **flags, t_handler *h);
 
-int	call_bonus(const char *str, int *i, int *write_bytes, va_list *args)
+int	call_bonus(const char *str, int *i, int *bytes_written, va_list *args)
 {
 	char		*flags;
 	char		*formatted_str;
@@ -27,16 +27,16 @@ int	call_bonus(const char *str, int *i, int *write_bytes, va_list *args)
 	if (ft_strchr(CONVERSIONS, str[*i]))
 	{
 		(*i)--;
-		return (call_mandatory(str, i, write_bytes, args));
+		return (call_mandatory(str, i, bytes_written, args));
 	}
 	if (check_valid_flags(get_flags(str, i, &flags, &h)) == -1)
 	{
-		put_char(str[*i - 1], write_bytes);
+		put_char(str[*i - 1], bytes_written);
 		return (0);
 	}
 	formatted_str = h(args);
 	call_modifier(&formatted_str, flags, str[*i]);
-	put_str(formatted_str, ft_strlen(safe_call(formatted_str)), write_bytes);
+	put_str(formatted_str, ft_strlen(safe_call(formatted_str)), bytes_written);
 	free(formatted_str);
 	free(flags);
 	return (0);
