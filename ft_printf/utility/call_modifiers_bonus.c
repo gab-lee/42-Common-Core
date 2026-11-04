@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 23:27:41 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/11/03 23:26:35 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/11/04 10:47:44 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ int	call_modifier(char **str, char *flags, char handle)
 
 	width = -1;
 	precision = -1;
-	if (check_valid_flags(flags) == -1)
-		return (-1);
 	if (extract_flags(flags, &width, &precision) == -1)
 		return (-1);
 	if (modify_dot(str, handle, precision) == -1)

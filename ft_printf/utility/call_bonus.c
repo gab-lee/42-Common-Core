@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 23:06:05 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/11/01 11:16:14 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/11/04 10:47:39 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	call_bonus(const char *str, int *i, int *bytes_written, va_list *args)
 		(*i)--;
 		return (call_mandatory(str, i, bytes_written, args));
 	}
-	if (get_flags(str, i, &flags, &h) == -1)
+	if (check_valid_flags(get_flags(str, i, &flags, &h)) == -1)
 	{
 		put_char_count(str[*i - 1], bytes_written);
 		return (0);
