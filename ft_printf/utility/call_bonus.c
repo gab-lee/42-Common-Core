@@ -6,13 +6,13 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 23:06:05 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/11/04 10:52:49 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/11/04 10:57:39 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf_bonus.h"
 
-static int get_flags(const char *str, int *i, char **flags, t_handler *h);
+static int	get_flags(const char *str, int *i, char **flags, t_handler *h);
 
 int	call_bonus(const char *str, int *i, int *bytes_written, va_list *args)
 {
@@ -42,7 +42,7 @@ int	call_bonus(const char *str, int *i, int *bytes_written, va_list *args)
 	return (0);
 }
 
-static int get_flags(const char *str, int *i, char **flags, t_handler *h)
+static int	get_flags(const char *str, int *i, char **flags, t_handler *h)
 {
 	int	j;
 
