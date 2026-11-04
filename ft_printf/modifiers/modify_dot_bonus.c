@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/21 23:05:13 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/11/03 23:13:49 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/11/04 12:38:37 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,17 @@ static int	str_precision(char **str, int precision);
 
 int	modify_dot(char **str, char handle, int precision)
 {
-	if (precision == -1)
+	if (precision < 0)
 		return (0);
 	if (handle == 'c' || handle == '%')
 		return (0);
+	if (precision == 0)
+	{
+		*str = ft_strdup("");
+		if (!(*str))
+			return (-1);
+		return (0);
+	}
 	if (handle == 's')
 		return (str_shrink(str, precision));
 	return (str_precision(str, precision));
