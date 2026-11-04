@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/21 23:05:13 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/11/03 23:36:13 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/11/04 11:57:53 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,32 +16,29 @@ int	modify_width_zero(char **str, char handle, int width)
 {
 	char	*zero;
 	char	*temp;
-	int len;
-	(void)handle;
+	int		len;
 
+	(void) handle;
 	len = (int)ft_strlen(safe_call(*str));
 	if (width < len)
 		return (0);
-	zero = create_padding(width - ft_strlen(safe_call(*str)), '0');
 	if ((*str)[0] == '-')
 	{
-		temp = ft_strjoin(safe_call("-"), safe_call(zero));
+		zero = ft_strjoin("-", (create_padding(width - ft_strlen(safe_call(*str)), '0')));
+		temp = ft_strdup((*str) + 1);
 		if (!temp)
+		{
+			free(zero);
 			return (-1);
-		free(zero);
-		zero = ft_strjoin(safe_call(""), safe_call(temp));
-		free(temp);
-		temp = ft_strjoin(safe_call(zero), safe_call((*str) + 1));
-		if (!temp)
-			return (-1);
-		free(*str);
+		}
 		*str = temp;
 	}
+	else
+		zero = create_padding(width - ft_strlen(safe_call(*str)), '0');
 	temp = ft_strjoin(safe_call(zero), safe_call(*str));
-	free(zero);
 	if (!temp)
 		return (-1);
-	free(*str);
+	free(zero);
 	*str = temp;
 	return (0);
 }
