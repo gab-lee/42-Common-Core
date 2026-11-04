@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 23:06:05 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/27 22:55:40 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/11/04 10:51:53 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	call_mandatory(const char *str, int *i, int *bytes_written, va_list *args)
 	(*i)++;
 	if (!ft_strchr(CONVERSIONS, str[*i]))
 	{
-		put_char_count(str[*i - 1], bytes_written);
+		put_char(str[*i - 1], bytes_written);
 		return (0);
 	}
 	h = call_handle(str[(*i)]);
@@ -35,7 +35,7 @@ int	call_mandatory(const char *str, int *i, int *bytes_written, va_list *args)
 		return (-1);
 	if (len < 0)
 		len = ft_strlen(safe_call(formatted_str));
-	put_str_count(formatted_str, len, bytes_written);
+	put_str(formatted_str, len, bytes_written);
 	free(formatted_str);
 	return (0);
 }

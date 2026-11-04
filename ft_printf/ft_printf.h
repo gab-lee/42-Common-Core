@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 22:22:29 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/26 13:22:10 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/11/04 10:51:53 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@
 typedef char	*(*t_handler)(va_list *args);
 
 int		ft_printf(const char *str, ...);
-void	put_char_count(char c, int *bytes_written);
-void	put_str_count(char *s, int len, int *bytes_written);
+void	put_char(char c, int *bytes_written);
+void	put_str(char *s, int len, int *bytes_written);
 
 //calls
 int		call_mandatory(const char *str, int *i, int *bytes_written, va_list *args);
