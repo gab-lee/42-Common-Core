@@ -1,41 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   call_mandatory.c                                   :+:      :+:    :+:   */
+/*   call_handle.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 23:06:05 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/11/04 10:51:53 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/10/27 22:55:40 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	call_mandatory(const char *str, int *i, int *bytes_written, va_list *args)
+t_handler	call_handle(char c)
 {
-	char		*formatted_str;
-	t_handler	h;
-	int			len;
-
-	(*i)++;
-	h = call_handle(str[*i]);
-	if (str[*i] && !h)
-	{
-		put_char(str[*i - 1], bytes_written);
-		return (0);
-	}
-	len = 1;
-	if (str[*i] != 'c')
-		len = -1;
-	formatted_str = NULL;
-	if (h)
-		formatted_str = h(args);
-	if (!formatted_str)
-		return (-1);
-	if (len < 0)
-		len = ft_strlen(safe_call(formatted_str));
-	put_str(formatted_str, len, bytes_written);
-	free(formatted_str);
-	return (0);
+	if (c == 'c')
+		return (handle_c);
+	if (c == 's')
+		return (handle_s);
+	if (c == 'p')
+		return (handle_p);
+	if (c == 'd' || c == 'i')
+		return (handle_d_or_i);
+	if (c == 'u')
+		return (handle_u);
+	if (c == 'x')
+		return (handle_x);
+	if (c == 'X')
+		return (handle_upper_x);
+	if (c == '%')
+		return (handle_percent);
+	return (NULL);
 }

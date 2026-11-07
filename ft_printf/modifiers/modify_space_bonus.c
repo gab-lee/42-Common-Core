@@ -12,12 +12,10 @@
 
 #include "ft_printf_bonus.h"
 
-int	modify_space(char **str, char handle, int prop)
+int	modify_space(char **str, char handle)
 {
 	char	*temp;
 
-	if (!prop)
-		return (0);
 	if ((handle != 'd' && handle != 'i') || (*str)[0] == '-')
 		return (0);
 	temp = ft_strjoin(safe_call(" "), safe_call(*str));

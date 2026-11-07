@@ -18,17 +18,12 @@
 # include <stdlib.h>
 # include "libft/libft.h"
 
+# define CONVERSIONS "cspdiuxX%"
 # define HEXADECIMAL "0123456789abcdef"
 # define BONUS 0
 
 //types
 typedef char	*(*t_handler)(va_list *args);
-
-typedef struct s_entry
-{
-	char		key;
-	t_handler	fn;
-}	t_entry;
 
 int		ft_printf(const char *str, ...);
 void	put_char(char c, int *bytes_written);

@@ -1,37 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   call_handle.c                                      :+:      :+:    :+:   */
+/*   call_mandatory.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 23:06:05 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/27 22:55:40 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/11/04 10:51:53 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static const t_entry	g_handlers[] = {
-{'c', handle_c},
-{'s', handle_s},
-{'p', handle_p},
-{'d', handle_d_or_i},
-{'i', handle_d_or_i},
-{'u', handle_u},
-{'x', handle_x},
-{'X', handle_upper_x},
-{'%', handle_percent},
-{0, NULL}
-};
-
-t_handler	call_handle(char c)
+int	call_mandatory(const char *str, int *i, int *bytes_written, va_list *args)
 {
-	int	i;
+	char		*formatted_str;
+	t_handler	h;
+	int			len;
 
-	i = -1;
-	while (++i, g_handlers[i].fn)
-		if (g_handlers[i].key == c)
-			return (g_handlers[i].fn);
-	return (NULL);
+	(*i)++;
+	if (!ft_strchr(CONVERSIONS, str[*i]))
+	{
+		put_char(str[*i - 1], bytes_written);
+		return (0);
+	}
+	h = call_handle(str[(*i)]);
+	len = 1;
+	if (str[*i] != 'c')
+		len = -1;
+	formatted_str = NULL;
+	if (h)
+		formatted_str = h(args);
+	if (!formatted_str)
+		return (-1);
+	if (len < 0)
+		len = ft_strlen(safe_call(formatted_str));
+	put_str(formatted_str, len, bytes_written);
+	free(formatted_str);
+	return (0);
 }
