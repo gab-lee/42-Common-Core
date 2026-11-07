@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/21 23:05:13 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/11/05 10:27:26 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/11/07 17:29:14 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,9 @@ int	modify_hashtag(char **str, char handle, int has_hash)
 
 	if (!has_hash)
 		return (0);
+	hash_str[0] = '0';
+	hash_str[2] = '\0';
 	if (!(handle == 'x' || handle == 'X'))
-		return (-1);
-	hash_str = ft_strdup("0x");
-	if (!hash_str)
 		return (-1);
 	hash_str[1] = handle;
 	temp = ft_strjoin(hash_str, safe_call(*str));
@@ -32,3 +31,4 @@ int	modify_hashtag(char **str, char handle, int has_hash)
 	*str = temp;
 	return (0);
 }
+
