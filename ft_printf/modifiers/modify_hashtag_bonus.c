@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/21 23:05:13 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/11/07 17:29:14 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/11/07 18:01:52 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	modify_hashtag(char **str, char handle, int has_hash)
 	char	*temp;
 	char	hash_str[3];
 
+	if (ft_strncmp(*str, "0", 2) == 0)
+		return (0);
 	if (!has_hash)
 		return (0);
 	hash_str[0] = '0';
