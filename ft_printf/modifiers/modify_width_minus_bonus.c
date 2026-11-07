@@ -23,8 +23,9 @@ int	modify_width_minus(char **str, char handle, int width)
 	if (width < len)
 		return (0);
 	padding = create_padding(width - len, ' ');
-
-	temp = ft_strjoin(safe_call(*str), safe_call(padding));
+	if (!padding)
+		return (-1);
+	temp = ft_strjoin(safe_call(*str), padding);
 	free(padding);
 	if (!temp)
 		return (-1);

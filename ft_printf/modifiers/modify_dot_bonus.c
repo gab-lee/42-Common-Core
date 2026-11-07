@@ -16,15 +16,19 @@ static int	str_precision(char **str, int precision);
 
 int	modify_dot(char **str, char handle, int precision)
 {
+	char	*temp;
+
 	if (precision < 0)
 		return (0);
 	if (handle == 'c' || handle == '%')
 		return (0);
 	if (precision == 0)
 	{
-		*str = ft_strdup("");
-		if (!(*str))
+		temp = ft_strdup("");
+		if (!temp)
 			return (-1);
+		free(*str);
+		*str = temp;
 		return (0);
 	}
 	if (handle == 's')

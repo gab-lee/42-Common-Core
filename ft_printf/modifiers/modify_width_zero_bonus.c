@@ -14,34 +14,26 @@
 
 int	modify_width_zero(char **str, char handle, int width)
 {
-	char	*zero;
+	char	*padding;
 	char	*temp;
 	int		len;
+	int		sign;
 
 	(void) handle;
 	len = (int)ft_strlen(safe_call(*str));
 	if (width < len)
 		return (0);
-	if ((*str)[0] == '-' || (*str)[0] == '+')
-	{
-		if ((*str)[0] == '-' )
-			zero = ft_strjoin("-", (create_padding(width - ft_strlen(safe_call(*str)), '0')));
-		else 
-			zero = ft_strjoin("+", (create_padding(width - ft_strlen(safe_call(*str)), '0')));
-		temp = ft_strdup((*str) + 1);
-		if (!temp)
-		{
-			free(zero);
-			return (-1);
-		}
-		*str = temp;
-	}
-	else
-		zero = create_padding(width - ft_strlen(safe_call(*str)), '0');
-	temp = ft_strjoin(safe_call(zero), safe_call(*str));
+	sign = ((*str)[0] == '-' || (*str)[0] == '+');
+	padding = create_padding(width - len + sign, '0');
+	if (!padding)
+		return (-1);
+	if (sign)
+		padding[0] = (*str)[0];
+	temp = ft_strjoin(padding, *str + sign);
+	free(padding);
 	if (!temp)
 		return (-1);
-	free(zero);
+	free(*str);
 	*str = temp;
 	return (0);
 }
