@@ -25,6 +25,12 @@
 //types
 typedef char	*(*t_handler)(va_list *args);
 
+typedef struct s_entry
+{
+	char		key;
+	t_handler	fn;
+}	t_entry;
+
 int		ft_printf(const char *str, ...);
 void	put_char(char c, int *bytes_written);
 void	put_str(char *s, int len, int *bytes_written);
