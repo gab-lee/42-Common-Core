@@ -35,8 +35,7 @@ BONUS_SRCS = $(COMMON_SRCS) \
 	modifiers/modify_space_bonus.c \
 	modifiers/modify_width_bonus.c \
 	modifiers/modify_width_zero_bonus.c \
-	modifiers/modifiers_utility_bonus.c \
-	modifiers/nothing_bonus.c
+	modifiers/modifiers_utility_bonus.c
 OBJS = $(SRCS:.c=.o)
 BONUS_OBJS = $(BONUS_SRCS:.c=.o)
 

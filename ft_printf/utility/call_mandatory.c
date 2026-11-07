@@ -19,12 +19,12 @@ int	call_mandatory(const char *str, int *i, int *bytes_written, va_list *args)
 	int			len;
 
 	(*i)++;
-	if (!ft_strchr(CONVERSIONS, str[*i]))
+	h = call_handle(str[*i]);
+	if (str[*i] && !h)
 	{
 		put_char(str[*i - 1], bytes_written);
 		return (0);
 	}
-	h = call_handle(str[(*i)]);
 	len = 1;
 	if (str[*i] != 'c')
 		len = -1;

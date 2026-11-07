@@ -12,46 +12,51 @@
 
 #include "ft_printf_bonus.h"
 
-static int	apply_width(char **str, char *flags, char handle, int width);
-static int	apply_sign(char **str, char handle, int has_plus, int has_space);
+static void	fill_props(int *props, char *flags, int width, int precision);
+
+//order here is the order of application and must match t_mod in the header
+static const t_modifier	g_modifiers[] = {
+modify_dot,
+modify_plus,
+modify_space,
+modify_hashtag,
+modify_width_minus,
+modify_width_zero,
+modify_width,
+NULL
+};
 
 int	call_modifier(char **str, char *flags, char handle)
 {
+	int	props[MOD_COUNT];
 	int	width;
 	int	precision;
+	int	res;
+	int	i;
 
-	width = -1;
-	precision = -1;
-	if (extract_flags(flags, &width, &precision) == -1)
-		return (-1);
-	if (modify_dot(str, handle, precision) == -1)
-		return (-1);
-	if (apply_sign(str, handle, has_plus(flags), has_space(flags)) == -1)
-		return (-1);
-	if (modify_hashtag(str, handle, has_hash(flags)) == -1)
-		return (-1);
-	if (apply_width(str, flags, handle, width) == -1)
-		return (-1);
+	res = extract_flags(flags, &width, &precision);
+	if (res == 0)
+		fill_props(props, flags, width, precision);
+	i = -1;
+	while (++i, res == 0 && g_modifiers[i])
+		res = g_modifiers[i](str, handle, props[i]);
 	free(flags);
-	return (0);
+	return (res);
 }
 
-static int	apply_sign(char **str, char handle, int has_plus, int has_space)
+static void	fill_props(int *props, char *flags, int width, int precision)
 {
-	if (has_plus)
-		return (modify_plus(str, handle));
-	else if (has_space)
-		return (modify_space(str, handle));
-	return (0);
-}
-
-static int	apply_width(char **str, char *flags, char handle, int width)
-{
-	if (width < 0)
-		return (-1);
+	props[MOD_DOT] = precision;
+	props[MOD_PLUS] = has_plus(flags);
+	props[MOD_SPACE] = has_space(flags) && !has_plus(flags);
+	props[MOD_HASH] = has_hash(flags);
+	props[MOD_MINUS] = -1;
+	props[MOD_ZERO] = -1;
+	props[MOD_WIDTH] = -1;
 	if (has_minus(flags))
-		return (modify_width_minus(str, handle, width));
-	if (has_zero(flags))
-		return (modify_width_zero(str, handle, width));
-	return (modify_width(str, handle, width));
+		props[MOD_MINUS] = width;
+	else if (has_zero(flags))
+		props[MOD_ZERO] = width;
+	else
+		props[MOD_WIDTH] = width;
 }
