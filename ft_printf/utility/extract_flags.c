@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 23:06:05 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/10/27 22:55:40 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/11/07 17:33:08 by gabrlee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static int	get_precision(char *flags)
 {
 	int		i;
 	int		start;
+	int		p;
 	char	*precision;
 
 	i = -1;
@@ -76,7 +77,11 @@ static int	get_precision(char *flags)
 			precision = ft_strcat_char(precision, flags[i]);
 	}
 	if (precision)
-		return (ft_atoi(precision));
+	{
+		p = ft_atoi(precision);
+		free (precision);
+		return (p);
+	}
 	else
 		return (-1);
 }
