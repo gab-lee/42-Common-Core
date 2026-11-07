@@ -15,16 +15,16 @@ COMMON_SRCS = handles/handle_c.c \
 	handles/get_hexadecimal.c \
 	parse/call_handle.c \
 	parse/call_mandatory.c \
-	utils/put_and_count.c \
-	utils/safe_call.c \
-	utils/ft_strcat_char.c \
-	utils/str_shrink.c
+	utility/put_and_count.c \
+	utility/safe_call.c \
+	utility/ft_strcat_char.c \
+	utility/str_shrink.c
 SRCS = $(COMMON_SRCS) \
 	ft_printf.c
 BONUS_SRCS = $(COMMON_SRCS) \
 	ft_printf_bonus.c \
 	parse/call_bonus.c \
-	utility/call_modifiers_bonus.c \
+	parse/call_modifiers_bonus.c \
 	parse/check_valid_flags.c \
 	parse/extract_flags.c \
 	parse/identify_flag.c \

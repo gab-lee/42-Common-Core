@@ -25,11 +25,7 @@
 int	call_bonus(const char *str, int *i, int *bytes_written, va_list *args);
 
 //flags
-int	has_zero(char *flags);
-int	has_space(char *flags);
-int	has_minus(char *flags);
-int	has_plus(char *flags);
-int	has_hash(char *flags);
+int	has_flag(char *flags, char c);
 int	check_valid_flags(char *flags);
 int	extract_flags(char *flags, int *width, int *precision);
 

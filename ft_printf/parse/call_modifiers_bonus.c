@@ -13,7 +13,7 @@
 #include "ft_printf_bonus.h"
 
 static int	apply_width(char **str, char *flags, char handle, int width);
-static int	apply_sign(char **str, char handle, int has_plus, int has_space);
+static int	apply_sign(char **str, char handle, int plus, int space);
 
 int	call_modifier(char **str, char *flags, char handle)
 {
@@ -26,9 +26,9 @@ int	call_modifier(char **str, char *flags, char handle)
 		return (-1);
 	if (modify_dot(str, handle, precision) == -1)
 		return (-1);
-	if (apply_sign(str, handle, has_plus(flags), has_space(flags)) == -1)
+	if (apply_sign(str, handle, has_flag(flags, '+'), has_flag(flags, ' ')) == -1)
 		return (-1);
-	if (modify_hashtag(str, handle, has_hash(flags)) == -1)
+	if (modify_hashtag(str, handle, has_flag(flags, '#')) == -1)
 		return (-1);
 	if (apply_width(str, flags, handle, width) == -1)
 		return (-1);
@@ -36,11 +36,11 @@ int	call_modifier(char **str, char *flags, char handle)
 	return (0);
 }
 
-static int	apply_sign(char **str, char handle, int has_plus, int has_space)
+static int	apply_sign(char **str, char handle, int plus, int space)
 {
-	if (has_plus)
+	if (plus)
 		return (modify_plus(str, handle));
-	else if (has_space)
+	else if (space)
 		return (modify_space(str, handle));
 	return (0);
 }
@@ -49,9 +49,9 @@ static int	apply_width(char **str, char *flags, char handle, int width)
 {
 	if (width < 0)
 		return (-1);
-	if (has_minus(flags))
+	if (has_flag(flags, '-'))
 		return (modify_width_minus(str, handle, width));
-	if (has_zero(flags))
+	if (has_flag(flags, '0'))
 		return (modify_width_zero(str, handle, width));
 	return (modify_width(str, handle, width));
 }
