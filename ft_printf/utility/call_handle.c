@@ -12,26 +12,23 @@
 
 #include "ft_printf.h"
 
-static const t_entry	g_handlers[] = {
-{'c', handle_c},
-{'s', handle_s},
-{'p', handle_p},
-{'d', handle_d_or_i},
-{'i', handle_d_or_i},
-{'u', handle_u},
-{'x', handle_x},
-{'X', handle_upper_x},
-{'%', handle_percent},
-{0, NULL}
-};
-
 t_handler	call_handle(char c)
 {
-	int	i;
-
-	i = -1;
-	while (++i, g_handlers[i].fn)
-		if (g_handlers[i].key == c)
-			return (g_handlers[i].fn);
+	if (c == 'c')
+		return (handle_c);
+	if (c == 's')
+		return (handle_s);
+	if (c == 'p')
+		return (handle_p);
+	if (c == 'd' || c == 'i')
+		return (handle_d_or_i);
+	if (c == 'u')
+		return (handle_u);
+	if (c == 'x')
+		return (handle_x);
+	if (c == 'X')
+		return (handle_upper_x);
+	if (c == '%')
+		return (handle_percent);
 	return (NULL);
 }

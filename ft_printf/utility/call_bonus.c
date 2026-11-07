@@ -24,7 +24,7 @@ int	call_bonus(const char *str, int *i, int *bytes_written, va_list *args)
 	formatted_str = NULL;
 	h = NULL;
 	(*i)++;
-	if (!str[*i] || call_handle(str[*i]))
+	if (ft_strchr(CONVERSIONS, str[*i]))
 	{
 		(*i)--;
 		return (call_mandatory(str, i, bytes_written, args));
@@ -50,15 +50,13 @@ static int	get_flags(const char *str, int *i, char **flags, t_handler *h)
 	{
 		if (ft_strchr(FLAGS, (str[*i + j])) || ((str[*i + j]) >= '0' && (str[*i + j]) <= '9'))
 			*flags = ft_strcat_char(*flags, str[*i + j]);
+		else if (ft_strchr(CONVERSIONS, (str[*i + j])))
+			*h = call_handle(str[*i + j]);
 		else
 		{
-			*h = call_handle(str[*i + j]);
-			if (!*h)
-			{
-				free(*flags);
-				*flags = NULL;
-				return (-1);
-			}
+			free(*flags);
+			*flags = NULL;
+			return (-1);
 		}
 	}
 	if (!*h)
