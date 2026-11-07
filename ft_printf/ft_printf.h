@@ -18,7 +18,6 @@
 # include <stdlib.h>
 # include "libft/libft.h"
 
-# define CONVERSIONS "cspdiuxX%"
 # define HEXADECIMAL "0123456789abcdef"
 # define BONUS 0
 
