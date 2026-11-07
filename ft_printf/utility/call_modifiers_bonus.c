@@ -38,7 +38,7 @@ int	call_modifier(char **str, char *flags, char handle)
 	if (res == 0)
 		fill_props(props, flags, width, precision);
 	i = -1;
-	while (res == 0 && g_modifiers[++i])
+	while (++i, res == 0 && g_modifiers[i])
 		res = g_modifiers[i](str, handle, props[i]);
 	free(flags);
 	return (res);

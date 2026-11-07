@@ -30,7 +30,7 @@ t_handler	call_handle(char c)
 	int	i;
 
 	i = -1;
-	while (g_handlers[++i].fn)
+	while (++i, g_handlers[i].fn)
 		if (g_handlers[i].key == c)
 			return (g_handlers[i].fn);
 	return (NULL);
