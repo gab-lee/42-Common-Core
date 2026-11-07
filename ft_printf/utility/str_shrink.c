@@ -24,7 +24,7 @@ int	str_shrink(char **str, size_t n)
 	}
 	if (ft_strlen(safe_call(*str)) <= n)
 		return (0);
-	temp = malloc (n * sizeof (char));
+	temp = malloc ((n + 1) * sizeof (char));
 	if (!temp)
 		return (-1);
 	ft_strlcpy(temp, *str, n + 1);
