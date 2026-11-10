@@ -4,3 +4,4 @@ a.out
 */main.c
 */*.h.pch
 .bonus
+__pycache__/
