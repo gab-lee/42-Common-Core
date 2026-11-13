@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   identify_flag.c                                    :+:      :+:    :+:   */
+/*   put_null_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,17 +12,23 @@
 
 #include "ft_printf_bonus.h"
 
-int	has_flag(char *flags, char c)
+int	put_null(char *flags, char *str, int *bytes_written)
 {
-	int		i;
+	int	width;
+	int	precision;
+	int	i;
 
-	i = -1;
-	while (++i, flags[i])
-	{
-		if (flags[i] == '.' || (flags[i] >= '1' && flags[i] <= '9'))
-			break ;
-		if (flags[i] == c)
-			return (1);
-	}
+	width = 0;
+	precision = -1;
+	if (extract_flags(flags, &width, &precision) == -1)
+		width = 0;
+	i = 0;
+	while (!has_flag(flags, '-') && ++i < width)
+		put_char(' ', bytes_written);
+	put_char('\0', bytes_written);
+	while (has_flag(flags, '-') && ++i < width)
+		put_char(' ', bytes_written);
+	free(flags);
+	free(str);
 	return (0);
 }

@@ -35,6 +35,8 @@ int	call_bonus(const char *str, int *i, int *bytes_written, va_list *args)
 		return (0);
 	}
 	formatted_str = h(args);
+	if (formatted_str && str[*i] == 'c' && !*formatted_str)
+		return (put_null(flags, formatted_str, bytes_written));
 	call_modifier(&formatted_str, flags, str[*i]);
 	put_str(formatted_str, ft_strlen(safe_call(formatted_str)), bytes_written);
 	free(formatted_str);

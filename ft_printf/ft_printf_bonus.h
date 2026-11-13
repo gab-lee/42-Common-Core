@@ -23,6 +23,7 @@
 
 //calls
 int	call_bonus(const char *str, int *i, int *bytes_written, va_list *args);
+int	put_null(char *flags, char *str, int *bytes_written);
 
 //flags
 int	has_flag(char *flags, char c);

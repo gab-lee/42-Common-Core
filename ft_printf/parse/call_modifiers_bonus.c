@@ -51,7 +51,7 @@ static int	apply_width(char **str, char *flags, char handle, int width)
 		return (-1);
 	if (has_flag(flags, '-'))
 		return (modify_width_minus(str, handle, width));
-	if (has_flag(flags, '0'))
+	if (has_flag(flags, '0') && !ft_strchr(flags, '.'))
 		return (modify_width_zero(str, handle, width));
 	return (modify_width(str, handle, width));
 }
