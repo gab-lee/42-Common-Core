@@ -19,6 +19,7 @@ class Garden:
     def show(self):
         for plant in self.plants:
                 plant.show()
+                
 if __name__ == "__main__":
     print("=== Garden Plant Registry ===")
     g = Garden()
