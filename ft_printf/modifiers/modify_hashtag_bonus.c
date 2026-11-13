@@ -12,14 +12,23 @@
 
 #include "ft_printf_bonus.h"
 
+static int	is_zero(char *str)
+{
+	if (!str)
+		return (1);
+	while (*str == '0')
+		str++;
+	return (*str == '\0');
+}
+
 int	modify_hashtag(char **str, char handle, int has_hash)
 {
 	char	*temp;
 	char	hash_str[3];
 
-	if (ft_strncmp(*str, "0", 2) == 0)
-		return (0);
 	if (!has_hash)
+		return (0);
+	if (is_zero(*str))
 		return (0);
 	hash_str[0] = '0';
 	hash_str[2] = '\0';
