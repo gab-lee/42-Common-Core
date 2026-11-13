@@ -1,19 +1,19 @@
 #!/usr/bin/env python3
 
 class Plant:
-	def __init__(self, name, height, age):
-		self.name = name
-		self.height= height
-		self.daysold = age
+    def __init__(self, name, height, age):
+        self.name = name
+        self.height= height
+        self.days = age
 
-	def show(self):
-		print(f"{self.name.capitalize()}: {round(self.height, 1)}cm, {self.daysold} days old")
+    def show(self):
+        print(f"{self.name.capitalize()}: {round(self.height, 1)}cm, {self.days} days old")
 
-	def grow(self, growth):
-		self.height += growth
+    def grow(self, len):
+        self.height += len
 
-	def age(self, time):
-		self.daysold += time
+    def age(self, time):
+        self.days += time
 
 class Garden:
     def __init__(self):
