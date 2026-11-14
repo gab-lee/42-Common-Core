@@ -25,9 +25,9 @@ BONUS_SRCS = $(COMMON_SRCS) \
 	ft_printf_bonus.c \
 	parse/call_bonus.c \
 	parse/call_modifiers_bonus.c \
-	parse/check_valid_flags.c \
-	parse/extract_flags.c \
-	parse/has_flag.c \
+	parse/check_valid_flags_bonus.c \
+	parse/extract_flags_bonus.c \
+	parse/has_flag_bonus.c \
 	parse/put_null_bonus.c \
 	modifiers/modify_dot_bonus.c \
 	modifiers/modify_hashtag_bonus.c \
