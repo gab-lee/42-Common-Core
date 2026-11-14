@@ -63,15 +63,15 @@ cc main.c -I<path_to_ft_printf> -L<path_to_ft_printf> -lftprintf
 
 No data structure is kept between conversions. `ft_printf` walks the format string once, left to right, and handles each `%` as an independent step.
 
-1. **Walk the string.** Normal characters are written directly. A `%` hands control to a parser, which returns the next index to resume from. Running totals live in one `bytes_written` counter passed by pointer, so every write path updates the return value in the same place.
-2. **Dispatch with a function table.** `call_handle` maps a conversion character to a handler of type `char *(*)(va_list *)`. Every handler reads exactly one argument with `va_arg` and returns the converted text as a freshly allocated string. The `va_list` is passed by pointer so that each handler advances the same argument cursor.
+1. **Walk the string.** Normal characters are written directly. A `%` hands control to a parser (`call_mandatory` or `call_bonus`). The parser advances the shared index `i` through a pointer and returns 0 on success or -1 on error. The running total lives in one `bytes_written` counter passed by pointer, so every write path updates the return value in the same place.
+2. **Dispatch with a function table.** `call_handle` maps a conversion character to a handler of type `char *(*)(va_list *)`. Every handler returns the converted text as a freshly allocated string. All handlers except `%%` read one argument with `va_arg`. The `va_list` is passed by pointer so that each handler advances the same argument cursor.
 3. **Build text first, print last.** Because every handler returns a string, the formatting rules (precision, sign, `#`, width) are plain string transformations applied afterwards. The text is written only once it is final.
 4. **Bonus modifiers as a pipeline.** In the bonus build, flags between `%` and the conversion are collected into a small string, validated (`check_valid_flags`), then split into width and precision (`extract_flags`). `call_modifier` applies the steps in a fixed order: precision, sign (`+` or space), `#` prefix, then width (`-`, `0` or default space padding). Each step takes `char **` and replaces the string with a new allocation, freeing the old one.
 5. **`%c` with `\0`.** A zero character cannot travel as a C string, so the mandatory path writes it with an explicit length and the bonus path uses `put_null` to handle the padding by hand.
 
 Why this design:
 
-- Returning a string from each handler keeps handlers tiny and testable, and keeps all flag logic out of them. Adding a conversion means adding one handler and one line in `call_handle`.
+- Returning a string from each handler keeps handlers tiny and testable, and keeps all flag logic out of them. Adding a conversion means adding one handler, one line in `call_handle`, the character in `CONVERSIONS`, and the prototype in the header.
 - A fixed modifier order mirrors how `printf` itself resolves flags, for example the `0` flag is ignored when a precision is present and `-` overrides `0`.
 - The cost is one allocation per modifier. This is accepted in exchange for simpler code, and the original `printf()` buffer is deliberately not reproduced, as the subject requires.
 - The bonus lives in separate `_bonus` files and its own `ft_printf_bonus.c`. The mandatory build never compiles them.
@@ -90,6 +90,9 @@ Why this design:
 
 ## Known limitations
 
+- With `#` on a conversion other than `x` or `X` (for example `%#5d`), the width is dropped and the flag string is leaked.
+- An invalid flag order (for example `%5-d`) leaks the collected flag string.
+- `%0Ns` and `%0Nc` pad with zeros, and `%5%` applies the width. glibc pads with spaces and ignores the width.
 - Behaviour for invalid format strings (for example `%y`) is undefined in C and does not match glibc.
 - `%p` combined with precision, `0`, `+` or space, and a few edge cases such as `%.3s` with NULL, are not yet identical to glibc.
 
