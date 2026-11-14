@@ -33,7 +33,7 @@ void		put_str(char *s, int len, int *bytes_written);
 int			call_mandatory(const char *str, int *i, int *bytes_written,
 				va_list *args);
 
-//hanldes
+//handles
 char		*handle_c(va_list *args);
 char		*handle_s(va_list *args);
 char		*handle_p(va_list *args);
