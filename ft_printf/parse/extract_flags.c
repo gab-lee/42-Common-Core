@@ -12,6 +12,7 @@
 
 #include "ft_printf_bonus.h"
 
+static char	*collect_width(char *flags);
 static int	get_width(char *flags);
 static int	is_valid_width(char *width);
 static int	get_precision(char *flags);
@@ -25,12 +26,11 @@ int	extract_flags(char *flags, int *width, int *precision)
 	return (0);
 }
 
-static int	get_width(char *flags)
+static char	*collect_width(char *flags)
 {
 	int		i;
 	char	*width;
 	int		start;
-	int		res;
 
 	i = -1;
 	width = NULL;
@@ -47,6 +47,15 @@ static int	get_width(char *flags)
 		else if (start && flags[i] >= '0' && flags[i] <= '9')
 			width = ft_strcat_char(width, flags[i]);
 	}
+	return (width);
+}
+
+static int	get_width(char *flags)
+{
+	char	*width;
+	int		res;
+
+	width = collect_width(flags);
 	if (!width)
 		return (0);
 	if (is_valid_width(width) == -1)
@@ -72,7 +81,7 @@ static int	get_precision(char *flags)
 	while (++i, flags[i])
 	{
 		if (flags[i] == '.')
-			start = 1 ;
+			start = 1;
 		if (start && flags[i] >= '0' && flags[i] <= '9')
 			precision = ft_strcat_char(precision, flags[i]);
 	}
@@ -81,7 +90,7 @@ static int	get_precision(char *flags)
 	if (precision)
 	{
 		p = ft_atoi(precision);
-		free (precision);
+		free(precision);
 		return (p);
 	}
 	else

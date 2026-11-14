@@ -22,23 +22,23 @@
 //types
 
 //calls
-int	call_bonus(const char *str, int *i, int *bytes_written, va_list *args);
-int	put_null(char *flags, char *str, int *bytes_written);
+int		call_bonus(const char *str, int *i, int *bytes_written, va_list *args);
+int		put_null(char *flags, char *str, int *bytes_written);
 
 //flags
-int	has_flag(char *flags, char c);
-int	check_valid_flags(char *flags);
-int	extract_flags(char *flags, int *width, int *precision);
+int		has_flag(char *flags, char c);
+int		check_valid_flags(char *flags);
+int		extract_flags(char *flags, int *width, int *precision);
 
 //Modifiers
 char	*create_padding(size_t count, char c);
-int	call_modifier(char **str, char *flags, char handle);
-int	modify_width(char **str, char handle, int width);
-int	modify_dot(char **str, char handle, int precision);
-int	modify_hashtag(char **str, char handle, int has_hash);
-int	modify_width_zero(char **str, char handle, int width);
-int	modify_width_minus(char **str, char handle, int width);
-int	modify_plus(char **str, char handle);
-int	modify_space(char **str, char handle);
+int		call_modifier(char **str, char *flags, char handle);
+int		modify_width(char **str, char handle, int width);
+int		modify_dot(char **str, char handle, int precision);
+int		modify_hashtag(char **str, char handle, int has_hash);
+int		modify_width_zero(char **str, char handle, int width);
+int		modify_width_minus(char **str, char handle, int width);
+int		modify_plus(char **str, char handle);
+int		modify_space(char **str, char handle);
 
 #endif

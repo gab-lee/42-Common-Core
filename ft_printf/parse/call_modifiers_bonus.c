@@ -26,7 +26,8 @@ int	call_modifier(char **str, char *flags, char handle)
 		return (-1);
 	if (modify_dot(str, handle, precision) == -1)
 		return (-1);
-	if (apply_sign(str, handle, has_flag(flags, '+'), has_flag(flags, ' ')) == -1)
+	if (apply_sign(str, handle, has_flag(flags, '+'), has_flag(flags, ' '))
+		== -1)
 		return (-1);
 	if (modify_hashtag(str, handle, has_flag(flags, '#')) == -1)
 		return (-1);

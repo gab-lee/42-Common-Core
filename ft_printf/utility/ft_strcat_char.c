@@ -31,7 +31,7 @@ char	*ft_strcat_char(char *str, char c)
 	while (++i, str && str[i])
 		temp[i] = str[i];
 	temp[i] = c;
-	temp[i+1] = '\0';
+	temp[i + 1] = '\0';
 	free(str);
 	return (temp);
 }

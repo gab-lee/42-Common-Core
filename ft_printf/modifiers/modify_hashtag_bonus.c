@@ -42,4 +42,3 @@ int	modify_hashtag(char **str, char handle, int has_hash)
 	*str = temp;
 	return (0);
 }
-

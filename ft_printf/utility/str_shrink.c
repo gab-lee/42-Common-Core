@@ -14,7 +14,7 @@
 
 int	str_shrink(char **str, size_t n)
 {
-	char *temp;
+	char	*temp;
 
 	if (n == 0)
 	{

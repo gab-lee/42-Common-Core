@@ -34,7 +34,6 @@ int	modify_dot(char **str, char handle, int precision)
 	if (handle == 's')
 		return (str_shrink(str, precision));
 	return (str_precision(str, precision));
-
 }
 
 static int	str_precision(char **str, int precision)

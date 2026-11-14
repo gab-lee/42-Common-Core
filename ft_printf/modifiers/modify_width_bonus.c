@@ -14,11 +14,11 @@
 
 int	modify_width(char **str, char handle, int width)
 {
-	char *padding;
-	char *temp;
-	int len;
-	(void)handle;
+	char	*padding;
+	char	*temp;
+	int		len;
 
+	(void)handle;
 	len = (int)ft_strlen(safe_call(*str));
 	if (width < len)
 		return (0);

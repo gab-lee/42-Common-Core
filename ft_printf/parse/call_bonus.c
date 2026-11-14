@@ -50,7 +50,8 @@ static int	get_flags(const char *str, int *i, char **flags, t_handler *h)
 	j = -1;
 	while (++j, str[(*i) + j] && !*h)
 	{
-		if (ft_strchr(FLAGS, (str[*i + j])) || ((str[*i + j]) >= '0' && (str[*i + j]) <= '9'))
+		if (ft_strchr(FLAGS, (str[*i + j]))
+			|| ((str[*i + j]) >= '0' && (str[*i + j]) <= '9'))
 			*flags = ft_strcat_char(*flags, str[*i + j]);
 		else if (ft_strchr(CONVERSIONS, (str[*i + j])))
 			*h = call_handle(str[*i + j]);
@@ -67,6 +68,6 @@ static int	get_flags(const char *str, int *i, char **flags, t_handler *h)
 		*flags = NULL;
 		return (-1);
 	}
-	*i = *i + j - 1; 
+	*i = *i + j - 1;
 	return (0);
 }

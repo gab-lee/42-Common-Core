@@ -25,4 +25,3 @@ int	modify_plus(char **str, char handle)
 	*str = temp;
 	return (0);
 }
-

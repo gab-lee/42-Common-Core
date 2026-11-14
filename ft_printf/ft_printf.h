@@ -25,29 +25,29 @@
 //types
 typedef char	*(*t_handler)(va_list *args);
 
-int		ft_printf(const char *str, ...);
-void	put_char(char c, int *bytes_written);
-void	put_str(char *s, int len, int *bytes_written);
+int			ft_printf(const char *str, ...);
+void		put_char(char c, int *bytes_written);
+void		put_str(char *s, int len, int *bytes_written);
 
 //calls
-int		call_mandatory(const char *str, int *i, int *bytes_written, va_list *args);
+int			call_mandatory(const char *str, int *i, int *bytes_written,
+				va_list *args);
 
 //hanldes
-char	*handle_c(va_list *args);
-char	*handle_s(va_list *args);
-char	*handle_p(va_list *args);
-char	*handle_d_or_i(va_list *args);
-char	*handle_u(va_list *args);
-char	*handle_x(va_list *args);
-char	*handle_upper_x(va_list *args);
-char	*handle_percent(va_list *args);
+char		*handle_c(va_list *args);
+char		*handle_s(va_list *args);
+char		*handle_p(va_list *args);
+char		*handle_d_or_i(va_list *args);
+char		*handle_u(va_list *args);
+char		*handle_x(va_list *args);
+char		*handle_upper_x(va_list *args);
+char		*handle_percent(va_list *args);
 t_handler	call_handle(char c);
 
-
 //libft_safe (what libft does not cover)
-char	*ft_strcat_char(char *str, char c);
-char	*get_hexadecimal(unsigned long x, int upper);
-char	*safe_call(char *str);
-int	str_shrink(char **str, size_t n);
+char		*ft_strcat_char(char *str, char c);
+char		*get_hexadecimal(unsigned long x, int upper);
+char		*safe_call(char *str);
+int			str_shrink(char **str, size_t n);
 
 #endif
