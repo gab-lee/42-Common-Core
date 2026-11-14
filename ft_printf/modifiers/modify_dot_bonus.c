@@ -12,15 +12,14 @@
 
 #include "ft_printf_bonus.h"
 
+static int	check_exceptions(char **str, char handle, int precision);
 static int	str_precision(char **str, int precision);
 
 int	modify_dot(char **str, char handle, int precision)
 {
 	char	*temp;
 
-	if (precision < 0)
-		return (0);
-	if (handle == 'c' || handle == '%')
+	if (check_exceptions(str, handle, precision) == 0)
 		return (0);
 	if (precision == 0 && (handle == 's' || ft_strncmp(*str, "0", 2) == 0))
 	{
@@ -59,4 +58,14 @@ static int	str_precision(char **str, int precision)
 	free(*str);
 	*str = temp;
 	return (0);
+}
+
+static int	check_exceptions(char **str, char handle, int precision)
+{
+	(void)str;
+	if (precision < 0)
+		return (0);
+	if (handle == 'c' || handle == '%')
+		return (0);
+	return (-1);
 }

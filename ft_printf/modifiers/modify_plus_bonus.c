@@ -12,11 +12,13 @@
 
 #include "ft_printf_bonus.h"
 
+static int	check_exceptions(char **str, char handle);
+
 int	modify_plus(char **str, char handle)
 {
 	char	*temp;
 
-	if ((handle != 'd' && handle != 'i') || (*str)[0] == '-')
+	if (check_exceptions(str, handle) == 0)
 		return (0);
 	temp = ft_strjoin(safe_call("+"), safe_call(*str));
 	if (!temp)
@@ -24,4 +26,11 @@ int	modify_plus(char **str, char handle)
 	free(*str);
 	*str = temp;
 	return (0);
+}
+
+static int	check_exceptions(char **str, char handle)
+{
+	if ((handle != 'd' && handle != 'i') || (*str)[0] == '-')
+		return (0);
+	return (-1);
 }

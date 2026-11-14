@@ -12,6 +12,8 @@
 
 #include "ft_printf_bonus.h"
 
+static int	check_exceptions(char **str, int width);
+
 int	modify_width_minus(char **str, char handle, int width)
 {
 	char	*padding;
@@ -19,9 +21,9 @@ int	modify_width_minus(char **str, char handle, int width)
 	int		len;
 
 	(void) handle;
-	len = (int)ft_strlen(safe_call(*str));
-	if (width < len)
+	if (check_exceptions(str, width) == 0)
 		return (0);
+	len = (int)ft_strlen(safe_call(*str));
 	padding = create_padding(width - len, ' ');
 	if (!padding)
 		return (-1);
@@ -32,4 +34,11 @@ int	modify_width_minus(char **str, char handle, int width)
 	free(*str);
 	*str = temp;
 	return (0);
+}
+
+static int	check_exceptions(char **str, int width)
+{
+	if (width < (int)ft_strlen(safe_call(*str)))
+		return (0);
+	return (-1);
 }
