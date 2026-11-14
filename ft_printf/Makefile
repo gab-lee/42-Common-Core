@@ -44,8 +44,12 @@ all: $(NAME)
 
 $(NAME): .mandatory
 
-$(LIBFT):
-	$(MAKE) -C libft
+# always ask libft's own Makefile; libft.a only changes (and triggers a
+# relink here) when one of its sources actually changed.
+$(LIBFT): FORCE
+	@$(MAKE) -C libft
+
+FORCE:
 
 # mandatory and bonus both produce libftprintf.a (each with its own ft_printf),
 # so each target rebuilds the archive from scratch and invalidates the other one.
@@ -64,7 +68,7 @@ bonus: .bonus
 	$(AR) $(NAME) $(BONUS_OBJS)
 	@touch .bonus
 
-%.o: %.c ft_printf.h ft_printf_bonus.h
+%.o: %.c ft_printf.h ft_printf_bonus.h libft/libft.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
@@ -75,6 +79,7 @@ fclean: clean
 	$(MAKE) -C libft fclean
 	$(RM) $(NAME)
 
-re: fclean all
+re: fclean
+	$(MAKE) all
 
 .PHONY: all bonus clean fclean re

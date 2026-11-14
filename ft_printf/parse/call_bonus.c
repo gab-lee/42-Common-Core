@@ -6,7 +6,7 @@
 /*   By: gabrlee <gabrlee@student.42singapore.sg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/20 23:06:05 by gabrlee           #+#    #+#             */
-/*   Updated: 2026/11/04 11:05:22 by gabrlee          ###   ########.fr       */
+/*   Updated: 2026/11/14 09:43:38 by gabrlee          ###   ########.sg       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,11 @@ int	call_bonus(const char *str, int *i, int *bytes_written, va_list *args)
 	formatted_str = h(args);
 	if (formatted_str && str[*i] == 'c' && !*formatted_str)
 		return (put_null(flags, formatted_str, bytes_written));
-	call_modifier(&formatted_str, flags, str[*i]);
+	if (call_modifier(&formatted_str, flags, str[*i]) == -1)
+	{
+		free(flags);
+		return (-1);
+	}
 	put_str(formatted_str, ft_strlen(safe_call(formatted_str)), bytes_written);
 	free(formatted_str);
 	return (0);
