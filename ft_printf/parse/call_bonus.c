@@ -13,15 +13,15 @@
 #include "ft_printf_bonus.h"
 
 static int	get_flags(const char *str, int *i, char **flags, t_handler *h);
+static int	print_formatted(char *flags, char *formatted_str, char conv,
+				int *bytes_written);
 
 int	call_bonus(const char *str, int *i, int *bytes_written, va_list *args)
 {
 	char		*flags;
-	char		*formatted_str;
 	t_handler	h;
 
 	flags = NULL;
-	formatted_str = NULL;
 	h = NULL;
 	(*i)++;
 	if (ft_strchr(CONVERSIONS, str[*i]))
@@ -34,15 +34,22 @@ int	call_bonus(const char *str, int *i, int *bytes_written, va_list *args)
 		put_char(str[*i - 1], bytes_written);
 		return (0);
 	}
-	formatted_str = h(args);
-	if (formatted_str && str[*i] == 'c' && !*formatted_str)
+	return (print_formatted(flags, h(args), str[*i], bytes_written));
+}
+
+static int	print_formatted(char *flags, char *formatted_str, char conv,
+				int *bytes_written)
+{
+	if (formatted_str && conv == 'c' && !*formatted_str)
 		return (put_null(flags, formatted_str, bytes_written));
-	if (call_modifier(&formatted_str, flags, str[*i]) == -1)
+	if (call_modifier(&formatted_str, flags, conv) == -1)
 	{
 		free(flags);
+		free(formatted_str);
 		return (-1);
 	}
-	put_str(formatted_str, ft_strlen(safe_call(formatted_str)), bytes_written);
+	put_str(formatted_str, ft_strlen(safe_call(formatted_str)),
+		bytes_written);
 	free(formatted_str);
 	return (0);
 }
